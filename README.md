@@ -1,4 +1,4 @@
-## chorparsing
+## chortools
 
 A few utilities for parsing and working with global graphs and communicating finite state machines.
 
