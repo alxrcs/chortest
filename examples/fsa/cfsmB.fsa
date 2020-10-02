@@ -1,0 +1,24 @@
+.outputs B
+.state graph
+q0  tau  qe0
+qe0 0 ? authReq qe1
+qe1 0 ! denied qe210
+qe1 0 ! granted qe220
+qe210  tau  qe
+qe220  tau  qe22110
+qe220  tau  qe22120
+qe220  tau  qe22130
+qe22110 0 ? getBalance qe22111
+qe22111 0 ! balance qe22112
+qe22112  tau  qe
+qe22120 0 ? quit qe22121
+qe22121  tau  qe
+qe22130 0 ? authWithdrawal qe22131
+qe22131 0 ! allow qe2213210
+qe22131 0 ! deny qe2213220
+qe2213210  tau  qe
+qe2213220  tau  qe2213221
+qe2213221  tau  qe
+.marking q0
+.end
+

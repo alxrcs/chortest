@@ -1,0 +1,25 @@
+start: file
+
+?file:   header edges markings footer
+
+?header: ".outputs" GRAPH_NAME NEWLINE ".state" "graph" NEWLINE
+edges: (edge NEWLINE)*
+markings: (".marking" NODE_ID NEWLINE)* 
+footer: ".end"
+
+edge:   NODE_ID op NODE_ID
+
+// TODO: Check what the '0' means here
+op:   INT "?" MESSAGE_NAME -> receive_msg
+    | INT "!" MESSAGE_NAME -> send_msg
+    | "tau"                -> empty
+    
+NODE_ID: CNAME
+GRAPH_NAME: CNAME
+MESSAGE_NAME: CNAME
+
+%import common.CNAME
+%import common.WS
+%import common.INT
+%import common.NEWLINE
+%ignore WS

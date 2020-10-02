@@ -1,0 +1,17 @@
+gg  : "(o)"                     -> empty
+    | part "->" part ":" msg    -> interaction
+    | gg "|" gg                 -> fork
+    | "{" gg "+" gg "}"         -> choice
+    | gg ";" gg                 -> sequential
+    | "repeat" "{" gg "}"       -> iteration
+
+part: CNAME
+msg: CNAME
+
+COMMENT: "//" /[^\n]*/ NEWLINE?
+%ignore COMMENT
+
+%import common.CNAME
+%import common.WS
+%import common.NEWLINE
+%ignore WS

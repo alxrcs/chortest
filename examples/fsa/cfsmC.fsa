@@ -1,0 +1,24 @@
+.outputs C
+.state graph
+q0 0 ! auth qe0
+qe0  tau  qe1
+qe1  tau  qe210
+qe1  tau  qe220
+qe210 0 ? authFail qe
+qe220 0 ! checkBalance qe22110
+qe220 0 ! quit qe22120
+qe220 0 ! withdraw qe22130
+qe22110  tau  qe22111
+qe22111  tau  qe22112
+qe22112 0 ? balance qe
+qe22120  tau  qe22121
+qe22121  tau  qe
+qe22130  tau  qe22131
+qe22131  tau  qe2213210
+qe22131  tau  qe2213220
+qe2213210 0 ? money qe
+qe2213220 0 ? bye qe2213221
+qe2213221  tau  qe
+.marking q0
+.end
+
