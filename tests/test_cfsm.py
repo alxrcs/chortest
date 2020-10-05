@@ -1,7 +1,7 @@
 import pytest
 from chorparse.cfsm import CFSM, CommunicatingSystem
 
-@pytest.mark.wip
+# @pytest.mark.wip
 class TestCFSM():
     def test_create_new_cfsm(self):
         bank_m = CFSM("Bank", 'B1')

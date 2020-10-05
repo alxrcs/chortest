@@ -1,6 +1,6 @@
 import pytest
 
-@pytest.mark.wip
+# @pytest.mark.wip
 def test_fsa():
     from lark import Lark
 
