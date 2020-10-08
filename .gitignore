@@ -137,3 +137,6 @@ htmlcov/
 
 # 🤦‍♂️
 .DS_Store
+
+# html docs
+html/
