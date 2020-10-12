@@ -1,45 +1,96 @@
+from chorparse.gchor import Participant
 import pytest
-from chorparse.cfsm import CFSM, CommunicatingSystem
+from chorparse.cfsm import CFSM, CommunicatingSystem, Transition
+import inquirer
 
-# @pytest.mark.wip
-class TestCFSM():
+class TestCFSM:
+    def test_create_cfsm(self):
+        bank_m = CFSM(
+            states={f"B{i}" for i in range(1, 5)},
+            initial="B1",
+            transitions={
+                "B1": {"AB?authW": "B2"},
+                "B2": {"BA!allow": "B4", "BA!deny": "B3"},
+            },
+        )
+
+        assert bank_m.transitions["B1"]["AB?authW"] == "B2"
+        assert bank_m.transitions["B2"]["BA!allow"] == "B4"
+        assert bank_m.transitions["B2"]["BA!deny"] == "B3"
+        assert len(bank_m.states) == 4
+        assert "B1" in bank_m.states
+        assert "B4" in bank_m.states
+
     def test_create_new_cfsm(self):
-        bank_m = CFSM("Bank", 'B1')
-        for i in range(4):
-            bank_m.add_state(f"B{i+1}")
-        bank_m.add_transition('B1', 'B2', 'AB?authW')
-        bank_m.add_transition('B2', 'B4', 'BA!allow')
-        bank_m.add_transition('B2', 'B3', 'BA!deny')
+        bank_m = CFSM.new(
+            [
+                ("B1", "AB?authW", "B2"),
+                ("B2", "BA!allow", "B4"),
+                ("B2", "BA!deny", "B3"),
+            ],
+            "B1",
+        )
 
-    def test_create_new_cs(self):
-        atm_m = CFSM("ATM", 'A1')
-        for i in range(7):
-            atm_m.add_state(f"A{i+1}")
-        atm_m.add_transition('A1', 'A2', 'CA?withdraw')
-        atm_m.add_transition('A2', 'A3', 'AB!authW')
-        atm_m.add_transition('A3', 'A6', 'BA?allow')
-        atm_m.add_transition('A3', 'A4', 'BA?deny')
-        atm_m.add_transition('A6', 'A7', 'AC!money')
-        atm_m.add_transition('A4', 'A5', 'AC!bye')
+        # TODO: Refactor these indexings to use only a public api
+        assert bank_m.transitions["B1"][Transition.new("AB?authW")] == "B2"
+        assert bank_m.transitions["B2"][Transition.new("BA!allow")] == "B4"
+        assert bank_m.transitions["B2"][Transition.new("BA!deny")] == "B3"
+        assert len(bank_m.states) == 4
+        assert "B1" in bank_m.states
+        assert "B4" in bank_m.states
 
-        bank_m = CFSM("Bank", 'B1')
-        for i in range(4):
-            bank_m.add_state(f"B{i+1}")
-        bank_m.add_transition('B1', 'B2', 'AB?authW')
-        bank_m.add_transition('B2', 'B4', 'BA!allow')
-        bank_m.add_transition('B2', 'B3', 'BA!deny')
+    @pytest.fixture
+    def simple_atm_cs(self):
+        atm_m = CFSM.new(
+            transitions=[
+                ("A1", "CA?withdraw", "A2"),
+                ("A2", "AB!authW", "A3"),
+                ("A3", "BA?allow", "A6"),
+                ("A3", "BA?deny", "A4"),
+                ("A6", "AC!money", "A7"),
+                ("A4", "AC!bye", "A5"),
+            ],
+            initial="A1",
+        )
 
-        client_m = CFSM("Client", 'C1')
-        for i in range(4):
-            bank_m.add_state(f"C{i+1}")
-        bank_m.add_transition('C1', 'C2', 'CA!withdraw')
-        bank_m.add_transition('C2', 'C4', 'AC?money')
-        bank_m.add_transition('C2', 'C3', 'AC?bye')
+        bank_m = CFSM.new(
+            transitions=[
+                ("B1", "AB?authW", "B2"),
+                ("B2", "BA!allow", "B4"),
+                ("B2", "BA!deny", "B3"),
+            ],
+            initial="B1",
+        )
 
-        cs = CommunicatingSystem([atm_m, bank_m, client_m])
-        for t in cs.enabled_transitions():
-            print(t)
+        client_m = CFSM.new(
+            transitions=[
+                ("C1", "CA!withdraw", "C2"),
+                ("C2", "AC?money", "C4"),
+                ("C2", "AC?bye", "C3"),
+            ],
+            initial="C1",
+        )
+
+        cs = CommunicatingSystem(
+            {
+                Participant("ATM"): atm_m,
+                Participant("Bank"): bank_m,
+                Participant("Client"): client_m,
+            }
+        )
+
+        return cs
+
+    @pytest.mark.wip
+    @pytest.mark.cfsm
+    def test_create_new_cs(self, simple_atm_cs):
         
-
-
+        print()
+        while True:
+            for cfsm, a, t, b in simple_atm_cs.enabled_transitions():
+                print('transition: ', t)
+                simple_atm_cs.fire_transition(cfsm, t, a, b)
+                break
+            else:
+                break
 

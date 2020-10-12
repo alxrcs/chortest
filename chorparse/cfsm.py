@@ -1,12 +1,12 @@
 from collections import defaultdict
-from copy import Error
 from dataclasses import dataclass
-from typing import List, Mapping, Sequence, Set, Tuple
+from typing import Generator, List, Mapping, Sequence, Set, Tuple
 import networkx as nx  # type: ignore
 
 from .gchor import Message, Participant
 
-Node = str
+State = str
+TransitionStr = str
 
 @dataclass
 class Transition:
@@ -31,6 +31,9 @@ class Transition:
         else:
             raise RuntimeError("Incorrect action format.")
 
+    def __hash__(self) -> int:
+        return self.__repr__().__hash__()
+
 
 @dataclass
 class SendTransition(Transition):
@@ -38,6 +41,10 @@ class SendTransition(Transition):
 
     def __repr__(self) -> str:
         return f"{self.A}-{self.B}!{self.m}"
+
+    
+    def __hash__(self) -> int:
+        return self.__repr__().__hash__()
 
 
 @dataclass
@@ -48,54 +55,59 @@ class RecvTransition(Transition):
         return f"{self.A}-{self.B}?{self.m}"
 
 
+    def __hash__(self) -> int:
+        return self.__repr__().__hash__()
+
+
+AdjacencyList = Mapping[State, Mapping[Transition, State]]
+
 class CFSM:
-    # TODO: decide whether to leave this as just a name or
-    # fix it as a Participant (which would disallow non-local machines)
-    name: str
-    dfa: nx.MultiDiGraph
-    initial_state: Node
-    current_state: Node
+    states: Set[State]
+    transitions: AdjacencyList
 
-    def __init__(self, name: str, initial_state: Node) -> None:
-        self.dfa = nx.MultiDiGraph()
-        self.name = name
-        self.initial_state = initial_state
-        self.current_state = initial_state
+    initial: State
+    current: State
 
-    def add_state(self, state_name: str) -> None:
-        self.dfa.add_node(state_name)
+    def __init__(
+        self,
+        states: Set[State],
+        initial: State,
+        transitions: AdjacencyList
+    ) -> None:
+        self.states = states
+        self.initial = initial
+        self.transitions = transitions
 
-    def add_transition(self, source: Node, dest: Node, tr_label: str) -> None:
-        self.dfa.add_edge(source, dest, key=tr_label, label=Transition.new(tr_label))
-        # TODO: Check if the label is actually needed
+        self.current = initial
 
-    def transitions(self) -> Sequence[Tuple[Node, Node, Transition]]:
-        for a,b,l in self.dfa.edges(self.current_state, data=True):
-            yield a,b,l['label']
+    @staticmethod
+    def new(transitions: List[Tuple[State, TransitionStr, State]], initial: State):
+        """
+        Convenience method for building CFSMs. 
+        Expects a list of triples <state> <transition> <state>.
+        """
+        states = set()
+        _transitions : AdjacencyList = defaultdict(lambda: defaultdict(lambda: {}))
 
-    def all_transitions(self) -> Sequence[Tuple[Node, Node, Transition]]:
-        return self.dfa.edges.data("label")
+        for q0, t, q1 in transitions:
+            states.add(q0)
+            states.add(q1)
+            _transitions[q0][Transition.new(t)] = q1
+
+        return CFSM(states, initial, _transitions)
 
 
 class CommunicatingSystem:
     machines: Mapping[Participant, CFSM]
     messages: Mapping[Tuple[Participant, Participant], List[Message]]
-
     participants: Set[Participant]
-    message_types: Set[Message]
+    fifo: bool
 
-    def __init__(self, cfsms: List[CFSM]) -> None:
-        self.participants = set()
-        self.message_types = set()
-        self.machines = {}
-
-        for cfsm in cfsms:
-            self.machines[Participant(cfsm.name)] = cfsm
-            self.participants.add(cfsm.name)
-            for (_, _, l) in cfsm.dfa.edges.data("label"):
-                self.message_types.add(str(l.m))
-
+    def __init__(self, cfsms: Mapping[Participant, CFSM], fifo=False) -> None:
+        self.participants = {participant for participant, _ in cfsms.items()}
         self.messages = defaultdict(lambda: list())
+        self.machines = cfsms
+        self.fifo = fifo
 
     def is_enabled(self, t: Transition) -> bool:
         """
@@ -104,34 +116,85 @@ class CommunicatingSystem:
         corresponding buffer.
         """
         if isinstance(t, SendTransition):
-            return True # Send transitions are always enabled
-        # Receiving transitions are enabled if the right message is
-        # in the corresponding buffer 
-        # TODO: This is probably the place to change semantics to FIFO
-        # if required
-        return t.m in self.messages[(t.A, t.B)] 
+            # Send transitions are always enabled
+            return True
+
+        # Receiving transitions are enabled if the right message
+        # is in the corresponding buffer
+        if self.fifo:
+            return t.m == self.messages[(t.A, t.B)][0]
+        else:
+            return t.m in self.messages[(t.A, t.B)]
 
     def enabled_transitions(
         self,
-    ) -> Sequence[Tuple[CFSM, Participant, Participant, Transition]]:
+    ) -> Generator[Tuple[CFSM, State, Transition, State], None, None]:
         """
         Returns a list of all enabled transitions for the 
         machines in the system.
         """
         for cfsm in self.machines.values():
-            for v1, v2, transition in cfsm.transitions():
-                if self.is_enabled(transition):
-                    yield cfsm, v1, v2, transition
+            for t in cfsm.transitions[cfsm.current]:
+                if self.is_enabled(t):
+                    next_state = cfsm.transitions[cfsm.current][t]
+                    yield (cfsm, cfsm.current, t, next_state)
 
-    def fire_transition(self, cfsm: CFSM, t: Transition, v1: Node, v2: Node):
+
+    def fire_transition(self, cfsm: CFSM, t: Transition, v1: State, v2: State):
         "Fires a transition in the current communicating system."
-        assert self.is_enabled(t, t.A, t.B)
+
+        assert self.is_enabled(t)
+        assert cfsm.current == v1
+
         if isinstance(t, SendTransition):
             self.messages[(t.A, t.B)].append(t.m)
         elif isinstance(t, RecvTransition):
             self.messages[(t.A, t.B)].remove(t.m)
         else:
-            raise Error("Invalid transition.")
+            raise ValueError("Invalid transition.")
 
-        cfsm.current_state = v2
+        cfsm.current = v2
+
+    def execute_interactively(self):
+        import inquirer
+
+        print('Starting interactive simulation... \n')
+
+        available_choices = list(self.enabled_transitions())
+        transitions = list(map(lambda x: x[2],available_choices))
+
+        while len(available_choices) > 0:
+            # while len(available_transitions) > 0:
+            choice = inquirer.prompt(
+                questions=[inquirer.List(name='action', message='Choose an action to fire', choices=transitions)]
+            )
+
+            # TODO: improve choice handling 
+            # (perhaps remove v1 and v2 from the generator)
+            # (and add the cfsm name to the choice list)
+
+            cfsm, v1, t, v2 = available_choices[transitions.index(choice['action'])]
+
+            self.fire_transition(cfsm, t=t, v1=v1, v2=v2)
+
+            available_choices = list(self.enabled_transitions())
+            transitions = list(map(lambda x: x[2],available_choices))
+
+        print('Simulation finished.')
+        
+
+
+    def execute(self):
+        class TransitionSystem:
+            states: Mapping[Participant, State]
+            messages: Mapping[Tuple[Participant, Participant], List[Message]]
+
+            
+        
+
+
+
+
+
+
 

@@ -36,7 +36,8 @@ class TestGChorParser:
         text = "A -> C: money;  // comment \n B -> A: money"
         gg_parser.parse(text)
 
-    @pytest.mark.wip
+    @pytest.mark.gg
+    @pytest.mark.parsers
     def test_parse(self, gg_parser, atm_simple):
         tree = gg_parser.parse(atm_simple)
         print(tree.pretty())
