@@ -1,6 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Generator, List, Mapping, Sequence, Set, Tuple
+from typing import Dict, Generator, List, Mapping, Sequence, Set, Tuple
 import networkx as nx  # type: ignore
 
 from .gchor import Message, Participant
@@ -59,7 +59,7 @@ class RecvTransition(Transition):
         return self.__repr__().__hash__()
 
 
-AdjacencyList = Mapping[State, Mapping[Transition, State]]
+AdjacencyList = Mapping[State, Dict[Transition, State]]
 
 class CFSM:
     states: Set[State]
@@ -87,7 +87,9 @@ class CFSM:
         Expects a list of triples <state> <transition> <state>.
         """
         states = set()
-        _transitions : AdjacencyList = defaultdict(lambda: defaultdict(lambda: {}))
+        _transitions : AdjacencyList = defaultdict(
+            lambda: defaultdict(lambda: "")
+            )
 
         for q0, t, q1 in transitions:
             states.add(q0)
@@ -165,16 +167,21 @@ class CommunicatingSystem:
 
         while len(available_choices) > 0:
             # while len(available_transitions) > 0:
-            choice = inquirer.prompt(
-                questions=[inquirer.List(name='action', message='Choose an action to fire', choices=transitions)]
-            )
 
-            # TODO: improve choice handling 
-            # (perhaps remove v1 and v2 from the generator)
-            # (and add the cfsm name to the choice list)
+            if len(available_choices) > 1:
+                choice = inquirer.prompt(
+                    questions=[inquirer.List(name='action', message='Choose an action to fire', choices=transitions)]
+                )
 
-            cfsm, v1, t, v2 = available_choices[transitions.index(choice['action'])]
+                # TODO: improve choice handling 
+                # (perhaps remove v1 and v2 from the generator)
+                # (and add the cfsm name to the choice list)
+                i = transitions.index(choice['action'])
+                cfsm, v1, t, v2 = available_choices[i]
+            else:
+                cfsm, v1, t, v2 = available_choices[0]
 
+            print(f'Firing {t}')
             self.fire_transition(cfsm, t=t, v1=v1, v2=v2)
 
             available_choices = list(self.enabled_transitions())
