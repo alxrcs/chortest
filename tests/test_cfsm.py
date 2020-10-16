@@ -113,9 +113,9 @@ class TestCFSM:
         assert len(nds) == 1
         assert nds[0] == "B2"
 
-    # def test_split(self, small_bank_cfsm_new: CFSM) -> None:
-    #     machines = list(small_bank_cfsm_new.split())
-    #     assert len(machines) == 2
+    def test_split(self, small_bank_cfsm_new: CFSM) -> None:
+        machines = list(small_bank_cfsm_new.split())
+        assert len(machines) == 2
 
     # def test_tests(self, simple_atm_cs: CommunicatingSystem) -> None:
     #     tests = simple_atm_cs.tests()
