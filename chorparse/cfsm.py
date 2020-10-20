@@ -1,10 +1,23 @@
 from __future__ import annotations
 
+from _pytest import nodes
+from chorparse.helpers import select
+
 from collections import defaultdict
 from copy import deepcopy
 from dataclasses import dataclass
 from itertools import combinations
-from typing import Dict, Generator, List, Mapping, Sequence, Set, Tuple, Union
+from typing import (
+    AbstractSet,
+    Dict,
+    Generator,
+    List,
+    Mapping,
+    Sequence,
+    Set,
+    Tuple,
+    Union,
+)
 
 from .gchor import Message, Participant
 
@@ -126,16 +139,18 @@ class CFSM:
                     yield from self.split(q)
         else:
             # split(M, q)
-            output_transitions = list(filter(
-                lambda x: isinstance(x, OutTransition), self.transitions[q].keys()
-            ))
+            output_transitions = list(
+                filter(
+                    lambda x: isinstance(x, OutTransition), self.transitions[q].keys()
+                )
+            )
             # if M(q) has output transitions
             if len(output_transitions) > 0:
                 for t in self.transitions[q]:
                     new_m = self.copy()
                     for ot in output_transitions:
                         if ot is not t:
-                            del new_m.transitions[q][t] # Check if this is correct
+                            del new_m.transitions[q][t]  # Check if this is correct
                     yield from new_m.split()
             else:
                 for t1, t2 in combinations(self.transitions[q], 2):
@@ -170,18 +185,28 @@ class CFSM:
             transitions=deepcopy(self.transitions),
         )
 
+    def __str__(self) -> str:
+        s = "--------\n"
+        for trans in self.transitions.values():
+            for t in trans.keys():
+                s += str(t) + '\n'
+        return s + '\n' 
+
+
 
 class CommunicatingSystem:
     machines: Mapping[Participant, CFSM]
     messages: Mapping[Tuple[Participant, Participant], List[Message]]
-    participants: Set[Participant]
-    fifo: bool
+
+    fifo: bool = False
 
     def __init__(self, cfsms: Mapping[Participant, CFSM], fifo=False) -> None:
-        self.participants = {participant for participant, _ in cfsms.items()}
-        self.messages = defaultdict(lambda: list())
         self.machines = cfsms
+        self.messages = defaultdict(lambda: list())
         self.fifo = fifo
+
+    def participants(self) -> AbstractSet[Participant]:
+        return self.machines.keys()
 
     def is_enabled(self, t: TransitionLabel) -> bool:
         """
@@ -228,6 +253,20 @@ class CommunicatingSystem:
 
         cfsm.current = v2
 
+    def tests(self, CUT: Participant) -> Generator[CommunicatingSystem, None, None]:
+        assert CUT in self.machines, f"Invalid participant ({CUT.participant_name})"
+        split_machines = dict(
+            {
+                p: list(self.machines[p].split())
+                for p in self.participants()
+                if p is not CUT
+            }
+        )
+        split_machines[CUT] = [self.machines[CUT]]
+
+        for test_cfsms in select(list(split_machines.items())):
+            yield CommunicatingSystem(dict(test_cfsms))
+
     def execute_interactively(self):
         import inquirer
 
@@ -270,8 +309,17 @@ class CommunicatingSystem:
         for cfsm in self.machines.values():
             yield from cfsm.non_deterministic_states()
 
-    def execute(self):
-        class TransitionSystem:
-            states: Mapping[Participant, State]
-            messages: Mapping[Tuple[Participant, Participant], List[Message]]
+    # def execute(self):
+    #     class TransitionSystem:
+    #         states: Mapping[Participant, State]
+    #         messages: Mapping[Tuple[Participant, Participant], List[Message]]
+
+    def __str__(self) -> str:
+        s = ""
+        s += "------------\n"
+        for p, machine in self.machines.items():
+            s += f"[{p.participant_name}]\n"
+            s += str(machine)
+        s += "------------"
+        return s
 
