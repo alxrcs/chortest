@@ -25,11 +25,9 @@ class TestChorsAST:
 def gg_parser():
     return Lark.open("grammars/gchor.lark", start="gg")
 
-
 @fixture
-def atm_simple():
-    return open("examples/gchors/atm_simple.gg").read()
-
+def atm_simple_tree(gg_parser):
+    return gg_parser.parse(open("examples/gchors/atm_simple.gg").read())
 
 class TestGChorParser:
     def test_comment(self, gg_parser):
@@ -38,8 +36,7 @@ class TestGChorParser:
 
     @pytest.mark.gg
     @pytest.mark.parsers
-    def test_parse(self, gg_parser, atm_simple):
-        tree = gg_parser.parse(atm_simple)
-        print(tree.pretty())
-        print(GTransformer().transform(tree))
+    def test_parse(self, gg_parser, atm_simple_tree):
+        print(atm_simple_tree.pretty())
+        print(GTransformer().transform(atm_simple_tree))
 
