@@ -1,7 +1,7 @@
 gg  : "(o)"                     -> empty
     | part "->" part ":" msg    -> interaction
     | gg "|" gg                 -> fork
-    | "{" gg "+" gg "}"         -> choice
+    | "sel" "{" gg "+" gg "}"     -> choice
     | gg ";" gg                 -> sequential
     | "repeat" "{" gg "}"       -> iteration
 
