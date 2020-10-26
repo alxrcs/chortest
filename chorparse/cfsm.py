@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from _pytest import nodes
 from chorparse.helpers import select
 
@@ -127,7 +125,7 @@ class CFSM:
                 ):
                     yield q
 
-    def split(self, q: State = None) -> Generator[CFSM, None, None]:
+    def split(self, q: State = None) -> Generator['CFSM', None, None]:
         if q is None:
             # split(M)
             nds = list(self.non_deterministic_states())
@@ -162,7 +160,7 @@ class CFSM:
                     else:  # TODO: What happens if there are two input transitions to the same target state?
                         raise ValueError()
 
-    def __add__(self, t: Transition) -> CFSM:
+    def __add__(self, t: Transition) -> 'CFSM':
         "Returns a new machine with the transition"
 
         newcfsm = self.copy()
@@ -172,7 +170,7 @@ class CFSM:
 
         return newcfsm
 
-    def __sub__(self, t: Transition) -> CFSM:
+    def __sub__(self, t: Transition) -> 'CFSM':
         newcfsm = self.copy()
         newcfsm.transitions[t.q1].pop(t.l)
         return newcfsm
@@ -253,7 +251,7 @@ class CommunicatingSystem:
 
         cfsm.current = v2
 
-    def tests(self, CUT: Participant) -> Generator[CommunicatingSystem, None, None]:
+    def tests(self, CUT: Participant) -> Generator['CommunicatingSystem', None, None]:
         assert CUT in self.machines, f"Invalid participant ({CUT.participant_name})"
         split_machines = dict(
             {
