@@ -1,25 +1,22 @@
-start: file
+start: (graph)+
 
-?file:   header edges markings footer
+graph: header edges markings ".end"
+header: ".outputs" GRAPH_NAME ".state" "graph"
+edges: (edge)*
+markings: (".marking" NODE_ID)* 
 
-?header: ".outputs" GRAPH_NAME NEWLINE ".state" "graph" NEWLINE
-edges: (edge NEWLINE)*
-markings: (".marking" NODE_ID NEWLINE)* 
-footer: ".end"
-
-edge:   NODE_ID op NODE_ID
-
-// TODO: Check what the '0' means here
-op:   INT "?" MESSAGE_NAME -> receive_msg
-    | INT "!" MESSAGE_NAME -> send_msg
-    | "tau"                -> empty
+edge: NODE_ID PARTICIPANT_NO "?" MESSAGE_NAME NODE_ID -> receive_msg
+    | NODE_ID PARTICIPANT_NO "!" MESSAGE_NAME NODE_ID -> send_msg
+    | NODE_ID "tau" NODE_ID                           -> empty
     
-NODE_ID: CNAME
-GRAPH_NAME: CNAME
 MESSAGE_NAME: CNAME
+PARTICIPANT_NO: INT
+GRAPH_NAME: CNAME
+NODE_ID: CNAME
 
 %import common.CNAME
 %import common.WS
 %import common.INT
 %import common.NEWLINE
 %ignore WS
+%ignore NEWLINE

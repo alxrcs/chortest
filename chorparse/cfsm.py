@@ -1,21 +1,16 @@
-from _pytest import nodes
-from chorparse.helpers import select
-
 from collections import defaultdict
 from copy import deepcopy
+from attr import s
 from dataclasses import dataclass
 from itertools import combinations
-from typing import (
-    AbstractSet,
-    Dict,
-    Generator,
-    List,
-    Mapping,
-    Sequence,
-    Set,
-    Tuple,
-    Union,
-)
+from pathlib import Path
+from typing import AbstractSet, Dict, Generator, List, Mapping, Optional, Set, Tuple, Union
+
+from lark import Lark, Transformer
+from lark.lexer import Token
+from lark.tree import Tree
+
+from chorparse.helpers import select
 
 from .gchor import Message, Participant
 
@@ -25,10 +20,21 @@ TransitionStr = str
 
 @dataclass
 class TransitionLabel:
+    "Represents an message transition, either incoming or outgoing"
+
+    _empty_instance = None
+
+    @staticmethod
+    def empty():
+        if not TransitionLabel._empty_instance:
+            TransitionLabel._empty_instance = TransitionLabel(
+                Participant(""), Participant(""), ""
+            )
+        return TransitionLabel._empty_instance
+
     A: Participant
     B: Participant
     m: Message
-    "Represents an message transition, either incoming or outgoing"
 
     @staticmethod
     def new(act):
@@ -36,11 +42,11 @@ class TransitionLabel:
         # TODO: avoid using this method
         # or extend it for arbitrary sized participant names
         if act[2] == "!":
-            return OutTransition(
+            return OutTransitionLabel(
                 Participant(act[0]), Participant(act[1]), Message(act[3:])
             )
         elif act[2] == "?":
-            return InTransition(
+            return InTransitionLabel(
                 Participant(act[0]), Participant(act[1]), Message(act[3:])
             )
         else:
@@ -58,7 +64,7 @@ class Transition:
 
 
 @dataclass
-class OutTransition(TransitionLabel):
+class OutTransitionLabel(TransitionLabel):
     "Represents an outgoing message transition, e.g. AB!m"
 
     def __repr__(self) -> str:
@@ -69,7 +75,7 @@ class OutTransition(TransitionLabel):
 
 
 @dataclass
-class InTransition(TransitionLabel):
+class InTransitionLabel(TransitionLabel):
     "Represents an incoming message transition, e.g. AB?m"
 
     def __repr__(self) -> str:
@@ -86,6 +92,8 @@ class CFSM:
     states: Set[State]
     transitions: AdjacencyList
 
+    success: Set[State]
+
     initial: State
     current: State
 
@@ -96,12 +104,17 @@ class CFSM:
         self.initial = initial
         self.transitions = transitions
 
+        self.success = self.default_oracle()
+
         self.current = initial
+
+    def default_oracle(self):
+        return set(s for s in list(self.states) if s not in self.transitions) 
 
     @staticmethod
     def new(transitions: List[Tuple[State, TransitionStr, State]], initial: State):
         """
-        Convenience method for building CFSMs. 
+        Convenience method for building CFSMs.
         Expects a list of triples <state> <transition> <state>.
         """
         states = set()
@@ -110,7 +123,10 @@ class CFSM:
         for q0, t, q1 in transitions:
             states.add(q0)
             states.add(q1)
-            _transitions[q0][TransitionLabel.new(t)] = q1
+            if isinstance(t, TransitionLabel):
+                _transitions[q0][t] = q1
+            else:
+                _transitions[q0][TransitionLabel.new(t)] = q1
 
         return CFSM(states, initial, _transitions)
 
@@ -121,11 +137,12 @@ class CFSM:
                 if l1 is l2 or q1 is q2:
                     continue
                 if l1 == l2 or (
-                    isinstance(l1, OutTransition) or isinstance(l2, OutTransition)
+                    isinstance(l1, OutTransitionLabel)
+                    or isinstance(l2, OutTransitionLabel)
                 ):
                     yield q
 
-    def split(self, q: State = None) -> Generator['CFSM', None, None]:
+    def split(self, q: State = None) -> Generator["CFSM", None, None]:
         if q is None:
             # split(M)
             nds = list(self.non_deterministic_states())
@@ -139,7 +156,8 @@ class CFSM:
             # split(M, q)
             output_transitions = list(
                 filter(
-                    lambda x: isinstance(x, OutTransition), self.transitions[q].keys()
+                    lambda x: isinstance(x, OutTransitionLabel),
+                    self.transitions[q].keys(),
                 )
             )
             # if M(q) has output transitions
@@ -160,7 +178,7 @@ class CFSM:
                     else:  # TODO: What happens if there are two input transitions to the same target state?
                         raise ValueError()
 
-    def __add__(self, t: Transition) -> 'CFSM':
+    def __add__(self, t: Transition) -> "CFSM":
         "Returns a new machine with the transition"
 
         newcfsm = self.copy()
@@ -170,7 +188,7 @@ class CFSM:
 
         return newcfsm
 
-    def __sub__(self, t: Transition) -> 'CFSM':
+    def __sub__(self, t: Transition) -> "CFSM":
         newcfsm = self.copy()
         newcfsm.transitions[t.q1].pop(t.l)
         return newcfsm
@@ -187,8 +205,9 @@ class CFSM:
         s = "--------\n"
         for trans in self.transitions.values():
             for t in trans.keys():
-                s += str(t) + '\n'
-        return s + '\n' 
+                s += str(t) + "\n"
+        return s + "\n"
+
 
 
 
@@ -209,10 +228,10 @@ class CommunicatingSystem:
     def is_enabled(self, t: TransitionLabel) -> bool:
         """
         A transition is enabled if it is either a send,
-        or a receive and there is a message in the 
+        or a receive and there is a message in the
         corresponding buffer.
         """
-        if isinstance(t, OutTransition):
+        if isinstance(t, OutTransitionLabel):
             # Send transitions are always enabled
             return True
 
@@ -227,7 +246,7 @@ class CommunicatingSystem:
         self,
     ) -> Generator[Tuple[CFSM, State, TransitionLabel, State], None, None]:
         """
-        Returns a list of all enabled transitions for the 
+        Returns a list of all enabled transitions for the
         machines in the system.
         """
         for cfsm in self.machines.values():
@@ -242,16 +261,16 @@ class CommunicatingSystem:
         assert self.is_enabled(t)
         assert cfsm.current == v1
 
-        if isinstance(t, OutTransition):
+        if isinstance(t, OutTransitionLabel):
             self.messages[(t.A, t.B)].append(t.m)
-        elif isinstance(t, InTransition):
+        elif isinstance(t, InTransitionLabel):
             self.messages[(t.A, t.B)].remove(t.m)
         else:
             raise ValueError("Invalid transition.")
 
         cfsm.current = v2
 
-    def tests(self, CUT: Participant) -> Generator['CommunicatingSystem', None, None]:
+    def tests(self, CUT: Participant) -> Generator["CommunicatingSystem", None, None]:
         assert CUT in self.machines, f"Invalid participant ({CUT.participant_name})"
         split_machines = dict(
             {
@@ -312,6 +331,20 @@ class CommunicatingSystem:
     #         states: Mapping[Participant, State]
     #         messages: Mapping[Tuple[Participant, Participant], List[Message]]
 
+    @staticmethod
+    def parse(cs_filename):
+
+        grammarfile_path = Path("grammars") / "fsa.lark"
+        fsa_parser = Lark.open(str(grammarfile_path))
+
+        with open(cs_filename) as f:
+            tree = fsa_parser.parse(f.read())
+
+        transformer = CFSMBuilder()
+        communicating_system = transformer.transform(tree)
+
+        return communicating_system
+
     def __str__(self) -> str:
         s = ""
         s += "------------\n"
@@ -321,3 +354,52 @@ class CommunicatingSystem:
         s += "------------"
         return s
 
+
+class CFSMBuilder(Transformer):
+    """
+    Constructs a communicating system from a parse tree
+    of an .fsa file.
+
+    TODO?: Eliminate participant(_)?
+    TODO: Change numbered participants in transitions for their actual name.
+    """
+
+    def __init__(self) -> None:
+        # Global info
+        self.cs : Mapping[Participant, CFSM] = {}
+
+    def start(self, graphs):
+        return CommunicatingSystem(self.cs)
+
+    def graph(self, t):
+        name = t[0]
+        self.cs[name] = CFSM.new(transitions=t[1], initial=t[2])
+        return (name, self.cs[name])
+
+    def header(self, t):
+        return Participant(str(t[0]))
+
+    def edges(self, l):
+        return l
+    
+    def markings(self, l):
+        assert len(l) == 1 # There should be a single state marked as initial
+        return str(l[0])
+
+    def receive_msg(self, t: List[Union[Tree, Token]]):
+        label = InTransitionLabel(
+            Participant("_"), Participant(str(t[1])), Message(str(t[2]))
+        )
+        return (str(t[0]), label, str(t[3]))
+
+    def send_msg(self, t: List[Union[Tree, Token]]):
+        label = OutTransitionLabel(
+            Participant("_"), Participant(str(t[1])), Message(str(t[2]))
+        )
+        return (str(t[0]), label, str(t[3]))
+
+    def empty(self, t):
+        return (str(t[0]), TransitionLabel.empty(), str(t[1]))
+
+
+# An oracle scheme of G for a given projection operator is a function f(A, τ) ∈ # P × T(G) on a set of states of the CFSM proj(G,A)

@@ -115,7 +115,6 @@ def test_split(small_bank_cfsm_new: CFSM) -> None:
     machines = list(small_bank_cfsm_new.split())
     assert len(machines) == 2
 
-@pytest.mark.wip
 def test_tests(simple_atm_cs: CommunicatingSystem) -> None:
     tests = simple_atm_cs.tests(Participant('ATM'))
     for i, test in enumerate(tests):
