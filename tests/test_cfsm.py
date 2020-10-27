@@ -60,9 +60,9 @@ def simple_atm_cs() -> CommunicatingSystem:
 
     cs = CommunicatingSystem(
         {
-            Participant("ATM"): atm_m,
-            Participant("Bank"): bank_m,
-            Participant("Client"): client_m,
+            Participant("A"): atm_m,
+            Participant("B"): bank_m,
+            Participant("C"): client_m,
         }
     )
 
@@ -116,7 +116,14 @@ def test_split(small_bank_cfsm_new: CFSM) -> None:
     assert len(machines) == 2
 
 def test_tests(simple_atm_cs: CommunicatingSystem) -> None:
-    tests = simple_atm_cs.tests(Participant('ATM'))
+    tests = simple_atm_cs.tests(Participant('A'))
     for i, test in enumerate(tests):
         print(f'Test #{i}')
         print(str(test))
+
+@pytest.mark.wip
+def test_to_fsa(simple_atm_cs: CommunicatingSystem) -> None:
+    tests = simple_atm_cs.tests(Participant('A'), 'experiments/simple_atm/tests')
+    for i, test in enumerate(tests):
+        print(f'Test #{i}')
+        print(test.to_fsa())

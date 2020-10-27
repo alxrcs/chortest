@@ -13,7 +13,6 @@ def test_project():
     assert Path('examples/gchors/fsa/atm_simple.fsa').is_file()
     # remove(Path('examples/gchors/fsa/atm_simple.fsa').resolve())
 
-@pytest.mark.wip
 def test_project_and_parse():
     result = runner.invoke(app, ['project', 'examples/gchors/atm_simple.gg'])
     assert result.exit_code == 0

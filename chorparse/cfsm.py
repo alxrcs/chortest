@@ -1,10 +1,21 @@
 from collections import defaultdict
 from copy import deepcopy
+import os
 from attr import s
 from dataclasses import dataclass
 from itertools import combinations
 from pathlib import Path
-from typing import AbstractSet, Dict, Generator, List, Mapping, Optional, Set, Tuple, Union
+from typing import (
+    AbstractSet,
+    Dict,
+    Generator,
+    List,
+    Mapping,
+    Optional,
+    Set,
+    Tuple,
+    Union,
+)
 
 from lark import Lark, Transformer
 from lark.lexer import Token
@@ -109,7 +120,7 @@ class CFSM:
         self.current = initial
 
     def default_oracle(self):
-        return set(s for s in list(self.states) if s not in self.transitions) 
+        return set(s for s in list(self.states) if s not in self.transitions)
 
     @staticmethod
     def new(transitions: List[Tuple[State, TransitionStr, State]], initial: State):
@@ -209,8 +220,6 @@ class CFSM:
         return s + "\n"
 
 
-
-
 class CommunicatingSystem:
     machines: Mapping[Participant, CFSM]
     messages: Mapping[Tuple[Participant, Participant], List[Message]]
@@ -270,7 +279,9 @@ class CommunicatingSystem:
 
         cfsm.current = v2
 
-    def tests(self, CUT: Participant) -> Generator["CommunicatingSystem", None, None]:
+    def tests(
+        self, CUT: Participant, output_path: Optional[str] = None
+    ) -> Generator["CommunicatingSystem", None, None]:
         assert CUT in self.machines, f"Invalid participant ({CUT.participant_name})"
         split_machines = dict(
             {
@@ -281,8 +292,11 @@ class CommunicatingSystem:
         )
         split_machines[CUT] = [self.machines[CUT]]
 
-        for test_cfsms in select(list(split_machines.items())):
-            yield CommunicatingSystem(dict(test_cfsms))
+        for i, test_cfsms in enumerate(select(list(split_machines.items()))):
+            cs = CommunicatingSystem(dict(test_cfsms))
+            if output_path is not None:
+                cs.to_fsa(str(Path(output_path)/f'test_{i}.fsa'))
+            yield cs
 
     def execute_interactively(self):
         import inquirer
@@ -345,6 +359,44 @@ class CommunicatingSystem:
 
         return communicating_system
 
+    def to_fsa(self, output_filename: Optional[str] = None):
+        import jinja2
+
+        template_str = open("templates/cfsm2fsa.jinja").read()
+        template = jinja2.Template(template_str)
+
+        transitions: Dict[
+            Participant, List[Tuple[State, int, str, Message, State]]
+        ] = {}
+
+        part_map = {p.participant_name: i for i, p in enumerate(self.participants())}
+
+        for p in self.participants():
+            l = []
+            cfsm = self.machines[p]
+            for q in cfsm.transitions:
+                for t in cfsm.transitions[q]:
+                    # TODO: Add tau transitions.
+                    assert isinstance(t, InTransitionLabel) or isinstance(
+                        t, OutTransitionLabel
+                    )
+                    symbol = "?" if isinstance(t, InTransitionLabel) else "!"
+                    l.append(
+                        (q, part_map[str(t.B)], symbol, t.m, cfsm.transitions[q][t])
+                    )
+            transitions[p] = l
+
+        text = template.render(
+            participants=list(self.participants()), transitions=transitions
+        )
+
+        if output_filename is not None:
+            os.makedirs(Path(output_filename).parent, exist_ok=True)
+            with open(output_filename, "wb") as f:
+                f.write(text.encode())
+
+        return text
+
     def __str__(self) -> str:
         s = ""
         s += "------------\n"
@@ -366,7 +418,7 @@ class CFSMBuilder(Transformer):
 
     def __init__(self) -> None:
         # Global info
-        self.cs : Mapping[Participant, CFSM] = {}
+        self.cs: Mapping[Participant, CFSM] = {}
 
     def start(self, graphs):
         return CommunicatingSystem(self.cs)
@@ -381,9 +433,9 @@ class CFSMBuilder(Transformer):
 
     def edges(self, l):
         return l
-    
+
     def markings(self, l):
-        assert len(l) == 1 # There should be a single state marked as initial
+        assert len(l) == 1  # There should be a single state marked as initial
         return str(l[0])
 
     def receive_msg(self, t: List[Union[Tree, Token]]):
