@@ -4,6 +4,6 @@
 {%for t in transitions[p]-%}
 {{t[0]}} {{t[1]}} {{t[2]}} {{t[3]}} {{t[4]}}
 {%endfor-%}
-.marking q0
+.marking {{initial_states[p]}}
 .end
 {% endfor %}

@@ -371,6 +371,8 @@ class CommunicatingSystem:
 
         part_map = {p.participant_name: i for i, p in enumerate(self.participants())}
 
+        initial_states : Dict[Participant, State] = {}
+
         for p in self.participants():
             l = []
             cfsm = self.machines[p]
@@ -381,13 +383,16 @@ class CommunicatingSystem:
                         t, OutTransitionLabel
                     )
                     symbol = "?" if isinstance(t, InTransitionLabel) else "!"
+                    target = t.B if symbol is '!' else t.A
                     l.append(
-                        (q, part_map[str(t.B)], symbol, t.m, cfsm.transitions[q][t])
+                        (q, part_map[str(target)], symbol, t.m, cfsm.transitions[q][t])
                     )
             transitions[p] = l
+            initial_states[p] = cfsm.initial
+
 
         text = template.render(
-            participants=list(self.participants()), transitions=transitions
+            participants=list(self.participants()), transitions=transitions, initial_states=initial_states
         )
 
         if output_filename is not None:

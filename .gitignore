@@ -140,3 +140,5 @@ htmlcov/
 
 # html docs
 html/
+
+experiments/**
