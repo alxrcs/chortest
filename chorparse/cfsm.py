@@ -1,7 +1,7 @@
+from io import StringIO
+import os
 from collections import defaultdict
 from copy import deepcopy
-import os
-from attr import s
 from dataclasses import dataclass
 from itertools import combinations
 from pathlib import Path
@@ -17,6 +17,7 @@ from typing import (
     Union,
 )
 
+from attr import s
 from lark import Lark, Transformer
 from lark.lexer import Token
 from lark.tree import Tree
@@ -27,6 +28,8 @@ from .gchor import Message, Participant
 
 State = str
 TransitionStr = str
+
+import networkx as nx
 
 
 @dataclass
@@ -189,6 +192,7 @@ class CFSM:
                     else:  # TODO: What happens if there are two input transitions to the same target state?
                         raise ValueError()
 
+    # region operator overloads
     def __add__(self, t: Transition) -> "CFSM":
         "Returns a new machine with the transition"
 
@@ -205,6 +209,8 @@ class CFSM:
         return newcfsm
         # TODO: Prune states
 
+    # endregion
+
     def copy(self):
         return CFSM(
             states=self.states.copy(),
@@ -218,6 +224,22 @@ class CFSM:
             for t in trans.keys():
                 s += str(t) + "\n"
         return s + "\n"
+
+    def to_networkx(self):
+        edge_list = [
+            (q0, self.transitions[q0][label], {"label": label})
+            for q0 in self.transitions
+            for label in self.transitions[q0]
+        ]
+        return nx.DiGraph(edge_list)
+
+    def to_dot(self, path: Optional[str] = None) -> str:
+        from networkx.drawing.nx_agraph import to_agraph
+
+        a = to_agraph(self.to_networkx())
+        if path is not None:
+            a.write(path)
+        return a.to_string()
 
 
 class CommunicatingSystem:
@@ -295,7 +317,7 @@ class CommunicatingSystem:
         for i, test_cfsms in enumerate(select(list(split_machines.items()))):
             cs = CommunicatingSystem(dict(test_cfsms))
             if output_path is not None:
-                cs.to_fsa(str(Path(output_path)/f'test_{i}.fsa'))
+                cs.to_fsa(str(Path(output_path) / f"test_{i}.fsa"))
             yield cs
 
     def execute_interactively(self):
@@ -371,7 +393,7 @@ class CommunicatingSystem:
 
         part_map = {p.participant_name: i for i, p in enumerate(self.participants())}
 
-        initial_states : Dict[Participant, State] = {}
+        initial_states: Dict[Participant, State] = {}
 
         for p in self.participants():
             l = []
@@ -383,16 +405,17 @@ class CommunicatingSystem:
                         t, OutTransitionLabel
                     )
                     symbol = "?" if isinstance(t, InTransitionLabel) else "!"
-                    target = t.B if symbol is '!' else t.A
+                    target = t.B if symbol is "!" else t.A
                     l.append(
                         (q, part_map[str(target)], symbol, t.m, cfsm.transitions[q][t])
                     )
             transitions[p] = l
             initial_states[p] = cfsm.initial
 
-
         text = template.render(
-            participants=list(self.participants()), transitions=transitions, initial_states=initial_states
+            participants=list(self.participants()),
+            transitions=transitions,
+            initial_states=initial_states,
         )
 
         if output_filename is not None:
@@ -410,6 +433,9 @@ class CommunicatingSystem:
             s += str(machine)
         s += "------------"
         return s
+
+    def to_networkx(self) -> List[nx.Graph]:
+        return [self.machines[p].to_networkx() for p in self.machines]
 
 
 class CFSMBuilder(Transformer):

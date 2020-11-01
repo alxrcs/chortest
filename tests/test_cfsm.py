@@ -1,7 +1,10 @@
-from chorparse.gchor import Participant
+import os
+
+import networkx as nx
 import pytest
 from chorparse.cfsm import CFSM, CommunicatingSystem, TransitionLabel
-from typing import Iterable, List, Set
+from chorparse.gchor import Participant
+from networkx.drawing.nx_agraph import write_dot
 
 
 @pytest.fixture
@@ -15,6 +18,7 @@ def small_bank_cfsm():
         },
     )
 
+
 @pytest.fixture
 def small_bank_cfsm_new():
     return CFSM.new(
@@ -25,6 +29,7 @@ def small_bank_cfsm_new():
         ],
         "B1",
     )
+
 
 @pytest.fixture
 def simple_atm_cs() -> CommunicatingSystem:
@@ -68,6 +73,7 @@ def simple_atm_cs() -> CommunicatingSystem:
 
     return cs
 
+
 def test_create_cfsm(small_bank_cfsm):
     assert small_bank_cfsm.transitions["B1"]["AB?authW"] == "B2"
     assert small_bank_cfsm.transitions["B2"]["BA!allow"] == "B4"
@@ -76,23 +82,20 @@ def test_create_cfsm(small_bank_cfsm):
     assert "B1" in small_bank_cfsm.states
     assert "B4" in small_bank_cfsm.states
 
+
 def test_create_new_cfsm(small_bank_cfsm_new):
     # TODO: Refactor these indexings to use only a public api
     assert (
-        small_bank_cfsm_new.transitions["B1"][TransitionLabel.new("AB?authW")]
-        == "B2"
+        small_bank_cfsm_new.transitions["B1"][TransitionLabel.new("AB?authW")] == "B2"
     )
     assert (
-        small_bank_cfsm_new.transitions["B2"][TransitionLabel.new("BA!allow")]
-        == "B4"
+        small_bank_cfsm_new.transitions["B2"][TransitionLabel.new("BA!allow")] == "B4"
     )
-    assert (
-        small_bank_cfsm_new.transitions["B2"][TransitionLabel.new("BA!deny")]
-        == "B3"
-    )
+    assert small_bank_cfsm_new.transitions["B2"][TransitionLabel.new("BA!deny")] == "B3"
     assert len(small_bank_cfsm_new.states) == 4
     assert "B1" in small_bank_cfsm_new.states
     assert "B4" in small_bank_cfsm_new.states
+
 
 @pytest.mark.cfsm
 def test_create_new_cs(simple_atm_cs: CommunicatingSystem) -> None:
@@ -106,24 +109,48 @@ def test_create_new_cs(simple_atm_cs: CommunicatingSystem) -> None:
         else:
             break
 
+
 def test_non_deterministic_states(simple_atm_cs: CommunicatingSystem) -> None:
     nds = list(simple_atm_cs.non_deterministic_states())
     assert len(nds) == 1
     assert nds[0] == "B2"
 
+
 def test_split(small_bank_cfsm_new: CFSM) -> None:
     machines = list(small_bank_cfsm_new.split())
     assert len(machines) == 2
 
+
 def test_tests(simple_atm_cs: CommunicatingSystem) -> None:
-    tests = simple_atm_cs.tests(Participant('A'))
+    tests = simple_atm_cs.tests(Participant("A"))
     for i, test in enumerate(tests):
-        print(f'Test #{i}')
+        print(f"Test #{i}")
         print(str(test))
 
-@pytest.mark.wip
+
 def test_to_fsa(simple_atm_cs: CommunicatingSystem) -> None:
-    tests = simple_atm_cs.tests(Participant('A'), 'experiments/simple_atm/tests')
+    tests = simple_atm_cs.tests(Participant("A"), "experiments/simple_atm/tests")
     for i, test in enumerate(tests):
-        print(f'Test #{i}')
+        print(f"Test #{i}")
         print(test.to_fsa())
+
+
+@pytest.mark.wip
+def test_to_networkx_cfsm(small_bank_cfsm_new: CFSM) -> None:
+    g = small_bank_cfsm_new.to_networkx()
+    assert ("B1", "B2") in g.edges
+    assert ("B2", "B4") in g.edges
+    assert ("B2", "B3") in g.edges
+
+
+def test_write_dot(small_bank_cfsm_new: CFSM) -> None:
+    small_bank_cfsm_new.to_dot("small_bank_cfsm_new.dot")
+    assert os.path.exists("small_bank_cfsm_new.dot")
+    os.remove("small_bank_cfsm_new.dot")
+
+
+@pytest.mark.wip
+def test_to_networkx_cs(simple_atm_cs: CommunicatingSystem) -> None:
+    gs = simple_atm_cs.to_networkx()
+    for g in gs:
+        print(g)
