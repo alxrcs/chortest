@@ -2,8 +2,8 @@ import os
 
 import networkx as nx
 import pytest
-from chorparse.cfsm import CFSM, CommunicatingSystem, TransitionLabel
-from chorparse.gchor import Participant
+from src.chortools.cfsm import CFSM, CommunicatingSystem, TransitionLabel
+from src.chortools.gchor import Participant
 from networkx.drawing.nx_agraph import write_dot
 
 

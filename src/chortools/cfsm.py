@@ -22,8 +22,7 @@ from lark import Lark, Transformer
 from lark.lexer import Token
 from lark.tree import Tree
 
-from chorparse.helpers import select
-
+from .helpers import select
 from .gchor import Message, Participant
 
 State = str
@@ -317,7 +316,7 @@ class CommunicatingSystem:
         for i, test_cfsms in enumerate(select(list(split_machines.items()))):
             cs = CommunicatingSystem(dict(test_cfsms))
             if output_path is not None:
-                path = str(Path(output_path) / 'f"test_{i}")' / f"test_{i}.fsa")
+                path = str(Path(output_path) / f"test_{i}" / f"test_{i}.fsa")
                 cs.to_fsa(path)
             yield cs
 

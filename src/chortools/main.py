@@ -1,4 +1,5 @@
 import os
+from os import makedirs
 import subprocess
 from pathlib import Path
 from typing import Optional
@@ -24,10 +25,10 @@ def project(gchor_filename: str, output_folder: str = None):
     Projects a g-choreography into a communicating system
     """
     gchor_path = Path(gchor_filename)
+
     if output_folder == None:
         output_path = gchor_path.parent / FSA_OUTPUT_DEFAULT_FOLDER
-        if not output_path.exists():
-            os.mkdir(output_path)
+        makedirs(output_path, exist_ok=True)
         output_folder = str(output_path)
 
     output_filepath = Path(str(output_folder)) / Path(gchor_path.name).with_suffix(
@@ -39,7 +40,11 @@ def project(gchor_filename: str, output_folder: str = None):
             [CHORGRAM_BASE_PATH / PROJECTION_COMMAND, gchor_filename], stdout=outfile
         )
 
-    console.print(f"Projections saved to {output_filepath}")
+        assert (
+            retcode == 0
+        ), "Could not invoke chorgram. Check that dependencies are correctly installed."
+
+        console.print(f"Projections saved to {output_filepath}")
 
 
 @app.command()
@@ -57,6 +62,7 @@ def gentests(cs_filename: str, participant_name: Optional[str] = None):
         for p in cs.participants():
             cs.tests(p, str(tests_path / p.participant_name))
 
+
 @app.command()
 def run(cs_filename: str):
     """
@@ -64,6 +70,7 @@ def run(cs_filename: str):
     """
     cs = CommunicatingSystem.parse(cs_filename)
     cs.execute_interactively()
+
 
 if __name__ == "__main__":
     try:
