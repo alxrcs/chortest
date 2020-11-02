@@ -317,7 +317,8 @@ class CommunicatingSystem:
         for i, test_cfsms in enumerate(select(list(split_machines.items()))):
             cs = CommunicatingSystem(dict(test_cfsms))
             if output_path is not None:
-                cs.to_fsa(str(Path(output_path) / f"test_{i}.fsa"))
+                path = str(Path(output_path) / 'f"test_{i}")' / f"test_{i}.fsa")
+                cs.to_fsa(path)
             yield cs
 
     def execute_interactively(self):
@@ -368,7 +369,7 @@ class CommunicatingSystem:
     #         messages: Mapping[Tuple[Participant, Participant], List[Message]]
 
     @staticmethod
-    def parse(cs_filename):
+    def parse(cs_filename) -> 'CommunicatingSystem':
 
         grammarfile_path = Path("grammars") / "fsa.lark"
         fsa_parser = Lark.open(str(grammarfile_path))
@@ -390,10 +391,10 @@ class CommunicatingSystem:
         transitions: Dict[
             Participant, List[Tuple[State, int, str, Message, State]]
         ] = {}
+        initial_states: Dict[Participant, State] = {}
 
         part_map = {p.participant_name: i for i, p in enumerate(self.participants())}
 
-        initial_states: Dict[Participant, State] = {}
 
         for p in self.participants():
             l = []

@@ -1,10 +1,13 @@
 import os
-from os import mkdir
 import subprocess
 from pathlib import Path
+from typing import Optional
 
 import typer
 from rich.console import Console
+
+from .gchor import Participant
+from .cfsm import CommunicatingSystem
 
 app = typer.Typer()
 
@@ -18,9 +21,7 @@ FSA_OUTPUT_DEFAULT_FOLDER = "fsa"
 @app.command()
 def project(gchor_filename: str, output_folder: str = None):
     """
-    Projects a g-choreography into a Communicating System
-
-    (i.e. a set of CFSMs).
+    Projects a g-choreography into a communicating system
     """
     gchor_path = Path(gchor_filename)
     if output_folder == None:
@@ -40,20 +41,29 @@ def project(gchor_filename: str, output_folder: str = None):
 
     console.print(f"Projections saved to {output_filepath}")
 
+
 @app.command()
-def parse(cs_filename: str):
+def gentests(cs_filename: str, participant_name: Optional[str] = None):
     """
-    Parses a Communicating System.
-
-    Supported formats:
-    - .fsa
+    Generates tests for a given communicating system.
+    Expects the system to be in a single .fsa file.
     """
-    from .cfsm import CommunicatingSystem
-
     cs = CommunicatingSystem.parse(cs_filename)
+    tests_path = Path(cs_filename).parent / "tests"
 
-    console.print(cs)
+    if participant_name is not None:
+        cs.tests(Participant(participant_name), str(tests_path / participant_name))
+    else:
+        for p in cs.participants():
+            cs.tests(p, str(tests_path / p.participant_name))
 
+@app.command()
+def run(cs_filename: str):
+    """
+    Executes the given communicating system interactively.
+    """
+    cs = CommunicatingSystem.parse(cs_filename)
+    cs.execute_interactively()
 
 if __name__ == "__main__":
     try:
