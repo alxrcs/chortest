@@ -122,6 +122,8 @@ class CFSM:
         self.current = initial
 
     def default_oracle(self):
+        """The default oracle marks as final states those 
+        which do not have outgoing transitions"""
         return set(s for s in list(self.states) if s not in self.transitions)
 
     @staticmethod
@@ -360,7 +362,10 @@ class CommunicatingSystem:
             available_choices = list(self.enabled_transitions())
             transitions = list(map(lambda x: x[2], available_choices))
 
-        print("Simulation finished.")
+        print("Simulation finished.")        
+        success = all([m.current in m.success for m in self.machines.values()])
+        status = 'successful! 🎉' if success else 'failed ☹️'
+        print(f'Test {status} ')
 
     def non_deterministic_states(self) -> Generator[State, None, None]:
         for cfsm in self.machines.values():
@@ -459,12 +464,20 @@ class CFSMBuilder(Transformer):
             p, cfsm = t
             for q in cfsm.transitions:
                 trs = cfsm.transitions[q]
-                trs_new : Dict[TransitionLabel, State] = {}
+                trs_new: Dict[TransitionLabel, State] = {}
                 for tr in trs:
                     if isinstance(tr, InTransitionLabel):
-                        trs_new[InTransitionLabel(cfsms[int(tr.B.participant_name)][0], p, tr.m)] = trs[tr]
+                        trs_new[
+                            InTransitionLabel(
+                                cfsms[int(tr.B.participant_name)][0], p, tr.m
+                            )
+                        ] = trs[tr]
                     elif isinstance(tr, OutTransitionLabel):
-                        trs_new[OutTransitionLabel(p, cfsms[int(tr.B.participant_name)][0], tr.m)] = trs[tr]
+                        trs_new[
+                            OutTransitionLabel(
+                                p, cfsms[int(tr.B.participant_name)][0], tr.m
+                            )
+                        ] = trs[tr]
                     else:
                         raise Exception("Shouldn't happen.")
                 cfsm.transitions[q] = trs_new

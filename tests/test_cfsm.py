@@ -146,7 +146,6 @@ def test_to_networkx_cfsm(small_bank_cfsm_new: CFSM) -> None:
 def test_write_dot(small_bank_cfsm_new: CFSM) -> None:
     small_bank_cfsm_new.to_dot("small_bank_cfsm_new.dot")
     assert os.path.exists("small_bank_cfsm_new.dot")
-    os.remove("small_bank_cfsm_new.dot")
 
 
 @pytest.mark.wip

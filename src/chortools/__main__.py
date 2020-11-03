@@ -62,6 +62,14 @@ def gentests(cs_filename: str, participant_name: Optional[str] = None):
         for p in cs.participants():
             list(cs.tests(p, str(tests_path / p.participant_name)))
 
+@app.command()
+def genlts(fsa_filename:str):
+    """
+    Generates the labeled transition system 
+    for a given communicating system.
+    """
+    raise Exception('TODO')
+
 
 @app.command()
 def run(cs_filename: str):
