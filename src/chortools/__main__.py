@@ -57,10 +57,10 @@ def gentests(cs_filename: str, participant_name: Optional[str] = None):
     tests_path = Path(cs_filename).parent / "tests"
 
     if participant_name is not None:
-        cs.tests(Participant(participant_name), str(tests_path / participant_name))
+        list(cs.tests(Participant(participant_name), str(tests_path / participant_name)))
     else:
         for p in cs.participants():
-            cs.tests(p, str(tests_path / p.participant_name))
+            list(cs.tests(p, str(tests_path / p.participant_name)))
 
 
 @app.command()
