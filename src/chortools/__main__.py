@@ -72,12 +72,15 @@ def run(cs_filename: str):
     cs.execute_interactively()
 
 
-if __name__ == "__main__":
-    try:
-        app(prog_name="chorparse")
-    except Exception as e:
-        console.print(f'⚠️  The command failed with message:\n"{str(e)}".')
-        console.print_exception()
+def main():
+    # try:
+    app(prog_name="chorparse")
+    # except Exception as e:
+        # console.print(f'⚠️  The command failed with message:\n"{str(e)}".')
+        # console.print_exception()
 
         # if console.input("❓ Do you want to inspect the traceback? \[y/N] ") == "y":
         # console.print("Check the traceback below.")
+
+if __name__ == "__main__":
+    main()

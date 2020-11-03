@@ -265,12 +265,14 @@ class CommunicatingSystem:
             # Send transitions are always enabled
             return True
 
+        idx = (t.A, t.B)
+
         # Receiving transitions are enabled if the right message
         # is in the corresponding buffer
         if self.fifo:
-            return t.m == self.messages[(t.A, t.B)][0]
+            return t.m == self.messages[idx][0]
         else:
-            return t.m in self.messages[(t.A, t.B)]
+            return t.m in self.messages[idx]
 
     def enabled_transitions(
         self,
@@ -291,10 +293,12 @@ class CommunicatingSystem:
         assert self.is_enabled(t)
         assert cfsm.current == v1
 
+        idx = (t.A, t.B)
+
         if isinstance(t, OutTransitionLabel):
-            self.messages[(t.A, t.B)].append(t.m)
+            self.messages[idx].append(t.m)
         elif isinstance(t, InTransitionLabel):
-            self.messages[(t.A, t.B)].remove(t.m)
+            self.messages[idx].remove(t.m)
         else:
             raise ValueError("Invalid transition.")
 
@@ -368,7 +372,7 @@ class CommunicatingSystem:
     #         messages: Mapping[Tuple[Participant, Participant], List[Message]]
 
     @staticmethod
-    def parse(cs_filename) -> 'CommunicatingSystem':
+    def parse(cs_filename) -> "CommunicatingSystem":
 
         grammarfile_path = Path("grammars") / "fsa.lark"
         fsa_parser = Lark.open(str(grammarfile_path))
@@ -393,7 +397,6 @@ class CommunicatingSystem:
         initial_states: Dict[Participant, State] = {}
 
         part_map = {p.participant_name: i for i, p in enumerate(self.participants())}
-
 
         for p in self.participants():
             l = []
@@ -451,7 +454,21 @@ class CFSMBuilder(Transformer):
         # Global info
         self.cs: Mapping[Participant, CFSM] = {}
 
-    def start(self, graphs):
+    def start(self, cfsms: List[Tuple[Participant, CFSM]]):
+        for i, t in enumerate(cfsms):
+            p, cfsm = t
+            for q in cfsm.transitions:
+                trs = cfsm.transitions[q]
+                trs_new : Dict[TransitionLabel, State] = {}
+                for tr in trs:
+                    if isinstance(tr, InTransitionLabel):
+                        trs_new[InTransitionLabel(cfsms[int(tr.B.participant_name)][0], p, tr.m)] = trs[tr]
+                    elif isinstance(tr, OutTransitionLabel):
+                        trs_new[OutTransitionLabel(p, cfsms[int(tr.B.participant_name)][0], tr.m)] = trs[tr]
+                    else:
+                        raise Exception("Shouldn't happen.")
+                cfsm.transitions[q] = trs_new
+
         return CommunicatingSystem(self.cs)
 
     def graph(self, t):

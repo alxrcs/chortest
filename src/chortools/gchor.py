@@ -19,6 +19,12 @@ class Participant:
             if isinstance(o, Participant)
             else False
         )
+    
+    def __str__(self) -> str:
+        return self.participant_name
+
+    def __lt__(self, o:'Participant') -> int:
+        return self.participant_name < o.participant_name
 
 
 @dataclass
