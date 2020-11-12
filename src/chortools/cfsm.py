@@ -1,4 +1,3 @@
-from io import StringIO
 import os
 from collections import defaultdict
 from copy import deepcopy
@@ -17,13 +16,12 @@ from typing import (
     Union,
 )
 
-from attr import s
 from lark import Lark, Transformer
 from lark.lexer import Token
 from lark.tree import Tree
 
-from .helpers import select
 from .gchor import Message, Participant
+from .helpers import select
 
 State = str
 TransitionStr = str
@@ -121,9 +119,11 @@ class CFSM:
 
         self.current = initial
 
+    # An oracle scheme of G for a given projection operator is a function f(A, τ) ∈ # P × T(G) on a set of states of the CFSM proj(G,A)
     def default_oracle(self):
-        """The default oracle marks as final states those 
+        """The default oracle marks as final states those
         which do not have outgoing transitions"""
+
         return set(s for s in list(self.states) if s not in self.transitions)
 
     @staticmethod
@@ -362,10 +362,10 @@ class CommunicatingSystem:
             available_choices = list(self.enabled_transitions())
             transitions = list(map(lambda x: x[2], available_choices))
 
-        print("Simulation finished.")        
+        print("Simulation finished.")
         success = all([m.current in m.success for m in self.machines.values()])
-        status = 'successful! 🎉' if success else 'failed ☹️'
-        print(f'Test {status} ')
+        status = "successful! 🎉" if success else "failed ☹️"
+        print(f"Test {status} ")
 
     def non_deterministic_states(self) -> Generator[State, None, None]:
         for cfsm in self.machines.values():
@@ -450,9 +450,6 @@ class CFSMBuilder(Transformer):
     """
     Constructs a communicating system from a parse tree
     of an .fsa file.
-
-    TODO?: Eliminate participant(_)?
-    TODO: Change numbered participants in transitions for their actual name.
     """
 
     def __init__(self) -> None:
@@ -500,12 +497,14 @@ class CFSMBuilder(Transformer):
         return str(l[0])
 
     def receive_msg(self, t: List[Union[Tree, Token]]):
+        # _ is a temporary placeholder. Fixed in the 'start' rule.
         label = InTransitionLabel(
             Participant("_"), Participant(str(t[1])), Message(str(t[2]))
         )
         return (str(t[0]), label, str(t[3]))
 
     def send_msg(self, t: List[Union[Tree, Token]]):
+        # _ is a temporary placeholder. Fixed in the 'start' rule.
         label = OutTransitionLabel(
             Participant("_"), Participant(str(t[1])), Message(str(t[2]))
         )
@@ -513,6 +512,3 @@ class CFSMBuilder(Transformer):
 
     def empty(self, t):
         return (str(t[0]), TransitionLabel.empty(), str(t[1]))
-
-
-# An oracle scheme of G for a given projection operator is a function f(A, τ) ∈ # P × T(G) on a set of states of the CFSM proj(G,A)

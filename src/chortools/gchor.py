@@ -17,13 +17,13 @@ class Participant:
         return (
             self.participant_name == o.participant_name
             if isinstance(o, Participant)
-            else False
+            else self.participant_name == o
         )
-    
+
     def __str__(self) -> str:
         return self.participant_name
 
-    def __lt__(self, o:'Participant') -> int:
+    def __lt__(self, o: "Participant") -> int:
         return self.participant_name < o.participant_name
 
 
@@ -42,7 +42,7 @@ class Message:
 class GChor:
     "Base class for g-choregraphies."
 
-    id_count : int = 0
+    id_count: int = 0
 
     def __post_init__(self) -> None:
         GChor.id_count += 1
@@ -70,6 +70,7 @@ class InteractionC(GChor):
 
     def __repr__(self) -> str:
         return f"{self.a}->{self.b}:{self.msg}" + f"({self.id})" if __debug__ else ""
+
 
 @dataclass
 class ForkC(GChor):
@@ -119,6 +120,7 @@ class GTransformer(Transformer):
     def msg(self, m):
         (m,) = m
         return m
+
     # endregion
 
     # region Parser rules

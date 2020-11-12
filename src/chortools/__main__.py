@@ -1,17 +1,15 @@
-import os
 from os import makedirs
-import subprocess
 from pathlib import Path
+from subprocess import call
 from typing import Optional
 
-import typer
 from rich.console import Console
+from typer import Typer
 
-from .gchor import Participant
 from .cfsm import CommunicatingSystem
+from .gchor import Participant
 
-app = typer.Typer()
-
+app = Typer()
 console = Console()
 
 CHORGRAM_BASE_PATH = Path("chorgram")
@@ -36,7 +34,7 @@ def project(gchor_filename: str, output_folder: str = None):
     )
 
     with open(output_filepath, "wb") as outfile:
-        retcode = subprocess.call(
+        retcode = call(
             [CHORGRAM_BASE_PATH / PROJECTION_COMMAND, gchor_filename], stdout=outfile
         )
 
@@ -57,18 +55,46 @@ def gentests(cs_filename: str, participant_name: Optional[str] = None):
     tests_path = Path(cs_filename).parent / "tests"
 
     if participant_name is not None:
-        list(cs.tests(Participant(participant_name), str(tests_path / participant_name)))
+        list(
+            cs.tests(Participant(participant_name), str(tests_path / participant_name))
+        )
     else:
         for p in cs.participants():
             list(cs.tests(p, str(tests_path / p.participant_name)))
 
-@app.command()
-def genlts(fsa_filename:str):
+
+@app.command(no_args_is_help=True)
+def genlts(fsa_filename: str, output_folder: Optional[str] = None, buffer_size=5):
     """
-    Generates the labeled transition system 
+    Generates the labeled transition system
     for a given communicating system.
     """
-    raise Exception('TODO')
+    output_path = (
+        Path(fsa_filename).parent.parent
+        if output_folder is None
+        else Path(output_folder)
+    )
+    output_path.mkdir(exist_ok=True)
+
+    # invoke the transition system builder
+    retcode = call(
+        [
+            str((CHORGRAM_BASE_PATH / "cfsm2gg.py").absolute()),
+            "-ts",
+            Path(fsa_filename).absolute(),
+            "-dir",
+            Path(output_path).absolute(),
+            "-b",
+            str(buffer_size),
+        ],
+        cwd=CHORGRAM_BASE_PATH,
+    )
+    assert retcode == 0
+
+    # output png graphic from dot diagram
+    for dot in Path(fsa_filename).parent.glob("*.dot"):
+        with open(str(dot.with_suffix(".png")), "wb") as outfile:
+            retcode = call(["dot", dot.absolute(), "-Tpng"], stdout=outfile)
 
 
 @app.command()
@@ -82,13 +108,16 @@ def run(cs_filename: str):
 
 def main():
     # try:
-    app(prog_name="chorparse")
+    app(
+        prog_name="chortools",
+    )
     # except Exception as e:
-        # console.print(f'⚠️  The command failed with message:\n"{str(e)}".')
-        # console.print_exception()
+    # console.print(f'⚠️  The command failed with message:\n"{str(e)}".')
+    # console.print_exception()
 
-        # if console.input("❓ Do you want to inspect the traceback? \[y/N] ") == "y":
-        # console.print("Check the traceback below.")
+    # if console.input("❓ Do you want to inspect the traceback? \[y/N] ") == "y":
+    # console.print("Check the traceback below.")
+
 
 if __name__ == "__main__":
     main()
