@@ -1,0 +1,58 @@
+.outputs A
+.state graph
+q0____ 2 ? auth qe0____
+qe0____ 1 ! authReq qe1____
+qe1____ 1 ? denied qe210____
+qe1____ 1 ? granted qe220____
+qe210____ 2 ! authFail qe____qe__qe22221____
+qe220____ 2 ! granted qe221____
+qe221____ 2 ? checkBalance qe22210____
+qe221____ 2 ? quit qe22220____
+qe221____ 2 ? withdraw qe22230____
+qe22210____ 1 ! getBalance qe22211____
+qe22211____ 1 ? balance qe22212____
+qe22212____ 2 ! balance qe____qe__qe22221____
+qe22220____ 1 ! quit qe____qe__qe22221____
+qe22230____ 1 ! authWithdrawal qe22231____
+qe22231____ 1 ? allow qe2223210____
+qe22231____ 1 ? deny qe2223220____
+qe2223210____ 2 ! money qe____qe__qe22221____
+qe2223220____ 2 ! bye qe____qe__qe22221____
+.marking q0____
+.end
+
+
+
+.outputs B
+.state graph
+q0____ 0 ? authReq qe1____
+qe1____ 0 ! denied qe__qe210____qe__qe22212____qe__qe22221____qe__qe2223210____qe__qe2223220____
+qe1____ 0 ! granted qe220__qe221__qe22210__qe22220__qe22230____
+qe220__qe221__qe22210__qe22220__qe22230____ 0 ? authWithdrawal qe22231____
+qe220__qe221__qe22210__qe22220__qe22230____ 0 ? getBalance qe22211____
+qe220__qe221__qe22210__qe22220__qe22230____ 0 ? quit qe__qe210____qe__qe22212____qe__qe22221____qe__qe2223210____qe__qe2223220____
+qe22211____ 0 ! balance qe__qe210____qe__qe22212____qe__qe22221____qe__qe2223210____qe__qe2223220____
+qe22231____ 0 ! allow qe__qe210____qe__qe22212____qe__qe22221____qe__qe2223210____qe__qe2223220____
+qe22231____ 0 ! deny qe__qe210____qe__qe22212____qe__qe22221____qe__qe2223210____qe__qe2223220____
+.marking q0____
+.end
+
+
+
+.outputs C
+.state graph
+q0____ 0 ! auth qe0__qe1__qe210__qe220____
+qe0__qe1__qe210__qe220____ 0 ? authFail qe____qe__qe22220__qe22221____
+qe0__qe1__qe210__qe220____ 0 ? granted qe221____
+qe221____ 0 ! checkBalance qe22210__qe22211__qe22212____
+qe221____ 0 ! quit qe____qe__qe22220__qe22221____
+qe221____ 0 ! withdraw qe22230__qe22231__qe2223210__qe2223220____
+qe22210__qe22211__qe22212____ 0 ? balance qe____qe__qe22220__qe22221____
+qe22230__qe22231__qe2223210__qe2223220____ 0 ? bye qe____qe__qe22220__qe22221____
+qe22230__qe22231__qe2223210__qe2223220____ 0 ? money qe____qe__qe22220__qe22221____
+.marking q0____
+.end
+
+
+
+
