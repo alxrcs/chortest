@@ -181,7 +181,7 @@ class CFSM:
                     new_m = self.copy()
                     for ot in output_transitions:
                         if ot is not t:
-                            del new_m.transitions[q][t]  # Check if this is correct
+                            del new_m.transitions[q][ot]
                     yield from new_m.split()
             else:
                 for t1, t2 in combinations(self.transitions[q], 2):
