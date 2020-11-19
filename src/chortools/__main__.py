@@ -2,6 +2,7 @@ from os import makedirs
 from pathlib import Path
 from subprocess import call
 from typing import Optional
+from datetime import datetime
 
 from rich.console import Console
 from typer import Typer
@@ -46,13 +47,20 @@ def project(gchor_filename: str, output_folder: str = None):
 
 
 @app.command()
-def gentests(cs_filename: str, participant_name: Optional[str] = None):
+def gentests(
+    cs_filename: str,
+    participant_name: Optional[str] = None,
+    output_path: Optional[str] = None,
+):
     """
     Generates tests for a given communicating system.
     Expects the system to be in a single .fsa file.
     """
     cs = CommunicatingSystem.parse(cs_filename)
-    tests_path = Path(cs_filename).parent / "tests"
+    output_foldername = str(datetime.now().isoformat(sep="_").replace(":", ""))
+    tests_path = Path(cs_filename).parent / "tests" / output_foldername
+    if output_path is None:
+        tests_path = Path(output_path)
 
     if participant_name is not None:
         list(

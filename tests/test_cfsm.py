@@ -4,7 +4,6 @@ import networkx as nx
 import pytest
 from src.chortools.cfsm import CFSM, CommunicatingSystem, TransitionLabel
 from src.chortools.gchor import Participant
-from networkx.drawing.nx_agraph import write_dot
 
 
 @pytest.fixture
