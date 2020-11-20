@@ -59,7 +59,7 @@ def gentests(
     cs = CommunicatingSystem.parse(cs_filename)
     output_foldername = str(datetime.now().isoformat(sep="_").replace(":", ""))
     tests_path = Path(cs_filename).parent / "tests" / output_foldername
-    if output_path is None:
+    if output_path is not None:
         tests_path = Path(output_path)
 
     if participant_name is not None:
