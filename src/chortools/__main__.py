@@ -58,7 +58,8 @@ def gentests(
     """
     cs = CommunicatingSystem.parse(cs_filename)
     output_foldername = str(datetime.now().isoformat(sep="_").replace(":", ""))
-    tests_path = Path(cs_filename).parent / "tests" / output_foldername
+    p = Path(cs_filename)
+    tests_path = p.parent / f"{p.stem}_tests" / output_foldername
     if output_path is not None:
         tests_path = Path(output_path)
 
@@ -94,6 +95,7 @@ def genlts(fsa_filename: str, output_folder: Optional[str] = None, buffer_size=5
             Path(output_path).absolute(),
             "-b",
             str(buffer_size),
+            "-nf"
         ],
         cwd=CHORGRAM_BASE_PATH,
     )

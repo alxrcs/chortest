@@ -7,20 +7,40 @@ runner = CliRunner()
 
 from src.chortools.__main__ import app
 
+
 @pytest.mark.chorgram
 @pytest.mark.cli
 def test_project():
-    DEFAULT_OUTPUT_FILENAME = 'examples/gchors/fsa/atm_simple.fsa'
-    result = runner.invoke(app, ['project', 'examples/gchors/atm_simple.gg'])
+    DEFAULT_OUTPUT_FILENAME = "examples/gchors/fsa/atm_simple.fsa"
+    result = runner.invoke(app, ["project", "examples/gchors/atm_simple.gg"])
     assert result.exit_code == 0
     assert os.path.exists(DEFAULT_OUTPUT_FILENAME)
     assert os.stat(DEFAULT_OUTPUT_FILENAME).st_size > 0
 
 @pytest.mark.cli
 @pytest.mark.wip
-def test_gentests():
-    result = runner.invoke(app, ['gentests', 'examples/gchors/fsa/atm_simple.fsa'])
+def test_gentests_small():
+    result = runner.invoke(app, ["gentests", "examples/gchors/fsa/atm_simple.fsa"])
+    DEFAULT_TESTS_OUTPUT_PATH = "examples/gchors/fsa/atm_simple_tests"
     assert result.exit_code == 0
+    assert os.path.exists(DEFAULT_TESTS_OUTPUT_PATH)
+    assert len(os.listdir(DEFAULT_TESTS_OUTPUT_PATH)) > 0
+    suite = os.listdir(DEFAULT_TESTS_OUTPUT_PATH)[-1]
+    p = os.path.join(DEFAULT_TESTS_OUTPUT_PATH, suite)
+    assert len(os.listdir(p)) > 0
+
+@pytest.mark.cli
+@pytest.mark.wip
+def test_gentests_small():
+    result = runner.invoke(app, ["gentests", "examples/gchors/fsa/atm_fixed.fsa"])
+    DEFAULT_TESTS_OUTPUT_PATH = "examples/gchors/fsa/atm_fixed_tests"
+    assert result.exit_code == 0
+    assert os.path.exists(DEFAULT_TESTS_OUTPUT_PATH)
+    assert len(os.listdir(DEFAULT_TESTS_OUTPUT_PATH)) > 0
+    suite = os.listdir(DEFAULT_TESTS_OUTPUT_PATH)[-1]
+    p = os.path.join(DEFAULT_TESTS_OUTPUT_PATH, suite)
+    assert len(os.listdir(p)) > 0
+
 
 # TODO: Check how to test interactively
 # @pytest.mark.cli
@@ -28,4 +48,3 @@ def test_gentests():
 #     EXAMPLE_CFSM_PATH = 'examples/gchors/fsa/atm_simple.fsa'
 #     result = runner.invoke(app, ['run', EXAMPLE_CFSM_PATH])
 #     assert result.exit_code == 0
-
