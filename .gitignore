@@ -142,3 +142,6 @@ htmlcov/
 html/
 
 experiments/**
+
+# Default suffix for generated tests 
+**_tests
