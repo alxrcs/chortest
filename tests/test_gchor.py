@@ -1,6 +1,6 @@
 from lark import Lark
 from lark.visitors import Transformer
-from src.chortools.gchor import *
+from chortools.gchor import *
 from pytest import fixture  # type: ignore
 import pytest
 

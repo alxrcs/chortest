@@ -5,7 +5,7 @@ import pytest
 
 runner = CliRunner()
 
-from src.chortools.__main__ import app
+from chortools.__main__ import app
 
 
 @pytest.mark.chorgram

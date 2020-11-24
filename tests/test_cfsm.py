@@ -2,8 +2,8 @@ import os
 
 import networkx as nx
 import pytest
-from src.chortools.cfsm import CFSM, CommunicatingSystem, TransitionLabel
-from src.chortools.gchor import Participant
+from chortools.cfsm import CFSM, CommunicatingSystem, TransitionLabel
+from chortools.gchor import Participant
 
 
 @pytest.fixture
