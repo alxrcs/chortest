@@ -81,6 +81,12 @@ class LTS:
 
     def __init__(self, nodes, edges) -> None:
 
+        for e in edges:
+            if e[0] == '"__start"':
+                self.initial = e[1][1:-1]
+        
+        assert self.initial is not None, "Could not find initial state."
+
         nodes = {n: nodes[n] for n in nodes if n[0] == '"' and n != '"__start"'}
         edges = {e: edges[e] for e in edges if e[0] != '"__start"'}
 
@@ -92,9 +98,6 @@ class LTS:
                 tl = LTSTransitionLabel.parse(l["label"])
                 t = LTSTransition(src=self.configurations[e[0]], dest=self.configurations[e[1]], label=tl)
                 self.transitions.append(t)
-
-        pass
-        # TODO: Set initial state from "__start"
 
     
     def is_success_configuration(self, conf : str, final_configurations : List[List[str]]):
