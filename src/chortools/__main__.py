@@ -64,13 +64,17 @@ def gentests(
         tests_path = Path(output_path)
 
     if participant_name is not None:
-        list(
+        l = list(
             cs.tests(Participant(participant_name), str(tests_path / participant_name))
         )
+        s = len(l)
     else:
+        s = 0
         for p in cs.participants():
-            list(cs.tests(p, str(tests_path / p.participant_name)))
-
+            l = list(cs.tests(p, str(tests_path / p.participant_name)))
+            s += len(l)
+    
+    console.print(f'{str(s)} tests saved to "{tests_path}"')
 
 @app.command(no_args_is_help=True)
 def genlts(fsa_filename: str, output_folder: Optional[str] = None, buffer_size=5):
