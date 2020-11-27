@@ -16,7 +16,8 @@ console = Console()
 CHORGRAM_BASE_PATH = Path("chorgram")
 PROJECTION_COMMAND = "gg2fsa"
 FSA_OUTPUT_DEFAULT_FOLDER = "fsa"
-
+CHORGRAM_INVOKE_ERROR_MSG = "Could not invoke chorgram. Check that dependencies are correctly installed."
+DOT_INVOKE_ERROR_MSG = "Could not invoke dot. Check that graphviz is properly installed."
 
 @app.command()
 def project(gchor_filename: str, output_folder: str = None):
@@ -41,7 +42,7 @@ def project(gchor_filename: str, output_folder: str = None):
 
         assert (
             retcode == 0
-        ), "Could not invoke chorgram. Check that dependencies are correctly installed."
+        ), CHORGRAM_INVOKE_ERROR_MSG
 
         console.print(f"Projections saved to {output_filepath}")
 
@@ -73,8 +74,9 @@ def gentests(
         for p in cs.participants():
             l = list(cs.tests(p, str(tests_path / p.participant_name)))
             s += len(l)
-    
+
     console.print(f'{str(s)} tests saved to "{tests_path}"')
+
 
 @app.command(no_args_is_help=True)
 def genlts(fsa_filename: str, output_folder: Optional[str] = None, buffer_size=5):
@@ -99,16 +101,20 @@ def genlts(fsa_filename: str, output_folder: Optional[str] = None, buffer_size=5
             Path(output_path).absolute(),
             "-b",
             str(buffer_size),
-            "-nf"
+            "-nf",
         ],
         cwd=CHORGRAM_BASE_PATH,
     )
-    assert retcode == 0
+    assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
+    console.print(f'LTS saved to "{output_path}"')
 
     # output png graphic from dot diagram
     for dot in Path(fsa_filename).parent.glob("*.dot"):
-        with open(str(dot.with_suffix(".png")), "wb") as outfile:
+        output_filename = str(dot.with_suffix(".png"))
+        with open(output_filename, "wb") as outfile:
             retcode = call(["dot", dot.absolute(), "-Tpng"], stdout=outfile)
+            assert retcode == 0, DOT_INVOKE_ERROR_MSG
+            console.print(f'PNG file saved at "{output_filename}"')
 
 
 @app.command()
