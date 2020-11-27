@@ -1,0 +1,29 @@
+digraph ICTS {
+graph [bgcolor="transparent", bb=10];
+
+
+subgraph ts {
+"__start" [shape = "none"; label="";]
+{rank = same "__start" "q0_q0_q0"}
+	"q0_q0_q0"			[label="q0&bull;q0&bull;q0"];
+	"q0_q0_q1____C-Awithdraw"			[label="q0&bull;q0&bull;q1\n\nC A<withdraw>"];
+	"q1_q0_q1"			[label="q1&bull;q0&bull;q1"];
+	"q2_q0_q1____ABauthW"			[label="q2&bull;q0&bull;q1\n\nAB<authW>"];
+	"q2_q1_q1"			[label="q2&bull;q1&bull;q1"];
+	"q2_q2_q1____BAdeny"			[label="q2&bull;q2&bull;q1\n\nBA<deny>"];
+	"q4_q2_q1"			[label="q4&bull;q2&bull;q1"];
+	"q5_q2_q1____ACbye"			[label="q5&bull;q2&bull;q1\n\nAC<bye>"];
+	"q5_q2_q2"			[label="q5&bull;q2&bull;q2"];
+
+}{
+"__start" -> "q0_q0_q0" [arrowhead=dot; label=""; penwidth=5; color=cornflowerblue]
+	"q0_q0_q0" -> "q0_q0_q1____C-Awithdraw"			[label="C&middot;A ! withdraw"];
+	"q0_q0_q1____C-Awithdraw" -> "q1_q0_q1"			[label="C&middot;A ? withdraw"];
+	"q1_q0_q1" -> "q2_q0_q1____ABauthW"			[label="A&middot;B ! authW"];
+	"q2_q0_q1____ABauthW" -> "q2_q1_q1"			[label="A&middot;B ? authW"];
+	"q2_q1_q1" -> "q2_q2_q1____BAdeny"			[label="B&middot;A ! deny"];
+	"q2_q2_q1____BAdeny" -> "q4_q2_q1"			[label="B&middot;A ? deny"];
+	"q4_q2_q1" -> "q5_q2_q1____ACbye"			[label="A&middot;C ! bye"];
+	"q5_q2_q1____ACbye" -> "q5_q2_q2"			[label="A&middot;C ? bye"];
+
+}}
