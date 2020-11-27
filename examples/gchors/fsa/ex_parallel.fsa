@@ -1,0 +1,23 @@
+.outputs B
+.state graph
+q0*qe____ 1 ? a qe____
+q0____ 1 ? a qe*q0____
+q0____ 1 ? b q0*qe____
+qe*q0____ 1 ? b qe____
+.marking q0____
+.end
+
+
+
+.outputs C
+.state graph
+q0*qe____ 0 ! a qe____
+q0____ 0 ! a qe*q0____
+q0____ 0 ! b q0*qe____
+qe*q0____ 0 ! b qe____
+.marking q0____
+.end
+
+
+
+
