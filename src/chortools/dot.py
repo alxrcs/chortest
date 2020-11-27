@@ -20,15 +20,19 @@ class LTSConfig:
         """
 
         l = s.split(r"\n\n")
-        ms: List[str] = l[1:]
+        
         states = l[0].split("&bull;")
+        states[0] = states[0][1:] # remove first "
+
+        # split channels by line breaks
+        ms: List[str] = l[1].split(r'\n') if len(l) == 2 else []
+        if len(ms) > 0: ms[-1] = ms[-1][:-1] # remove last char of last msg
+
         messages = defaultdict(lambda: list())
-        for m in ms:
-            messages[(m[0], m[1])].append(
-                m[3:-2]
-            )
-            # TODO: Fix fragile method 
-            # (a separator is needed for participant names from chorgram's output)
+        for b in ms: # b for buffer
+            src, dest = b.split("-")[0], b.split("-")[1].split("[")[0]
+            for m in b[b.index('[') + 1:-1].split(','):
+                messages[(src, dest)].append(m)
         return LTSConfig(states, messages)
     
     def is_stable(self):
@@ -173,18 +177,15 @@ class DOTTransformer(Transformer):
 
 
 import pytest
-import logging
-from lark import logger
-
-logger.setLevel(logging.DEBUG)
-
 
 @pytest.mark.wip
 def test_tsdot():
-    from lark import Lark
+    import logging
+    from lark import Lark, logger
+    logger.setLevel(logging.DEBUG)
 
-    fsa_parser = Lark.open("grammars/tsdot.lark", debug=True)
-    text = open("tests/files/dotlts/test_1_ts5.dot").read()
+    fsa_parser = Lark.open("grammars/tsdot.lark", start='graph', debug=True)
+    text = open("tests/files/dotlts/test_0_ts5.dot").read()
     tree = fsa_parser.parse(text)
     t = DOTTransformer()
     lts = t.transform(tree)

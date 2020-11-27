@@ -1,0 +1,36 @@
+digraph ICTS {
+graph [bgcolor="transparent", bb=10];
+
+
+subgraph ts{
+"__start" [shape = "none"; label="";]
+{rank = same "__start" "q1_q1"}
+	"q0_q0"			[label="q0&bull;q0"];
+	"q0_q3____C-Ba"			[label="q0&bull;q3\n\nC-B[a]\nB-C[b]"];
+	"q1_q0____C-Bb"			[label="q1&bull;q0\n\nC-B[b]"];
+	"q1_q1"			[label="q1&bull;q1"];
+	"q1_q2____C-Ba"			[label="q1&bull;q2\n\nC-B[a]"];
+	"q1_q3____C-Bab"			[label="q1&bull;q3\n\nC-B[a,b]"];
+	"q1_q3____C-Bba"			[label="q1&bull;q3\n\nC-B[b,a]"];
+	"q2_q2"			[label="q2&bull;q2"];
+	"q2_q3____C-Bb"			[label="q2&bull;q3\n\nC-B[b]"];
+	"q3_q3"			[label="q3&bull;q3"];
+
+}{
+"__start" -> "q1_q1" [arrowhead=dot; label=""; penwidth=5; color=cornflowerblue]
+	"q0_q0" -> "q0_q3____C-Ba"			[label="C&middot;B ! a"];
+	"q0_q3____C-Ba" -> "q3_q3"			[label="C&middot;B ? a"];
+	"q1_q0____C-Bb" -> "q0_q0"			[label="C&middot;B ? b"];
+	"q1_q0____C-Bb" -> "q1_q3____C-Bba"			[label="C&middot;B ! a"];
+	"q1_q1" -> "q1_q0____C-Bb"			[label="C&middot;B ! b"];
+	"q1_q1" -> "q1_q2____C-Ba"			[label="C&middot;B ! a"];
+	"q1_q2____C-Ba" -> "q1_q3____C-Bab"			[label="C&middot;B ! b"];
+	"q1_q2____C-Ba" -> "q2_q2"			[label="C&middot;B ? a"];
+	"q1_q3____C-Bab" -> "q0_q3____C-Ba"			[label="C&middot;B ? b"];
+	"q1_q3____C-Bab" -> "q2_q3____C-Bb"			[label="C&middot;B ? a"];
+	"q1_q3____C-Bba" -> "q0_q3____C-Ba"			[label="C&middot;B ? b"];
+	"q1_q3____C-Bba" -> "q2_q3____C-Bb"			[label="C&middot;B ? a"];
+	"q2_q2" -> "q2_q3____C-Bb"			[label="C&middot;B ! b"];
+	"q2_q3____C-Bb" -> "q3_q3"			[label="C&middot;B ? b"];
+
+}}
