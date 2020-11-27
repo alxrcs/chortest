@@ -118,6 +118,13 @@ def genlts(fsa_filename: str, output_folder: Optional[str] = None, buffer_size=5
 
 
 @app.command()
+def checklts(fsa_filename: str):
+    """
+    Checks compliance of the given CS as a dot.
+    """
+    raise Exception("not yet implemented")
+
+@app.command()
 def run(cs_filename: str):
     """
     Executes the given communicating system interactively.
