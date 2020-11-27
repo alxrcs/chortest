@@ -12,11 +12,14 @@ edge: NODE_ID PARTICIPANT_NO "?" MESSAGE_NAME NODE_ID -> receive_msg
 MESSAGE_NAME: CNAME
 PARTICIPANT_NO: INT
 GRAPH_NAME: CNAME
-NODE_ID: CNAME
+NODE_ID: ("_"|LETTER) ("_"|LETTER|DIGIT|"*")*
 
 %import common.CNAME
 %import common.WS
 %import common.INT
 %import common.NEWLINE
+%import common.LETTER
+%import common.DIGIT
+
 %ignore WS
 %ignore NEWLINE
