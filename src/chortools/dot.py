@@ -8,6 +8,7 @@ Participant = str
 ParticipantPair = Tuple[Participant, Participant]
 MessageType = str
 
+
 @dataclass
 class LTSConfig:
     states: List[State]
@@ -20,26 +21,24 @@ class LTSConfig:
         """
 
         l = s.split(r"\n\n")
-        
+
         states = l[0].split("&bull;")
-        states[0] = states[0][1:] # remove first "
+        states[0] = states[0][1:]  # remove first "
 
         # split channels by line breaks
-        ms: List[str] = l[1].split(r'\n') if len(l) == 2 else []
-        if len(ms) > 0: ms[-1] = ms[-1][:-1] # remove last char of last msg
+        ms: List[str] = l[1].split(r"\n") if len(l) == 2 else []
+        if ms:
+            ms[-1] = ms[-1][:-1]  # remove last char of last msg
 
         messages = defaultdict(lambda: list())
-        for b in ms: # b for buffer
+        for b in ms:  # b for buffer
             src, dest = b.split("-")[0], b.split("-")[1].split("[")[0]
-            for m in b[b.index('[') + 1:-1].split(','):
+            for m in b[b.index("[") + 1 : -1].split(","):
                 messages[(src, dest)].append(m)
         return LTSConfig(states, messages)
-    
+
     def is_stable(self):
-        for ppair in self.messages:
-            if len(self.messages[ppair]) > 0:
-                return False
-        return True
+        return all(len(self.messages[ppair]) == 0 for ppair in self.messages)
 
 
 @dataclass
@@ -67,11 +66,13 @@ class LTSTransitionLabel:
             is_send=is_send,
         )
 
+
 @dataclass
 class LTSTransition:
     src: LTSConfig
     dest: LTSConfig
     label: LTSTransitionLabel
+
 
 class LTS:
     configurations: Dict[str, LTSConfig]
@@ -84,7 +85,7 @@ class LTS:
         for e in edges:
             if e[0] == '"__start"':
                 self.initial = e[1][1:-1]
-        
+
         assert self.initial is not None, "Could not find initial state."
 
         nodes = {n: nodes[n] for n in nodes if n[0] == '"' and n != '"__start"'}
@@ -93,14 +94,19 @@ class LTS:
         self.configurations = {n: LTSConfig.parse(nodes[n]["label"]) for n in nodes}
         self.transitions = []
 
-        for e in edges:
-            for l in edges[e]:
+        for e, value in edges.items():
+            for l in value:
                 tl = LTSTransitionLabel.parse(l["label"])
-                t = LTSTransition(src=self.configurations[e[0]], dest=self.configurations[e[1]], label=tl)
+                t = LTSTransition(
+                    src=self.configurations[e[0]],
+                    dest=self.configurations[e[1]],
+                    label=tl,
+                )
                 self.transitions.append(t)
 
-    
-    def is_success_configuration(self, conf : str, final_configurations : List[List[str]]):
+    def is_success_configuration(
+        self, conf: str, final_configurations: List[List[str]]
+    ):
         """
         Checks whether a state in the lts is a success state.
 
@@ -108,17 +114,13 @@ class LTS:
         final_configurations: A list with the success states for each machine (e.g. [["q1", "q2"], "q1"])
         """
         c = self.configurations[conf]
-        
-        for i, s in enumerate(c.states):
-            if s not in c.states[i]:
-                return False
-        
-        return True
-    
-    def is_compliant(self):
+
+        return all(s in c.states[i] for i, s in enumerate(c.states))
+
+    def is_compliant(self, final_configurations: List[List[str]]):
         """
         Returns whether M x T is "compliant", which basically means that
-        every finite run of the system contains a stable configuration 
+        every finite run of the system contains a stable configuration
         in which all machines are in a success state.
 
         Notice that the CUT is not a parameter, since the whole system
@@ -126,9 +128,6 @@ class LTS:
         """
 
         pass
-
-
-
 
 
 class DOTTransformer(Transformer):
@@ -181,13 +180,15 @@ class DOTTransformer(Transformer):
 
 import pytest
 
+
 @pytest.mark.wip
 def test_tsdot():
     import logging
     from lark import Lark, logger
+
     logger.setLevel(logging.DEBUG)
 
-    fsa_parser = Lark.open("grammars/tsdot.lark", start='graph', debug=True)
+    fsa_parser = Lark.open("grammars/tsdot.lark", start="graph", debug=True)
     text = open("tests/files/dotlts/test_0_ts5.dot").read()
     tree = fsa_parser.parse(text)
     t = DOTTransformer()
