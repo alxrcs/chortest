@@ -6,7 +6,7 @@ subgraph ts{
 "__start" [shape = "none"; label="";]
 {rank = same "__start" "q1_q1"}
 	"q0_q0"			[label="q0&bull;q0"];
-	"q0_q3____C-Ba"			[label="q0&bull;q3\n\nC-B[a]\nB-C[b]"];
+	"q0_q3____C-Ba"			[label="q0&bull;q3\n\nC-B[a]"];
 	"q1_q0____C-Bb"			[label="q1&bull;q0\n\nC-B[b]"];
 	"q1_q1"			[label="q1&bull;q1"];
 	"q1_q2____C-Ba"			[label="q1&bull;q2\n\nC-B[a]"];

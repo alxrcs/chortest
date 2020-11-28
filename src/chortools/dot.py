@@ -1,7 +1,7 @@
 from collections import defaultdict
 from dataclasses import dataclass
 from lark.visitors import Transformer
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
 
 State = str
 Participant = str
@@ -13,6 +13,7 @@ MessageType = str
 class LTSConfig:
     states: List[State]
     messages: Dict[ParticipantPair, List[MessageType]]
+    str_rep: str
 
     @staticmethod
     def parse(s: str):
@@ -23,22 +24,32 @@ class LTSConfig:
         l = s.split(r"\n\n")
 
         states = l[0].split("&bull;")
-        states[0] = states[0][1:]  # remove first "
+        if states[0][0] == '"':
+            states[0] = states[0][1:]  # remove first "
+        if states[-1][-1] == '"':
+            states[-1] = states[-1][:-1]  # remove last "
 
         # split channels by line breaks
         ms: List[str] = l[1].split(r"\n") if len(l) == 2 else []
-        if ms:
-            ms[-1] = ms[-1][:-1]  # remove last char of last msg
 
         messages = defaultdict(lambda: list())
         for b in ms:  # b for buffer
             src, dest = b.split("-")[0], b.split("-")[1].split("[")[0]
             for m in b[b.index("[") + 1 : -1].split(","):
+                if m[-1] in ']"':
+                    m = m[:-1]
                 messages[(src, dest)].append(m)
-        return LTSConfig(states, messages)
+
+        return LTSConfig(states, messages, s)
+
+    def __str__(self) -> str:
+        return self.str_rep
 
     def is_stable(self):
         return all(len(self.messages[ppair]) == 0 for ppair in self.messages)
+
+    def __eq__(self, o: object) -> bool:
+        return isinstance(o, LTSConfig) and self.str_rep == o.str_rep
 
 
 @dataclass
@@ -78,34 +89,39 @@ class LTS:
     configurations: Dict[str, LTSConfig]
     transitions: List[LTSTransition]
 
-    initial: str
+    initial: LTSConfig
 
     def __init__(self, nodes, edges) -> None:
 
+        initial: str = ""
         for e in edges:
             if e[0] == '"__start"':
-                self.initial = e[1][1:-1]
+                initial = e[1][1:-1]
 
-        assert self.initial is not None, "Could not find initial state."
+        assert initial is not "", "Could not find initial state."
 
         nodes = {n: nodes[n] for n in nodes if n[0] == '"' and n != '"__start"'}
         edges = {e: edges[e] for e in edges if e[0] != '"__start"'}
 
-        self.configurations = {n: LTSConfig.parse(nodes[n]["label"]) for n in nodes}
-        self.transitions = []
+        self.configurations = {
+            n[1:-1]: LTSConfig.parse(nodes[n]["label"]) for n in nodes
+        }
+        self.transitions: List[LTSTransition] = []
 
         for e, value in edges.items():
             for l in value:
                 tl = LTSTransitionLabel.parse(l["label"])
                 t = LTSTransition(
-                    src=self.configurations[e[0]],
-                    dest=self.configurations[e[1]],
+                    src=self.configurations[e[0][1:-1]],
+                    dest=self.configurations[e[1][1:-1]],
                     label=tl,
                 )
                 self.transitions.append(t)
 
+        self.initial = self.configurations[initial]
+
     def is_success_configuration(
-        self, conf: str, final_configurations: List[List[str]]
+        self, conf: Union[str, LTSConfig], final_configurations: List[List[str]]
     ):
         """
         Checks whether a state in the lts is a success state.
@@ -113,11 +129,15 @@ class LTS:
         state: str representing the state (e.g. "q2_q1_q0")
         final_configurations: A list with the success states for each machine (e.g. [["q1", "q2"], "q1"])
         """
-        c = self.configurations[conf]
+        if isinstance(conf, str):
+            states = self.configurations[conf].states
+        else:
+            states = conf.states
+        return all(s in final_configurations[i] for i, s in enumerate(states))
 
-        return all(s in c.states[i] for i, s in enumerate(c.states))
-
-    def is_compliant(self, final_configurations: List[List[str]]):
+    def is_compliant(
+        self, final_configurations: List[List[State]], curr: LTSConfig = None
+    ):
         """
         Returns whether M x T is "compliant", which basically means that
         every finite run of the system contains a stable configuration
@@ -127,7 +147,18 @@ class LTS:
         is already run in parallel here.
         """
 
-        pass
+        if curr is None:
+            curr = self.initial
+
+        if self.is_success_configuration(curr, final_configurations):
+            return True
+
+        enabled_transitions = [t for t in self.transitions if t.src == curr]
+        next_configs = list(map(lambda t: t.dest, enabled_transitions))
+
+        return len(next_configs) > 0 and all(
+            map(lambda c: self.is_compliant(final_configurations, c), next_configs)
+        )
 
 
 class DOTTransformer(Transformer):
@@ -189,11 +220,12 @@ def test_tsdot():
     logger.setLevel(logging.DEBUG)
 
     fsa_parser = Lark.open("grammars/tsdot.lark", start="graph", debug=True)
-    text = open("tests/files/dotlts/test_0_ts5.dot").read()
-    tree = fsa_parser.parse(text)
-    t = DOTTransformer()
-    lts = t.transform(tree)
-    print(lts)
+    tree = fsa_parser.parse(open("tests/files/dotlts/test_0_ts5.dot").read())
+    lts: LTS = DOTTransformer().transform(tree)
+
+    assert not lts.is_success_configuration("q2_q3____C-Bb", [["q3"], ["q3"]])
+    assert lts.is_success_configuration("q2_q3____C-Bb", [["q2"], ["q3"]])
+    assert lts.is_compliant([["q3"], ["q3"]])
 
 
 if __name__ == "__main__":
