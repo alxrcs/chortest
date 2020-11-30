@@ -124,7 +124,7 @@ class CFSM:
         """The default oracle marks as final states those
         which do not have outgoing transitions"""
 
-        return set(s for s in list(self.states) if s not in self.transitions)
+        return {s for s in list(self.states) if s not in self.transitions}
 
     @staticmethod
     def new(transitions: List[Tuple[State, TransitionStr, State]], initial: State):
@@ -161,12 +161,12 @@ class CFSM:
         if q is None:
             # split(M)
             nds = list(self.non_deterministic_states())
-            if len(nds) == 0:  # if nds(M) is empty
-                yield self.copy()
-            else:
+            if nds:
                 # Union_{q\in{nds(M)}} split(M,q)
                 for q in nds:
                     yield from self.split(q)
+            else:  # if nds(M) is empty
+                yield self.copy()
         else:
             # split(M, q)
             output_transitions = list(
@@ -176,7 +176,7 @@ class CFSM:
                 )
             )
             # if M(q) has output transitions
-            if len(output_transitions) > 0:
+            if output_transitions:
                 for t in self.transitions[q]:
                     new_m = self.copy()
                     for ot in output_transitions:
@@ -187,11 +187,13 @@ class CFSM:
                 for t1, t2 in combinations(self.transitions[q], 2):
                     q1 = self.transitions[q][t1]
                     q2 = self.transitions[q][t2]
-                    if q1 != q2:
-                        m = self.copy()
-                        yield from (m - Transition(q, t1, q1)).split()
-                    else:  # TODO: What happens if there are two input transitions to the same target state?
+                    if (
+                        q1 == q2
+                    ):  # TODO: What happens if there are two input transitions to the same target state?
                         raise ValueError()
+
+                    m = self.copy()
+                    yield from (m - Transition(q, t1, q1)).split()
 
     # region operator overloads
     def __add__(self, t: Transition) -> "CFSM":
@@ -334,7 +336,7 @@ class CommunicatingSystem:
         available_choices = list(self.enabled_transitions())
         transitions = list(map(lambda x: x[2], available_choices))
 
-        while len(available_choices) > 0:
+        while available_choices:
             # while len(available_transitions) > 0:
 
             if len(available_choices) > 1:
@@ -363,7 +365,7 @@ class CommunicatingSystem:
             transitions = list(map(lambda x: x[2], available_choices))
 
         print("Simulation finished.")
-        success = all([m.current in m.success for m in self.machines.values()])
+        success = all(m.current in m.success for m in self.machines.values())
         status = "successful! 🎉" if success else "failed ☹️"
         print(f"Test {status} ")
 
@@ -386,9 +388,7 @@ class CommunicatingSystem:
             tree = fsa_parser.parse(f.read())
 
         transformer = CFSMBuilder()
-        communicating_system = transformer.transform(tree)
-
-        return communicating_system
+        return transformer.transform(tree)
 
     def to_fsa(self, output_filename: Optional[str] = None):
         import jinja2
@@ -409,9 +409,7 @@ class CommunicatingSystem:
             for q in cfsm.transitions:
                 for t in cfsm.transitions[q]:
                     # TODO: Add tau transitions.
-                    assert isinstance(t, InTransitionLabel) or isinstance(
-                        t, OutTransitionLabel
-                    )
+                    assert isinstance(t, (InTransitionLabel, OutTransitionLabel))
                     symbol = "?" if isinstance(t, InTransitionLabel) else "!"
                     target = t.B if symbol is "!" else t.A
                     l.append(

@@ -1,0 +1,7 @@
+.outputs B
+.state graph
+q0____ 1 ? a qe*q0____
+q0____ 1 ? b q0*qe____
+.marking q0____
+.end
+

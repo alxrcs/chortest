@@ -7,6 +7,8 @@ from datetime import datetime
 from rich.console import Console
 from typer import Typer
 
+from chortools.fsa import FSACombiner
+
 from .cfsm import CommunicatingSystem
 from .gchor import Participant
 
@@ -16,8 +18,13 @@ console = Console()
 CHORGRAM_BASE_PATH = Path("chorgram")
 PROJECTION_COMMAND = "gg2fsa"
 FSA_OUTPUT_DEFAULT_FOLDER = "fsa"
-CHORGRAM_INVOKE_ERROR_MSG = "Could not invoke chorgram. Check that dependencies are correctly installed."
-DOT_INVOKE_ERROR_MSG = "Could not invoke dot. Check that graphviz is properly installed."
+CHORGRAM_INVOKE_ERROR_MSG = (
+    "Could not invoke chorgram. Check that dependencies are correctly installed."
+)
+DOT_INVOKE_ERROR_MSG = (
+    "Could not invoke dot. Check that graphviz is properly installed."
+)
+
 
 @app.command()
 def project(gchor_filename: str, output_folder: str = None):
@@ -26,7 +33,7 @@ def project(gchor_filename: str, output_folder: str = None):
     """
     gchor_path = Path(gchor_filename)
 
-    if output_folder == None:
+    if output_folder is None:
         output_path = gchor_path.parent / FSA_OUTPUT_DEFAULT_FOLDER
         makedirs(output_path, exist_ok=True)
         output_folder = str(output_path)
@@ -40,9 +47,7 @@ def project(gchor_filename: str, output_folder: str = None):
             [CHORGRAM_BASE_PATH / PROJECTION_COMMAND, gchor_filename], stdout=outfile
         )
 
-        assert (
-            retcode == 0
-        ), CHORGRAM_INVOKE_ERROR_MSG
+        assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
 
         console.print(f"Projections saved to {output_filepath}")
 
@@ -79,7 +84,13 @@ def gentests(
 
 
 @app.command(no_args_is_help=True)
-def genlts(fsa_filename: str, output_folder: Optional[str] = None, buffer_size=5):
+def genlts(
+    fsa_filename: str,
+    output_folder: Optional[str] = None,
+    buffer_size: int = 5,
+    fifo_semantics: bool = False,
+    cut_filename: str = None
+):
     """
     Generates the labeled transition system
     for a given communicating system.
@@ -91,6 +102,11 @@ def genlts(fsa_filename: str, output_folder: Optional[str] = None, buffer_size=5
     )
     output_path.mkdir(exist_ok=True)
 
+    if cut_filename is not None:
+        combiner = FSACombiner()
+        combiner.parse(fsa_filename, cut_filename, f'{fsa_filename}.tmp')
+        fsa_filename = f'{fsa_filename}.temp'
+
     # invoke the transition system builder
     retcode = call(
         [
@@ -101,7 +117,7 @@ def genlts(fsa_filename: str, output_folder: Optional[str] = None, buffer_size=5
             Path(output_path).absolute(),
             "-b",
             str(buffer_size),
-            "-nf",
+            "-nf" if not fifo_semantics else "",
         ],
         cwd=CHORGRAM_BASE_PATH,
     )
@@ -123,6 +139,7 @@ def checklts(fsa_filename: str):
     Checks compliance of the given CS as a dot.
     """
     raise Exception("not yet implemented")
+
 
 @app.command()
 def run(cs_filename: str):
