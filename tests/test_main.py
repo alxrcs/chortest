@@ -31,7 +31,7 @@ def test_gentests_small():
 
 @pytest.mark.cli
 @pytest.mark.wip
-def test_gentests_small():
+def test_gentests_large():
     result = runner.invoke(app, ["gentests", "examples/gchors/fsa/atm_fixed.fsa"])
     DEFAULT_TESTS_OUTPUT_PATH = "examples/gchors/fsa/atm_fixed_tests"
     assert result.exit_code == 0
