@@ -1,3 +1,4 @@
+from logging import FileHandler, Formatter
 from os import makedirs
 from pathlib import Path
 from subprocess import call
@@ -151,6 +152,20 @@ def run(cs_filename: str):
 
 
 def main():
+    import logging
+    from rich.logging import RichHandler
+
+    LOG_FILENAME = 'chortools.log'
+    log_file_handler = FileHandler(LOG_FILENAME)
+    log_file_handler.setFormatter(Formatter('[%(asctime)s] - %(levelname)s - %(message)s'))
+
+    rich_handler = RichHandler()
+    rich_handler.setFormatter(Formatter('%(message)s'))
+    
+    logging.basicConfig(
+        level="DEBUG", datefmt="[%X]", handlers=[rich_handler, log_file_handler]
+    )
+
     # try:
     app(
         prog_name="chortools",

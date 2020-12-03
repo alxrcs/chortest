@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from lark.visitors import Transformer
 
+Message = str
 
 @dataclass
 class Participant:
@@ -25,18 +26,6 @@ class Participant:
 
     def __lt__(self, o: "Participant") -> int:
         return self.participant_name < o.participant_name
-
-
-@dataclass
-class Message:
-    "Represents a message in a g-choregraphy."
-    msg: str
-
-    def __repr__(self) -> str:
-        return self.msg
-
-    def __hash__(self) -> int:
-        return hash(self.msg)
 
 
 class GChor:

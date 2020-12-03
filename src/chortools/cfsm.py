@@ -20,11 +20,12 @@ from lark import Lark, Transformer
 from lark.lexer import Token
 from lark.tree import Tree
 
-from .gchor import Message, Participant
+from .gchor import Participant
 from .helpers import select
 
 State = str
 TransitionStr = str
+Message = str
 
 import networkx as nx
 
@@ -452,7 +453,7 @@ class CFSMBuilder(Transformer):
 
     def __init__(self) -> None:
         # Global info
-        self.cs: Mapping[Participant, CFSM] = {}
+        self.cs: Dict[Participant, CFSM] = {}
 
     def start(self, cfsms: List[Tuple[Participant, CFSM]]):
         for i, t in enumerate(cfsms):
