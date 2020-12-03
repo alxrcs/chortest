@@ -1,5 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
+from pathlib import Path
 from lark.visitors import Transformer
 from typing import Dict, List, Tuple, Union
 
@@ -159,6 +160,25 @@ class LTS:
         return len(next_configs) > 0 and all(
             map(lambda c: self.is_compliant(final_configurations, c), next_configs)
         )
+
+    @staticmethod
+    def parse(filename : str) -> 'LTS':
+        """
+        Parses an LTS.
+
+        Supported input formats:
+        *.dot
+
+        # TODO: Complete .fsa support
+        """
+        from lark import Lark
+
+        if filename.endswith('.dot'):
+            fsa_parser = Lark.open("grammars/tsdot.lark", start="graph", debug=True)
+            tree = fsa_parser.parse(open("tests/files/dotlts/test_0_ts5.dot").read())
+            return DOTTransformer().transform(tree)
+        else: 
+            raise ValueError('Unsupported file format for LTS: ', str(Path(filename).suffix))
 
 
 class DOTTransformer(Transformer):

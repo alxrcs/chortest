@@ -53,7 +53,7 @@ class FSATransformer(GTransformer):
 
 
 class FSACombiner:
-    def parse(
+    def combine_fsa(
         self,
         input_fsa_filename: str,
         replacement_fsa_filename: str,
@@ -79,11 +79,3 @@ class FSACombiner:
 
             txt = "\n\n".join(updated_fsm.values())
             output_fsa_file.write(txt)
-
-
-if __name__ == "__main__":
-    FSACombiner().parse(
-        "examples/gchors/fsa/ex_parallel.fsa",
-        "examples/gchors/fsa/ex_parallel_changed.fsa",
-        "examples/gchors/fsa/ex_parallel_output.fsa",
-    )

@@ -90,7 +90,7 @@ def genlts(
     output_folder: Optional[str] = None,
     buffer_size: int = 5,
     fifo_semantics: bool = False,
-    cut_filename: str = None
+    cut_filename: str = None,
 ):
     """
     Generates the labeled transition system
@@ -105,8 +105,8 @@ def genlts(
 
     if cut_filename is not None:
         combiner = FSACombiner()
-        combiner.parse(fsa_filename, cut_filename, f'{fsa_filename}.tmp')
-        fsa_filename = f'{fsa_filename}.temp'
+        combiner.combine_fsa(fsa_filename, cut_filename, f"{fsa_filename}.tmp")
+        fsa_filename = f"{fsa_filename}.temp"
 
     # invoke the transition system builder
     retcode = call(
@@ -155,13 +155,15 @@ def main():
     import logging
     from rich.logging import RichHandler
 
-    LOG_FILENAME = 'chortools.log'
+    LOG_FILENAME = "chortools.log"
     log_file_handler = FileHandler(LOG_FILENAME)
-    log_file_handler.setFormatter(Formatter('[%(asctime)s] - %(levelname)s - %(message)s'))
+    log_file_handler.setFormatter(
+        Formatter("[%(asctime)s] - %(levelname)s - %(message)s")
+    )
 
     rich_handler = RichHandler()
-    rich_handler.setFormatter(Formatter('%(message)s'))
-    
+    rich_handler.setFormatter(Formatter("%(message)s"))
+
     logging.basicConfig(
         level="DEBUG", datefmt="[%X]", handlers=[rich_handler, log_file_handler]
     )
