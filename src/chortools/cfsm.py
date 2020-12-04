@@ -309,9 +309,10 @@ class CommunicatingSystem:
 
         cfsm.current = v2
 
-    def tests(
-        self, CUT: Participant, output_path: Optional[str] = None
-    ) -> Generator["CommunicatingSystem", None, None]:
+    def tests(self, CUT: Participant) -> Generator["CommunicatingSystem", None, None]:
+        """
+        Generates a set of tests for the given participant.
+        """
         assert CUT in self.machines, f"Invalid participant ({CUT.participant_name})"
         split_machines = dict(
             {
@@ -322,12 +323,8 @@ class CommunicatingSystem:
         )
         split_machines[CUT] = [self.machines[CUT]]
 
-        for i, test_cfsms in enumerate(select(list(split_machines.items()))):
-            cs = CommunicatingSystem(dict(test_cfsms))
-            if output_path is not None:
-                path = str(Path(output_path) / f"test_{i}" / f"test_{i}.fsa")
-                cs.to_fsa(path)
-            yield cs
+        for test_cfsms in select(list(split_machines.items())):
+            yield CommunicatingSystem(dict(test_cfsms))
 
     def execute_interactively(self):
         import inquirer

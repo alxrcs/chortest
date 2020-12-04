@@ -1,11 +1,11 @@
-from logging import FileHandler, Formatter
+from datetime import datetime
+from logging import FileHandler, Formatter, basicConfig, getLogger
 from os import makedirs
 from pathlib import Path
 from subprocess import call
 from typing import Optional
-from datetime import datetime
 
-from rich.console import Console
+from rich.logging import RichHandler
 from typer import Typer
 
 from chortools.fsa import FSACombiner
@@ -14,7 +14,7 @@ from .cfsm import CommunicatingSystem
 from .gchor import Participant
 
 app = Typer()
-console = Console()
+L = getLogger(__name__)
 
 CHORGRAM_BASE_PATH = Path("chorgram")
 PROJECTION_COMMAND = "gg2fsa"
@@ -50,7 +50,7 @@ def project(gchor_filename: str, output_folder: str = None):
 
         assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
 
-        console.print(f"Projections saved to {output_filepath}")
+        L.info(f"Projections saved to {output_filepath}")
 
 
 @app.command()
@@ -67,21 +67,21 @@ def gentests(
     output_foldername = str(datetime.now().isoformat(sep="_").replace(":", ""))
     p = Path(cs_filename)
     tests_path = p.parent / f"{p.stem}_tests" / output_foldername
+
     if output_path is not None:
         tests_path = Path(output_path)
 
     if participant_name is not None:
-        l = list(
-            cs.tests(Participant(participant_name), str(tests_path / participant_name))
-        )
-        s = len(l)
+        participants = [Participant(participant_name)]
     else:
-        s = 0
-        for p in cs.participants():
-            l = list(cs.tests(p, str(tests_path / p.participant_name)))
-            s += len(l)
+        participants = list(cs.participants())
 
-    console.print(f'{str(s)} tests saved to "{tests_path}"')
+    for p in participants:
+        tests = list(cs.tests(p))
+        for i, test in enumerate(tests):
+            test.to_fsa(str(tests_path / p.participant_name / f"test_{i}" / f"test_{i}.fsa"))
+        s = len(tests)
+        L.info(f'{str(s)} tests saved to "{tests_path}"')
 
 
 @app.command(no_args_is_help=True)
@@ -123,7 +123,7 @@ def genlts(
         cwd=CHORGRAM_BASE_PATH,
     )
     assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
-    console.print(f'LTS saved to "{output_path}"')
+    L.info(f'LTS saved to "{output_path}"')
 
     # output png graphic from dot diagram
     for dot in Path(fsa_filename).parent.glob("*.dot"):
@@ -131,7 +131,7 @@ def genlts(
         with open(output_filename, "wb") as outfile:
             retcode = call(["dot", dot.absolute(), "-Tpng"], stdout=outfile)
             assert retcode == 0, DOT_INVOKE_ERROR_MSG
-            console.print(f'PNG file saved at "{output_filename}"')
+            L.info(f'PNG file saved at "{output_filename}"')
 
 
 @app.command()
@@ -152,19 +152,16 @@ def run(cs_filename: str):
 
 
 def main():
-    import logging
-    from rich.logging import RichHandler
 
     LOG_FILENAME = "chortools.log"
     log_file_handler = FileHandler(LOG_FILENAME)
     log_file_handler.setFormatter(
         Formatter("[%(asctime)s] - %(levelname)s - %(message)s")
     )
-
     rich_handler = RichHandler()
     rich_handler.setFormatter(Formatter("%(message)s"))
 
-    logging.basicConfig(
+    basicConfig(
         level="DEBUG", datefmt="[%X]", handlers=[rich_handler, log_file_handler]
     )
 
@@ -173,11 +170,11 @@ def main():
         prog_name="chortools",
     )
     # except Exception as e:
-    # console.print(f'⚠️  The command failed with message:\n"{str(e)}".')
-    # console.print_exception()
+    # L.info(f'⚠️  The command failed with message:\n"{str(e)}".')
+    # L.info_exception()
 
     # if console.input("❓ Do you want to inspect the traceback? \[y/N] ") == "y":
-    # console.print("Check the traceback below.")
+    # L.info("Check the traceback below.")
 
 
 if __name__ == "__main__":

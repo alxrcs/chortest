@@ -62,15 +62,13 @@ def simple_atm_cs() -> CommunicatingSystem:
         initial="C1",
     )
 
-    cs = CommunicatingSystem(
+    return CommunicatingSystem(
         {
             Participant("A"): atm_m,
             Participant("B"): bank_m,
             Participant("C"): client_m,
         }
     )
-
-    return cs
 
 
 def test_create_cfsm(small_bank_cfsm):
@@ -128,7 +126,7 @@ def test_tests(simple_atm_cs: CommunicatingSystem) -> None:
 
 
 def test_to_fsa(simple_atm_cs: CommunicatingSystem) -> None:
-    tests = simple_atm_cs.tests(Participant("A"), "experiments/simple_atm/tests")
+    tests = simple_atm_cs.tests(Participant("A"))
     for i, test in enumerate(tests):
         print(f"Test #{i}")
         print(test.to_fsa())
