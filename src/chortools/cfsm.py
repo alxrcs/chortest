@@ -125,7 +125,8 @@ class CFSM:
         """The default oracle marks as final states those
         which do not have outgoing transitions"""
 
-        return {s for s in list(self.states) if s not in self.transitions}
+        # TODO: remove 's in self.transitions'
+        return {s for s in list(self.states) if s not in self.transitions or len(self.transitions[s]) == 0}
 
     @staticmethod
     def new(transitions: List[Tuple[State, TransitionStr, State]], initial: State):
@@ -390,6 +391,7 @@ class CommunicatingSystem:
 
     def to_fsa(self, output_filename: Optional[str] = None):
         import jinja2
+        import yaml
 
         template_str = open("templates/cfsm2fsa.jinja").read()
         template = jinja2.Template(template_str)
@@ -426,6 +428,11 @@ class CommunicatingSystem:
             os.makedirs(Path(output_filename).parent, exist_ok=True)
             with open(output_filename, "wb") as f:
                 f.write(text.encode())
+            with open(output_filename + ".oracle.yaml", "w") as o:
+                oracle = {
+                    p.participant_name: list(self.machines[p].success) for p in self.participants()
+                }
+                yaml.dump({'success_states': oracle}, o)
 
         return text
 

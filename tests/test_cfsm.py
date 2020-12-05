@@ -1,6 +1,5 @@
 import os
 
-import networkx as nx
 import pytest
 from chortools.cfsm import CFSM, CommunicatingSystem, TransitionLabel
 from chortools.gchor import Participant

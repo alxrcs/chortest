@@ -58,6 +58,7 @@ def gentests(
     cs_filename: str,
     participant_name: Optional[str] = None,
     output_path: Optional[str] = None,
+    include_timestamp: Optional[bool] = False
 ):
     """
     Generates tests for a given communicating system.
@@ -66,7 +67,9 @@ def gentests(
     cs = CommunicatingSystem.parse(cs_filename)
     output_foldername = str(datetime.now().isoformat(sep="_").replace(":", ""))
     p = Path(cs_filename)
-    tests_path = p.parent / f"{p.stem}_tests" / output_foldername
+    tests_path = p.parent / f"{p.stem}_tests" 
+    if include_timestamp:
+        tests_path = tests_path / output_foldername
 
     if output_path is not None:
         tests_path = Path(output_path)
@@ -80,9 +83,8 @@ def gentests(
         tests = list(cs.tests(p))
         for i, test in enumerate(tests):
             test.to_fsa(str(tests_path / p.participant_name / f"test_{i}" / f"test_{i}.fsa"))
-        s = len(tests)
-        L.info(f'{str(s)} tests saved to "{tests_path}"')
-
+        L.info(f'{len(tests)} tests saved to "{str(tests_path / p.participant_name)}"')
+    
 
 @app.command(no_args_is_help=True)
 def genlts(
