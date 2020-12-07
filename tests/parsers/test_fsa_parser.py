@@ -12,7 +12,7 @@ from chortools.helpers import combine_fsa
 #     assert cfsm is not None
 
 def test_fsa_combiner():
-    fsa = combine_fsa(
+    combine_fsa(
         "examples/gchors/fsa/ex_parallel.fsa",
         "examples/gchors/fsa/ex_parallel_changed.fsa",
         "examples/gchors/fsa/ex_parallel_output.fsa",

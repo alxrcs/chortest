@@ -16,11 +16,12 @@ def small_atm() -> str:
 def test_small_atm_testgen(small_atm) -> None:
     atm = CommunicatingSystem.parse(small_atm)
     tests = list(atm.tests(Participant('A')))
-    test_name = 'test.test'
+    test_name = 'tmptest'
     for test in tests:
         test.to_fsa(test_name)
         assert exists(test_name)
         remove(test_name)
+        remove(test_name + '.oracle.yaml')
 
     assert len(tests) > 0
 

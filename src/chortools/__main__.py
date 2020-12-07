@@ -208,5 +208,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    checklts('examples/gchors/fsa/atm_simple_tests/A/test_0/test_0_ts5.dot')
+    main()
