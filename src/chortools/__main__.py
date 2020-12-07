@@ -3,12 +3,15 @@ from logging import FileHandler, Formatter, basicConfig, getLogger
 from os import makedirs
 from pathlib import Path
 from subprocess import call
+from time import perf_counter
 from typing import Optional
+from os.path import exists
 
 from rich.logging import RichHandler
 from typer import Typer
 
-from chortools.fsa import FSACombiner
+from chortools.helpers import combine_fsa
+from chortools.lts import LTS
 
 from .cfsm import CommunicatingSystem
 from .gchor import Participant
@@ -58,7 +61,7 @@ def gentests(
     cs_filename: str,
     participant_name: Optional[str] = None,
     output_path: Optional[str] = None,
-    include_timestamp: Optional[bool] = False
+    include_timestamp: Optional[bool] = False,
 ):
     """
     Generates tests for a given communicating system.
@@ -67,7 +70,7 @@ def gentests(
     cs = CommunicatingSystem.parse(cs_filename)
     output_foldername = str(datetime.now().isoformat(sep="_").replace(":", ""))
     p = Path(cs_filename)
-    tests_path = p.parent / f"{p.stem}_tests" 
+    tests_path = p.parent / f"{p.stem}_tests"
     if include_timestamp:
         tests_path = tests_path / output_foldername
 
@@ -77,14 +80,21 @@ def gentests(
     if participant_name is not None:
         participants = [Participant(participant_name)]
     else:
-        participants = list(cs.participants())
+        participants = list(cs.participants)
+
+    start_time = perf_counter()
 
     for p in participants:
         tests = list(cs.tests(p))
         for i, test in enumerate(tests):
-            test.to_fsa(str(tests_path / p.participant_name / f"test_{i}" / f"test_{i}.fsa"))
+            test.to_fsa(
+                str(tests_path / p.participant_name / f"test_{i}" / f"test_{i}.fsa")
+            )
         L.info(f'{len(tests)} tests saved to "{str(tests_path / p.participant_name)}"')
-    
+
+    elapsed_time = perf_counter() - start_time
+    L.info(f"Tests generated in {elapsed_time}s")
+
 
 @app.command(no_args_is_help=True)
 def genlts(
@@ -106,11 +116,11 @@ def genlts(
     output_path.mkdir(exist_ok=True)
 
     if cut_filename is not None:
-        combiner = FSACombiner()
-        combiner.combine_fsa(fsa_filename, cut_filename, f"{fsa_filename}.tmp")
+        combine_fsa(fsa_filename, cut_filename, f"{fsa_filename}.tmp")
         fsa_filename = f"{fsa_filename}.temp"
 
     # invoke the transition system builder
+    start_time = perf_counter()
     retcode = call(
         [
             str((CHORGRAM_BASE_PATH / "cfsm2gg.py").absolute()),
@@ -121,11 +131,14 @@ def genlts(
             "-b",
             str(buffer_size),
             "-nf" if not fifo_semantics else "",
+            "-sn",  # Do not shorten state names
         ],
         cwd=CHORGRAM_BASE_PATH,
     )
+    elapsed_time = perf_counter() - start_time
     assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
     L.info(f'LTS saved to "{output_path}"')
+    L.info(f"Time to generate LTS: {elapsed_time}s")
 
     # output png graphic from dot diagram
     for dot in Path(fsa_filename).parent.glob("*.dot"):
@@ -141,7 +154,22 @@ def checklts(fsa_filename: str):
     """
     Checks compliance of the given CS as a dot.
     """
-    raise Exception("not yet implemented")
+    lts: LTS = LTS.parse(fsa_filename)
+    import yaml
+
+    oracle_filename = Path(fsa_filename).parent.stem + ".fsa.oracle.yaml"
+
+    with open(str(Path(fsa_filename).parent / oracle_filename), "r") as oracle_f:
+        oracle = yaml.load(oracle_f)
+        print(oracle)
+
+    final_confs = [oracle['success_states'][p] for p in oracle['order']]
+    compliant = lts.is_compliant(final_configurations=final_confs)
+
+    if compliant:
+        L.info(f"{fsa_filename} is compliant.")
+    else:
+        L.error(f"{fsa_filename} is NOT compliant!")
 
 
 @app.command()
@@ -180,4 +208,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    checklts('examples/gchors/fsa/atm_simple_tests/A/test_0/test_0_ts5.dot')

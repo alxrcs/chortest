@@ -175,7 +175,7 @@ class LTS:
 
         if filename.endswith('.dot'):
             fsa_parser = Lark.open("grammars/tsdot.lark", start="graph", debug=True)
-            tree = fsa_parser.parse(open("tests/files/dotlts/test_0_ts5.dot").read())
+            tree = fsa_parser.parse(open(filename).read())
             return DOTTransformer().transform(tree)
         else: 
             raise ValueError('Unsupported file format for LTS: ', str(Path(filename).suffix))
@@ -227,10 +227,3 @@ class DOTTransformer(Transformer):
 
     def graph(self, t):
         return LTS(self.nodes, self.edges)
-
-
-import pytest
-
-
-if __name__ == "__main__":
-    test_tsdot()

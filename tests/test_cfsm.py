@@ -61,13 +61,13 @@ def simple_atm_cs() -> CommunicatingSystem:
         initial="C1",
     )
 
-    return CommunicatingSystem(
-        {
-            Participant("A"): atm_m,
-            Participant("B"): bank_m,
-            Participant("C"): client_m,
-        }
-    )
+    d = {
+        Participant("A"): atm_m,
+        Participant("B"): bank_m,
+        Participant("C"): client_m,
+    }
+
+    return CommunicatingSystem(list(d.keys()), d)
 
 
 def test_create_cfsm(small_bank_cfsm):
@@ -142,7 +142,7 @@ def test_to_networkx_cfsm(small_bank_cfsm_new: CFSM) -> None:
 def test_write_dot(small_bank_cfsm_new: CFSM) -> None:
     small_bank_cfsm_new.to_dot("small_bank_cfsm_new.dot")
     assert os.path.exists("small_bank_cfsm_new.dot")
-    os.remove('small_bank_cfsm_new.dot')
+    os.remove("small_bank_cfsm_new.dot")
 
 
 @pytest.mark.wip

@@ -51,31 +51,3 @@ class FSATransformer(GTransformer):
     def start(self, t):
         return LTS(parameters=t[0], configurations=t[1], transitions=t[2])
 
-
-class FSACombiner:
-    def combine_fsa(
-        self,
-        input_fsa_filename: str,
-        replacement_fsa_filename: str,
-        output_filename: str = None,
-    ):
-        import re
-
-        output_filename = output_filename or str(
-            Path(input_fsa_filename).with_suffix(".fsa.test")
-        )
-
-        with open(input_fsa_filename, "r") as input_fsa_file, open(
-            replacement_fsa_filename, "r"
-        ) as replacement_fsa_file, open(output_filename, "w") as output_fsa_file:
-
-            parse_fsm = lambda txt: {
-                f[1]: f[0]
-                for f in re.findall(r"(\.outputs (\w+).*?\.end)", txt, re.DOTALL)
-            }
-
-            updated_fsm = parse_fsm(input_fsa_file.read())
-            updated_fsm.update(parse_fsm(replacement_fsa_file.read()))
-
-            txt = "\n\n".join(updated_fsm.values())
-            output_fsa_file.write(txt)

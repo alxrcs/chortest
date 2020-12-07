@@ -1,6 +1,5 @@
 import pytest
-from lark import Lark
-from chortools.dot import DOTTransformer, LTS
+from chortools.lts import LTS
 
 @pytest.mark.wip
 def test_tsdot():

@@ -1,11 +1,10 @@
 import os
-from collections import defaultdict
+from collections import OrderedDict, defaultdict
 from copy import deepcopy
 from dataclasses import dataclass
 from itertools import combinations
 from pathlib import Path
 from typing import (
-    AbstractSet,
     Dict,
     Generator,
     List,
@@ -126,7 +125,11 @@ class CFSM:
         which do not have outgoing transitions"""
 
         # TODO: remove 's in self.transitions'
-        return {s for s in list(self.states) if s not in self.transitions or len(self.transitions[s]) == 0}
+        return {
+            s
+            for s in list(self.states)
+            if s not in self.transitions or len(self.transitions[s]) == 0
+        }
 
     @staticmethod
     def new(transitions: List[Tuple[State, TransitionStr, State]], initial: State):
@@ -250,16 +253,21 @@ class CFSM:
 class CommunicatingSystem:
     machines: Mapping[Participant, CFSM]
     messages: Mapping[Tuple[Participant, Participant], List[Message]]
-
+    participants: List[
+        Participant
+    ]  # NOTE: The order matters for dot parsing and compliance checking
     fifo: bool = False
 
-    def __init__(self, cfsms: Mapping[Participant, CFSM], fifo=False) -> None:
+    def __init__(
+        self,
+        participants: List[Participant],
+        cfsms: Mapping[Participant, CFSM],
+        fifo=False,
+    ) -> None:
         self.machines = cfsms
+        self.participants = participants
         self.messages = defaultdict(lambda: list())
         self.fifo = fifo
-
-    def participants(self) -> AbstractSet[Participant]:
-        return self.machines.keys()
 
     def is_enabled(self, t: TransitionLabel) -> bool:
         """
@@ -318,14 +326,14 @@ class CommunicatingSystem:
         split_machines = dict(
             {
                 p: list(self.machines[p].split())
-                for p in self.participants()
+                for p in self.participants
                 if p is not CUT
             }
         )
         split_machines[CUT] = [self.machines[CUT]]
 
         for test_cfsms in select(list(split_machines.items())):
-            yield CommunicatingSystem(dict(test_cfsms))
+            yield CommunicatingSystem(self.participants, dict(test_cfsms))
 
     def execute_interactively(self):
         import inquirer
@@ -372,11 +380,6 @@ class CommunicatingSystem:
         for cfsm in self.machines.values():
             yield from cfsm.non_deterministic_states()
 
-    # def execute(self):
-    #     class TransitionSystem:
-    #         states: Mapping[Participant, State]
-    #         messages: Mapping[Tuple[Participant, Participant], List[Message]]
-
     @staticmethod
     def parse(cs_filename) -> "CommunicatingSystem":
 
@@ -401,9 +404,9 @@ class CommunicatingSystem:
         ] = {}
         initial_states: Dict[Participant, State] = {}
 
-        part_map = {p.participant_name: i for i, p in enumerate(self.participants())}
+        part_map = {p.participant_name: i for i, p in enumerate(self.participants)}
 
-        for p in self.participants():
+        for p in self.participants:
             l = []
             cfsm = self.machines[p]
             for q in cfsm.transitions:
@@ -419,7 +422,7 @@ class CommunicatingSystem:
             initial_states[p] = cfsm.initial
 
         text = template.render(
-            participants=list(self.participants()),
+            participants=self.participants,
             transitions=transitions,
             initial_states=initial_states,
         )
@@ -430,9 +433,18 @@ class CommunicatingSystem:
                 f.write(text.encode())
             with open(output_filename + ".oracle.yaml", "w") as o:
                 oracle = {
-                    p.participant_name: list(self.machines[p].success) for p in self.participants()
+                    p.participant_name: list(self.machines[p].success)
+                    for p in self.machines.keys()
                 }
-                yaml.dump({'success_states': oracle}, o)
+                yaml.dump(
+                    {
+                        "success_states": oracle,
+                        "order": list(
+                            map(lambda x: x.participant_name, self.machines.keys())
+                        ),
+                    },
+                    o,
+                )
 
         return text
 
@@ -458,6 +470,7 @@ class CFSMBuilder(Transformer):
     def __init__(self) -> None:
         # Global info
         self.cs: Dict[Participant, CFSM] = {}
+        self.participants = []
 
     def start(self, cfsms: List[Tuple[Participant, CFSM]]):
         for i, t in enumerate(cfsms):
@@ -482,7 +495,7 @@ class CFSMBuilder(Transformer):
                         raise Exception("Shouldn't happen.")
                 cfsm.transitions[q] = trs_new
 
-        return CommunicatingSystem(self.cs)
+        return CommunicatingSystem(self.participants, self.cs)
 
     def graph(self, t):
         name = t[0]
@@ -490,7 +503,9 @@ class CFSMBuilder(Transformer):
         return (name, self.cs[name])
 
     def header(self, t):
-        return Participant(str(t[0]))
+        p = Participant(str(t[0]))
+        self.participants.append(p)
+        return p
 
     def edges(self, l):
         return l
