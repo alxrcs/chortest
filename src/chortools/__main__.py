@@ -5,7 +5,6 @@ from pathlib import Path
 from subprocess import call
 from time import perf_counter
 from typing import Optional
-from os.path import exists
 
 from rich.logging import RichHandler
 from typer import Typer
@@ -154,6 +153,9 @@ def checklts(fsa_filename: str):
     """
     Checks compliance of the given CS as a dot.
     """
+
+    start = perf_counter()
+
     lts: LTS = LTS.parse(fsa_filename)
     import yaml
 
@@ -163,8 +165,10 @@ def checklts(fsa_filename: str):
         oracle = yaml.load(oracle_f)
         print(oracle)
 
-    final_confs = [oracle['success_states'][p] for p in oracle['order']]
+    final_confs = [oracle["success_states"][p] for p in oracle["order"]]
     compliant = lts.is_compliant(final_configurations=final_confs)
+
+    L.info(f"Compliance check took {perf_counter() - start} seconds")
 
     if compliant:
         L.info(f"{fsa_filename} is compliant.")
@@ -182,7 +186,6 @@ def run(cs_filename: str):
 
 
 def main():
-
     LOG_FILENAME = "chortools.log"
     log_file_handler = FileHandler(LOG_FILENAME)
     log_file_handler.setFormatter(
