@@ -440,7 +440,7 @@ class CommunicatingSystem:
                     {
                         "success_states": oracle,
                         "order": list(
-                            map(lambda x: x.participant_name, self.machines.keys())
+                            map(lambda x: x.participant_name, self.participants)
                         ),
                     },
                     o,
