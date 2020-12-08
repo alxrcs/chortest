@@ -47,7 +47,9 @@ def project(gchor_filename: str, output_folder: str = None):
 
     with open(output_filepath, "wb") as outfile:
         retcode = call(
-            [CHORGRAM_BASE_PATH / PROJECTION_COMMAND, gchor_filename], stdout=outfile, stderr=outfile
+            [CHORGRAM_BASE_PATH / PROJECTION_COMMAND, gchor_filename],
+            stdout=outfile,
+            stderr=outfile,
         )
 
         assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
@@ -115,8 +117,8 @@ def genlts(
     output_path.mkdir(exist_ok=True)
 
     if cut_filename is not None:
-        combine_fsa(fsa_filename, cut_filename, f"{fsa_filename}.tmp")
-        fsa_filename = f"{fsa_filename}.temp"
+        combine_fsa(fsa_filename, cut_filename, fsa_filename)
+        # fsa_filename = f"{fsa_filename}_tmp.fsa"
 
     # invoke the transition system builder
     start_time = perf_counter()
@@ -172,7 +174,7 @@ def checklts(fsa_filename: str):
     if compliant:
         L.info(f"{fsa_filename} is compliant.")
     else:
-        L.error(f"{fsa_filename} is NOT compliant!")
+        L.warn(f"{fsa_filename} is NOT compliant!")
 
 
 @app.command()

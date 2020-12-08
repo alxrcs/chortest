@@ -35,7 +35,7 @@ def combine_fsa(
 
     with open(input_fsa_filename, "r") as input_fsa_file, open(
         replacement_fsa_filename, "r"
-    ) as replacement_fsa_file, open(output_filename, "w") as output_fsa_file:
+    ) as replacement_fsa_file:
 
         parse_fsm = lambda txt: {
             f[1]: f[0] for f in re.findall(r"(\.outputs (\w+).*?\.end)", txt, re.DOTALL)
@@ -45,4 +45,6 @@ def combine_fsa(
         updated_fsm.update(parse_fsm(replacement_fsa_file.read()))
 
         txt = "\n\n".join(updated_fsm.values())
+
+    with open(output_filename, "w") as output_fsa_file:
         output_fsa_file.write(txt)
