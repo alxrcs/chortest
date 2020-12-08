@@ -151,7 +151,7 @@ def genlts(
 
 
 @app.command()
-def checklts(fsa_filename: str):
+def checklts(fsa_filename: str) -> bool:
     """
     Checks compliance of the given CS as a dot.
     """
@@ -173,8 +173,10 @@ def checklts(fsa_filename: str):
 
     if compliant:
         L.info(f"{fsa_filename} is compliant.")
+        return True
     else:
         L.warn(f"{fsa_filename} is NOT compliant!")
+        return False
 
 
 @app.command()
