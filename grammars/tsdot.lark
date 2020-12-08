@@ -19,11 +19,11 @@ compass_pt 	: 	("n" | "ne" | "e" | "se" | "s" | "sw" | "w" | "nw" | "c" | "_")
 
 
 edge_op: "--" | "->"
-ID: ESCAPED_STRING | CNAME | INT
+ID: ESCAPED_STRING | CNAME | NUMBER
 
 %import common.CNAME
 %import common.WS
 %import common.DIGIT
-%import common.INT
+%import common.NUMBER
 %import common.ESCAPED_STRING
 %ignore WS
