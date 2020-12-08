@@ -1,0 +1,21 @@
+.outputs A
+.state graph
+q0____ 2 ? auth qe0____
+qe0____ 1 ! authReq qe1____
+qe1____ 1 ? denied qe210____
+qe1____ 1 ? granted qe220____
+qe210____ 2 ! authFail qe____qe__qe22221____
+qe220____ 2 ! granted qe221____
+qe221____ 2 ? checkBalance qe22210____
+qe221____ 2 ? quit qe22220____
+qe221____ 2 ? withdraw qe22230____
+qe22210____ 1 ! getBalance qe22211____
+qe22211____ 1 ? balance qe22212____
+qe22212____ 2 ! balance qe____qe__qe22221____
+qe22230____ 1 ! authWithdrawal qe22231____
+qe22231____ 1 ? allow qe2223210____
+qe22231____ 1 ? deny qe2223220____
+qe2223210____ 2 ! money qe____qe__qe22221____
+qe2223220____ 2 ! bye qe____qe__qe22221____
+.marking q0____
+.end

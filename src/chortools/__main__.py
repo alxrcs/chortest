@@ -47,7 +47,7 @@ def project(gchor_filename: str, output_folder: str = None):
 
     with open(output_filepath, "wb") as outfile:
         retcode = call(
-            [CHORGRAM_BASE_PATH / PROJECTION_COMMAND, gchor_filename], stdout=outfile
+            [CHORGRAM_BASE_PATH / PROJECTION_COMMAND, gchor_filename], stdout=outfile, stderr=outfile
         )
 
         assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
