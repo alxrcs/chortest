@@ -16,7 +16,7 @@ from .cfsm import CommunicatingSystem
 from .gchor import Participant
 
 app = Typer()
-L = getLogger(__name__)
+L = getLogger()
 
 CHORGRAM_BASE_PATH = Path("chorgram")
 PROJECTION_COMMAND = "gg2fsa"
@@ -162,8 +162,7 @@ def checklts(fsa_filename: str):
     oracle_filename = Path(fsa_filename).parent.stem + ".fsa.oracle.yaml"
 
     with open(str(Path(fsa_filename).parent / oracle_filename), "r") as oracle_f:
-        oracle = yaml.load(oracle_f)
-        print(oracle)
+        oracle = yaml.load(oracle_f, Loader=yaml.FullLoader)
 
     final_confs = [oracle["success_states"][p] for p in oracle["order"]]
     compliant = lts.is_compliant(final_configurations=final_confs)
