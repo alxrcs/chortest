@@ -10,6 +10,8 @@ from chortools import __main__ as cli
 from rich.logging import RichHandler
 from typer import Typer
 
+from chortools.lts import LTS
+
 app = Typer()
 L = getLogger(__name__)
 
@@ -33,16 +35,19 @@ def mainCLI():
     # ])
 
 
-data: DefaultDict[str, Union[List[float], int]] = defaultdict(lambda: list())
+general_data: DefaultDict[str, Union[float,int]] = defaultdict(lambda: 0)
+specific_data: DefaultDict[str, List[float]] = defaultdict(lambda: list())
 import time
 
 
-def timeit(func, param):
+def timeit(func, d : DefaultDict, param : str):
     def inner(*args, **kwargs):
         t1 = time.process_time()
         f = func(*args, **kwargs)
         t2 = time.process_time()
-        data['param'].append(t2 - t1)
+        if isinstance(d[param], list):
+            d[param].append(t2 - t1)
+        else: d[param] = t2-t1
 
         # t1 = time.perf_counter()
         # f = func(*args, **kwargs)
@@ -81,42 +86,49 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
     BASE_DIR = gchor_path.parent
     GCHOR_FNAME = gchor_path.name
 
-    project = timeit(cli.project, "Time to project")
+    project = timeit(cli.project, general_data, "Time to project")
     project((str(BASE_DIR / GCHOR_FNAME)))
 
-    gentests = timeit(cli.gentests, "Time to generate tests")
+    gentests = timeit(cli.gentests, general_data, "Time to generate tests")
     gentests(str(BASE_DIR / "fsa" / Path(GCHOR_FNAME).with_suffix(".fsa")))
 
     TESTS_BASE_DIR = BASE_DIR / "fsa" / (Path(GCHOR_FNAME).stem + "_tests")
     test_paths = get_test_paths(TESTS_BASE_DIR)
 
-    data["Number of tests"] = len(test_paths)
-    data["Compliant tests"] = 0
+    general_data["Number of tests"] = len(test_paths)
+    general_data["Compliant tests"] = 0
     for test_path in test_paths:
         L.info(f"Generating LTS for {test_path}")
-        genlts = timeit(cli.genlts, "Time to generate LTS")
+        genlts = timeit(cli.genlts, specific_data, "Time to generate LTS")
         genlts(str(test_path), cut_filename=substitute_fsa)
 
         lts_path = test_path.parent / (test_path.stem + "_ts5.dot")
+        lts = LTS.parse(str(lts_path))
+        specific_data['Number of nodes'].append(len(lts.configurations))
+        specific_data['Number of transitions'].append(len(lts.transitions))
 
         L.info(f"Checking projection test compliance...")
-        checklts = timeit(cli.checklts, "Time to check compliance")
+        checklts = timeit(cli.checklts, specific_data, "Time to check compliance")
         compliant = checklts(str(lts_path))
-        data["Compliant tests"] += compliant
+        general_data["Compliant tests"] += compliant
 
-    data["Counterexamples"] = data["Number of tests"] - data["Compliant tests"]
-    data["Total time for LTS generation"] = sum(data['Time to generate LTS'])
-    data['Average time for LTS generation'] = data["Total time for LTS generation"] / data["Number of tests"]
+    general_data["Counterexamples"] = general_data["Number of tests"] - general_data["Compliant tests"]
+    total_time_for_lts_generation = sum(specific_data['Time to generate LTS'])
+    general_data["Total time for LTS generation"] = total_time_for_lts_generation
+    general_data['Average time for LTS generation'] = total_time_for_lts_generation / len(test_paths)
 
-    log_filename = gchor_path.with_suffix('.log') if substitute_fsa is None else Path(substitute_fsa).with_suffix('.log')
+    log_path = gchor_path if substitute_fsa is None else Path(substitute_fsa)
 
-    with open(log_filename, 'w') as j:
-        json.dump(data, j)
+    with open(log_path.with_suffix('.summary.log'), 'w') as j: json.dump(general_data, j)
+    with open(log_path.with_suffix('.pertest.log'), 'w') as j: json.dump(specific_data, j)
 
 
 
 def experiment_0():
     run_experiment("scripts/jlamp2021/ATM/atm_simple.gg")
+
+def experiment_00():
+    run_experiment("scripts/jlamp2021/ATM/atm_full.gg")
 
 
 def experiment_1():
@@ -138,11 +150,11 @@ def experiment_3():
     )
 
 def main():
-    # experiment_0()
+    experiment_0()
+    experiment_00()
     experiment_1()
-    experiment_2()
-    experiment_3()
-    print(data)
+    # experiment_2()
+    # experiment_3()
 
 
 if __name__ == "__main__":
