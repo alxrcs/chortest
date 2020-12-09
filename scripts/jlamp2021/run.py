@@ -2,7 +2,7 @@ import os
 from collections import defaultdict
 from logging import Formatter, basicConfig, getLogger
 from pathlib import Path
-from time import perf_counter
+from time import perf_counter, process_time
 from typing import DefaultDict, List, Optional, Union
 import json
 
@@ -39,12 +39,16 @@ import time
 
 def timeit(func, param):
     def inner(*args, **kwargs):
-        t1 = time.perf_counter()
+        t1 = time.process_time()
         f = func(*args, **kwargs)
-        t2 = time.perf_counter()
-        data[param].append(t2 - t1)
-        return f
+        t2 = time.process_time()
+        data['param'].append(t2 - t1)
 
+        # t1 = time.perf_counter()
+        # f = func(*args, **kwargs)
+        # t2 = time.perf_counter()
+        # data[param + '(perf counter)'].append(t2 - t1)
+        return f
     return inner
 
 
@@ -134,7 +138,7 @@ def experiment_3():
     )
 
 def main():
-    experiment_0()
+    # experiment_0()
     experiment_1()
     experiment_2()
     experiment_3()
