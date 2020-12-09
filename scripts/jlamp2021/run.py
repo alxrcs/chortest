@@ -125,36 +125,61 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
 
 
 def experiment_0():
+    """
+    Just a small choreography for sanity checking.
+    """
     run_experiment("scripts/jlamp2021/ATM/atm_simple.gg")
 
-def experiment_00():
+def experiment_1_0():
+    """
+    A larger choreography for the ATM example.
+    """
     run_experiment("scripts/jlamp2021/ATM/atm_full.gg")
 
-
-def experiment_1():
+def experiment_1_1():
+    """
+    An example where the quit message from the ATM to the Bank is incorrectly removed.
+    """
     run_experiment(
         gchor="scripts/jlamp2021/ATM/atm_full.gg",
         substitute_fsa="scripts/jlamp2021/ATM/fsa/atm_full_01_no_quit_ATM2Bank.fsa",
     )
 
-def experiment_2():
+def experiment_1_2():
+    """
+    An example where the ATM does not support the checkBalance message.
+    """
     run_experiment(
         gchor="scripts/jlamp2021/ATM/atm_full.gg",
         substitute_fsa="scripts/jlamp2021/ATM/fsa/atm_full_02_no_checkBalanceATM.fsa",
     )
 
-def experiment_3():
+def experiment_1_3():
+    """
+    An example where the ATM does not interact with the bank when asked for a customer's balance.
+    """
     run_experiment(
         gchor="scripts/jlamp2021/ATM/atm_full.gg",
         substitute_fsa="scripts/jlamp2021/ATM/fsa/atm_full_03_no_ATM_balance_always_0.fsa",
     )
 
+def experiment_2_0():
+    """
+    A correct implementation of the shipping example.
+    """
+    run_experiment(gchor='scripts/jlamp2021/shipping/shipping.sgg')
+
+def experiment_2_1():
+    pass
+
+
 def main():
     experiment_0()
-    experiment_00()
-    experiment_1()
-    # experiment_2()
-    # experiment_3()
+    experiment_1_0()
+    experiment_1_1()
+    experiment_1_2()
+    experiment_1_3()
+    # experiment_2_0()
 
 
 if __name__ == "__main__":
