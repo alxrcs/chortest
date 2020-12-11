@@ -84,9 +84,11 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
     BASE_DIR = gchor_path.parent
     GCHOR_FNAME = gchor_path.name
 
+    # Project global choreography
     project = timeit(cli.project, general_data, "Time to project")
     project((str(BASE_DIR / GCHOR_FNAME)))
 
+    # Generate tests
     gentests = timeit(cli.gentests, general_data, "Time to generate tests")
     gentests(str(BASE_DIR / "fsa" / Path(GCHOR_FNAME).with_suffix(".fsa")))
 
@@ -212,12 +214,12 @@ def experiment_2_4():
 
 
 def main():
-    # experiment_0()
-    # experiment_1_0()
-    # experiment_1_1()
-    # experiment_1_2()
-    # experiment_1_3()
-    experiment_2_0()
+    experiment_0()
+    experiment_1_0()
+    experiment_1_1()
+    experiment_1_2()
+    experiment_1_3()
+    # experiment_2_0()
 
 
 if __name__ == "__main__":

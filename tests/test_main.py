@@ -17,7 +17,6 @@ def test_project():
     assert os.stat(DEFAULT_OUTPUT_FILENAME).st_size > 0
 
 @pytest.mark.cli
-@pytest.mark.wip
 def test_gentests_small():
     result = runner.invoke(app, ['gentests', 'examples/gchors/fsa/atm_simple.fsa'])
     DEFAULT_TESTS_OUTPUT_PATH = 'examples/gchors/fsa/atm_simple_tests'
@@ -29,7 +28,6 @@ def test_gentests_small():
     assert len(os.listdir(p)) > 0
 
 @pytest.mark.cli
-@pytest.mark.wip
 def test_gentests_large():
     result = runner.invoke(app, ['gentests', 'examples/gchors/fsa/atm_fixed.fsa'])
     DEFAULT_TESTS_OUTPUT_PATH = 'examples/gchors/fsa/atm_fixed_tests'
@@ -40,8 +38,21 @@ def test_gentests_large():
     p = os.path.join(DEFAULT_TESTS_OUTPUT_PATH, suite)
     assert len(os.listdir(p)) > 0
 
-def test_genlts():
-    result = runner.invoke(app, ['genlts', ])
+@pytest.mark.cli
+@pytest.mark.wip
+def test_main_full():
+    result = runner.invoke(app, ['project', 'tests/files/gchors/ex_parallel.gg'])
+    assert result.exit_code == 0
+    result = runner.invoke(app, ['gentests', 'tests/files/gchors/fsa/ex_parallel.fsa'])
+    assert result.exit_code == 0
+    result = runner.invoke(app, ['genlts', 'tests/files/gchors/fsa/ex_parallel_tests/B/test_0/test_0.fsa'])
+    assert result.exit_code == 0
+    result = runner.invoke(app, ['genlts', 'tests/files/gchors/fsa/ex_parallel_tests/B/test_0/test_0.fsa', '--cut-filename', 'tests/files/gchors/fsa/ex_parallel_changed.fsa'])
+    assert result.exit_code == 0
+    result = runner.invoke(app, ['checklts', 'tests/files/gchors/fsa/ex_parallel_tests/B/test_0/test_0_ts5.dot'])
+    assert result.exit_code == 0
+    result = runner.invoke(app, ['checklts', 'tests/files/gchors/fsa/ex_parallel_tests/B/test_0__ex_parallel_changed/test_0__ex_parallel_changed_ts5.dot'])
+    assert result.exit_code == 0
 
 # TODO: Check how to test interactively
 # @pytest.mark.cli

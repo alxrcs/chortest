@@ -187,7 +187,7 @@ def checklts(lts_filename: str) -> bool:
         L.info(f"{lts_filename} is compliant.")
         return True
     else:
-        L.warn(f"{lts_filename} is NOT compliant!")
+        L.warning(f"{lts_filename} is NOT compliant!")
         return False
 
 
