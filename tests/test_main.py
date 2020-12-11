@@ -10,8 +10,8 @@ from chortools.__main__ import app
 @pytest.mark.chorgram
 @pytest.mark.cli
 def test_project():
-    DEFAULT_OUTPUT_FILENAME = "examples/gchors/fsa/atm_simple.fsa"
-    result = runner.invoke(app, ["project", "examples/gchors/atm_simple.gg"])
+    DEFAULT_OUTPUT_FILENAME = 'examples/gchors/fsa/atm_simple.fsa'
+    result = runner.invoke(app, ['project', 'examples/gchors/atm_simple.gg'])
     assert result.exit_code == 0
     assert os.path.exists(DEFAULT_OUTPUT_FILENAME)
     assert os.stat(DEFAULT_OUTPUT_FILENAME).st_size > 0
@@ -19,8 +19,8 @@ def test_project():
 @pytest.mark.cli
 @pytest.mark.wip
 def test_gentests_small():
-    result = runner.invoke(app, ["gentests", "examples/gchors/fsa/atm_simple.fsa"])
-    DEFAULT_TESTS_OUTPUT_PATH = "examples/gchors/fsa/atm_simple_tests"
+    result = runner.invoke(app, ['gentests', 'examples/gchors/fsa/atm_simple.fsa'])
+    DEFAULT_TESTS_OUTPUT_PATH = 'examples/gchors/fsa/atm_simple_tests'
     assert result.exit_code == 0
     assert os.path.exists(DEFAULT_TESTS_OUTPUT_PATH)
     assert len(os.listdir(DEFAULT_TESTS_OUTPUT_PATH)) > 0
@@ -31,8 +31,8 @@ def test_gentests_small():
 @pytest.mark.cli
 @pytest.mark.wip
 def test_gentests_large():
-    result = runner.invoke(app, ["gentests", "examples/gchors/fsa/atm_fixed.fsa"])
-    DEFAULT_TESTS_OUTPUT_PATH = "examples/gchors/fsa/atm_fixed_tests"
+    result = runner.invoke(app, ['gentests', 'examples/gchors/fsa/atm_fixed.fsa'])
+    DEFAULT_TESTS_OUTPUT_PATH = 'examples/gchors/fsa/atm_fixed_tests'
     assert result.exit_code == 0
     assert os.path.exists(DEFAULT_TESTS_OUTPUT_PATH)
     assert len(os.listdir(DEFAULT_TESTS_OUTPUT_PATH)) > 0
@@ -40,6 +40,8 @@ def test_gentests_large():
     p = os.path.join(DEFAULT_TESTS_OUTPUT_PATH, suite)
     assert len(os.listdir(p)) > 0
 
+def test_genlts():
+    result = runner.invoke(app, ['genlts', ])
 
 # TODO: Check how to test interactively
 # @pytest.mark.cli

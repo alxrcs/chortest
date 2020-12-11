@@ -30,7 +30,7 @@ def combine_fsa(
     import re
 
     output_filename = output_filename or str(
-        Path(input_fsa_filename).with_suffix(".fsa.test")
+        Path(input_fsa_filename).with_suffix(".fsa")
     )
 
     with open(input_fsa_filename, "r") as input_fsa_file, open(
@@ -45,6 +45,8 @@ def combine_fsa(
         updated_fsm.update(parse_fsm(replacement_fsa_file.read()))
 
         txt = "\n\n".join(updated_fsm.values())
+
+    Path(output_filename).parent.mkdir(exist_ok=True)
 
     with open(output_filename, "w") as output_fsa_file:
         output_fsa_file.write(txt)

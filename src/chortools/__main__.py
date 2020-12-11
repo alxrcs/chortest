@@ -5,6 +5,7 @@ from pathlib import Path
 from subprocess import call
 from time import perf_counter
 from typing import Optional
+from shutil import copy
 
 from rich.logging import RichHandler
 from typer import Typer
@@ -27,6 +28,7 @@ CHORGRAM_INVOKE_ERROR_MSG = (
 DOT_INVOKE_ERROR_MSG = (
     "Could not invoke dot. Check that graphviz is properly installed."
 )
+ORACLE_DEFAULT_FILENAME = "oracle.yaml"
 
 
 @app.command()
@@ -60,8 +62,8 @@ def project(gchor_filename: str, output_folder: str = None):
 @app.command()
 def gentests(
     cs_filename: str,
-    participant_name: Optional[str] = None,
-    output_path: Optional[str] = None,
+    participant: Optional[str] = None,
+    output: Optional[str] = None,
     include_timestamp: Optional[bool] = False,
 ):
     """
@@ -70,16 +72,16 @@ def gentests(
     """
     cs = CommunicatingSystem.parse(cs_filename)
     output_foldername = str(datetime.now().isoformat(sep="_").replace(":", ""))
-    p = Path(cs_filename)
-    tests_path = p.parent / f"{p.stem}_tests"
+    fsa_f = Path(cs_filename)
+    tests_path = fsa_f.parent / f"{fsa_f.stem}_tests"
     if include_timestamp:
         tests_path = tests_path / output_foldername
 
-    if output_path is not None:
-        tests_path = Path(output_path)
+    if output is not None:
+        tests_path = Path(output)
 
-    if participant_name is not None:
-        participants = [Participant(participant_name)]
+    if participant is not None:
+        participants = [Participant(participant)]
     else:
         participants = list(cs.participants)
 
@@ -110,15 +112,25 @@ def genlts(
     for a given communicating system.
     """
     output_path = (
-        Path(fsa_filename).parent.parent
+        Path(
+            fsa_filename
+        ).parent.parent  # This is needed since chorgram generates the lts in a folder with the same name as the fsa file.
         if output_folder is None
         else Path(output_folder)
     )
     output_path.mkdir(exist_ok=True)
 
     if cut_filename is not None:
-        combine_fsa(fsa_filename, cut_filename, fsa_filename)
-        # fsa_filename = f"{fsa_filename}_tmp.fsa"
+        combined_foldername = f"{Path(fsa_filename).stem}__{Path(cut_filename).stem}"
+        combined_filename = str(
+            output_path / combined_foldername / (combined_foldername + ".fsa")
+        )
+        combine_fsa(fsa_filename, cut_filename, combined_filename)
+        copy( # oracle
+            Path(fsa_filename).parent / "oracle.yaml", output_path / combined_foldername
+        )  
+    else:
+        combined_filename = fsa_filename
 
     # invoke the transition system builder
     start_time = perf_counter()
@@ -126,7 +138,7 @@ def genlts(
         [
             str((CHORGRAM_BASE_PATH / "cfsm2gg.py").absolute()),
             "-ts",
-            Path(fsa_filename).absolute(),
+            Path(combined_filename).absolute(),
             "-dir",
             Path(output_path).absolute(),
             "-b",
@@ -138,11 +150,11 @@ def genlts(
     )
     elapsed_time = perf_counter() - start_time
     assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
-    L.info(f'LTS saved to "{output_path}"')
+    L.info(f'LTS saved to "{output_path}/{Path(combined_filename).stem}"')
     L.info(f"Time to generate LTS: {elapsed_time}s")
 
     # output png graphic from dot diagram
-    for dot in Path(fsa_filename).parent.glob("*.dot"):
+    for dot in Path(combined_filename).parent.glob("*.dot"):
         output_filename = str(dot.with_suffix(".png"))
         with open(output_filename, "wb") as outfile:
             retcode = call(["dot", dot.absolute(), "-Tpng"], stdout=outfile)
@@ -151,19 +163,19 @@ def genlts(
 
 
 @app.command()
-def checklts(fsa_filename: str) -> bool:
+def checklts(lts_filename: str) -> bool:
     """
     Checks compliance of the given CS as a dot.
     """
 
     start = perf_counter()
 
-    lts: LTS = LTS.parse(fsa_filename)
+    lts: LTS = LTS.parse(lts_filename)
     import yaml
 
-    oracle_filename = Path(fsa_filename).parent.stem + ".fsa.oracle.yaml"
+    oracle_filename = ORACLE_DEFAULT_FILENAME
 
-    with open(str(Path(fsa_filename).parent / oracle_filename), "r") as oracle_f:
+    with open(str(Path(lts_filename).parent / oracle_filename), "r") as oracle_f:
         oracle = yaml.load(oracle_f, Loader=yaml.FullLoader)
 
     final_confs = [oracle["success_states"][p] for p in oracle["order"]]
@@ -172,10 +184,10 @@ def checklts(fsa_filename: str) -> bool:
     L.info(f"Compliance check took {perf_counter() - start} seconds")
 
     if compliant:
-        L.info(f"{fsa_filename} is compliant.")
+        L.info(f"{lts_filename} is compliant.")
         return True
     else:
-        L.warn(f"{fsa_filename} is NOT compliant!")
+        L.warn(f"{lts_filename} is NOT compliant!")
         return False
 
 

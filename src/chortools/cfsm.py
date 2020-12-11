@@ -431,7 +431,7 @@ class CommunicatingSystem:
             os.makedirs(Path(output_filename).parent, exist_ok=True)
             with open(output_filename, "wb") as f:
                 f.write(text.encode())
-            with open(output_filename + ".oracle.yaml", "w") as o:
+            with open(Path(output_filename).parent.joinpath("oracle.yaml"), "w") as o:
                 oracle = {
                     p.participant_name: list(self.machines[p].success)
                     for p in self.machines.keys()

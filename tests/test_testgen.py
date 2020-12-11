@@ -21,7 +21,7 @@ def test_small_atm_testgen(small_atm) -> None:
         test.to_fsa(test_name)
         assert exists(test_name)
         remove(test_name)
-        remove(test_name + '.oracle.yaml')
+        remove('oracle.yaml')
 
     assert len(tests) > 0
 
