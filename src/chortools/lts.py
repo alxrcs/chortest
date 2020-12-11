@@ -99,7 +99,7 @@ class LTS:
             if e[0] == '"__start"':
                 initial = e[1][1:-1]
 
-        assert initial is not "", "Could not find initial state."
+        assert initial != "", "Could not find initial state."
 
         nodes = {n: nodes[n] for n in nodes if n[0] == '"' and n != '"__start"'}
         edges = {e: edges[e] for e in edges if e[0] != '"__start"'}

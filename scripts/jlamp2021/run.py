@@ -35,25 +35,23 @@ def mainCLI():
     # ])
 
 
-general_data: DefaultDict[str, Union[float,int]] = defaultdict(lambda: 0)
-specific_data: DefaultDict[str, List[float]] = defaultdict(lambda: list())
+general_data: DefaultDict[str, Union[float, int]] = defaultdict(lambda: 0)
+specific_data: DefaultDict = defaultdict(lambda: list())
 import time
 
 
-def timeit(func, d : DefaultDict, param : str):
+def timeit(func, d: DefaultDict, param: str):
     def inner(*args, **kwargs):
         t1 = time.process_time()
         f = func(*args, **kwargs)
         t2 = time.process_time()
         if isinstance(d[param], list):
             d[param].append(t2 - t1)
-        else: d[param] = t2-t1
+        else:
+            d[param] = t2 - t1
 
-        # t1 = time.perf_counter()
-        # f = func(*args, **kwargs)
-        # t2 = time.perf_counter()
-        # data[param + '(perf counter)'].append(t2 - t1)
         return f
+
     return inner
 
 
@@ -104,24 +102,33 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
 
         lts_path = test_path.parent / (test_path.stem + "_ts5.dot")
         lts = LTS.parse(str(lts_path))
-        specific_data['Number of nodes'].append(len(lts.configurations))
-        specific_data['Number of transitions'].append(len(lts.transitions))
+        specific_data["Number of nodes"].append(len(lts.configurations))
+        specific_data["Number of transitions"].append(len(lts.transitions))
+        specific_data["CUT"] = test_path.parent.parent.stem
 
         L.info(f"Checking projection test compliance...")
         checklts = timeit(cli.checklts, specific_data, "Time to check compliance")
         compliant = checklts(str(lts_path))
         general_data["Compliant tests"] += compliant
 
-    general_data["Counterexamples"] = general_data["Number of tests"] - general_data["Compliant tests"]
-    total_time_for_lts_generation = sum(specific_data['Time to generate LTS'])
+    general_data["Failed tests"] = (
+        general_data["Number of tests"] - general_data["Compliant tests"]
+    )
+
+    total_time_for_lts_generation = sum(specific_data["Time to generate LTS"])
+
     general_data["Total time for LTS generation"] = total_time_for_lts_generation
-    general_data['Average time for LTS generation'] = total_time_for_lts_generation / len(test_paths)
+
+    general_data[
+        "Average time for LTS generation"
+    ] = total_time_for_lts_generation / len(test_paths)
 
     log_path = gchor_path if substitute_fsa is None else Path(substitute_fsa)
 
-    with open(log_path.with_suffix('.summary.log'), 'w') as j: json.dump(general_data, j)
-    with open(log_path.with_suffix('.pertest.log'), 'w') as j: json.dump(specific_data, j)
-
+    with open(log_path.with_suffix(".summary.log"), "w") as j:
+        json.dump(general_data, j)
+    with open(log_path.with_suffix(".pertest.log"), "w") as j:
+        json.dump(specific_data, j)
 
 
 def experiment_0():
@@ -130,11 +137,13 @@ def experiment_0():
     """
     run_experiment("scripts/jlamp2021/ATM/atm_simple.gg")
 
+
 def experiment_1_0():
     """
     A larger choreography for the ATM example.
     """
     run_experiment("scripts/jlamp2021/ATM/atm_full.gg")
+
 
 def experiment_1_1():
     """
@@ -145,6 +154,7 @@ def experiment_1_1():
         substitute_fsa="scripts/jlamp2021/ATM/fsa/atm_full_01_no_quit_ATM2Bank.fsa",
     )
 
+
 def experiment_1_2():
     """
     An example where the ATM does not support the checkBalance message.
@@ -153,6 +163,7 @@ def experiment_1_2():
         gchor="scripts/jlamp2021/ATM/atm_full.gg",
         substitute_fsa="scripts/jlamp2021/ATM/fsa/atm_full_02_no_checkBalanceATM.fsa",
     )
+
 
 def experiment_1_3():
     """
@@ -163,23 +174,50 @@ def experiment_1_3():
         substitute_fsa="scripts/jlamp2021/ATM/fsa/atm_full_03_no_ATM_balance_always_0.fsa",
     )
 
+
 def experiment_2_0():
     """
     A correct implementation of the shipping example.
     """
-    run_experiment(gchor='scripts/jlamp2021/shipping/shipping.sgg')
+    run_experiment(gchor="scripts/jlamp2021/shipping/shipping.sgg")
+
 
 def experiment_2_1():
+    """
+    Uses wrong implementation of P from Isola paper.
+    """
+    pass
+
+
+def experiment_2_2():
+    """
+    Test P, where the order of cancel in the left thread of the right branch is swapped.
+    (note: there should be no counterexample for this one)
+    """
+    pass
+
+
+def experiment_2_3():
+    """
+    Test T, where you swap the input/output in the right thread or right branch
+    """
+    pass
+
+
+def experiment_2_4():
+    """
+    The client sends Shipments Details and places the order before ever receiving a quote.
+    """
     pass
 
 
 def main():
-    experiment_0()
-    experiment_1_0()
-    experiment_1_1()
-    experiment_1_2()
-    experiment_1_3()
-    # experiment_2_0()
+    # experiment_0()
+    # experiment_1_0()
+    # experiment_1_1()
+    # experiment_1_2()
+    # experiment_1_3()
+    experiment_2_0()
 
 
 if __name__ == "__main__":

@@ -169,7 +169,7 @@ class CFSM:
             if nds:
                 # Union_{q\in{nds(M)}} split(M,q)
                 for q in nds:
-                    yield from self.split(q)
+                    yield from self.split(q) # TODO: take the first one only and see what happens
             else:  # if nds(M) is empty
                 yield self.copy()
         else:
@@ -414,7 +414,7 @@ class CommunicatingSystem:
                     # TODO: Add tau transitions.
                     assert isinstance(t, (InTransitionLabel, OutTransitionLabel))
                     symbol = "?" if isinstance(t, InTransitionLabel) else "!"
-                    target = t.B if symbol is "!" else t.A
+                    target = t.B if symbol == "!" else t.A
                     l.append(
                         (q, part_map[str(target)], symbol, t.m, cfsm.transitions[q][t])
                     )
