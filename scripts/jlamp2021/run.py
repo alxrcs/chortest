@@ -118,12 +118,17 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
     )
 
     total_time_for_lts_generation = sum(specific_data["Time to generate LTS"])
+    total_time_for_compliance_check = sum(specific_data["Time to check compliance"])
 
     general_data["Total time for LTS generation"] = total_time_for_lts_generation
+    general_data["Total time for compliance check"] = total_time_for_compliance_check
 
     general_data[
         "Average time for LTS generation"
     ] = total_time_for_lts_generation / len(test_paths)
+    general_data[
+        "Average time for compliance check"
+    ] = total_time_for_compliance_check / len(test_paths)
 
     log_path = gchor_path if substitute_fsa is None else Path(substitute_fsa)
 
