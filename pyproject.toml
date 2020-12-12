@@ -24,6 +24,7 @@ rope = "^0.18.0"
 matplotlib = "^3.3.3"
 pandas = "^1.1.5"
 ipykernel = "^5.4.2"
+openpyxl = "^3.0.5"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
