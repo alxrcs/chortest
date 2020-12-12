@@ -145,3 +145,6 @@ experiments/**
 
 # Default suffix for generated tests 
 **_tests
+
+## Excel files
+*.xlsx
