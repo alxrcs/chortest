@@ -106,7 +106,7 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
         lts = LTS.parse(str(lts_path))
         specific_data["Number of nodes"].append(len(lts.configurations))
         specific_data["Number of transitions"].append(len(lts.transitions))
-        specific_data["CUT"] = test_path.parent.parent.stem
+        specific_data["CUT"].append(test_path.parent.parent.stem)
 
         L.info(f"Checking projection test compliance...")
         checklts = timeit(cli.checklts, specific_data, "Time to check compliance")
