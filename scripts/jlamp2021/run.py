@@ -58,7 +58,7 @@ def timeit(func, d: DefaultDict, param: str):
 def get_test_paths(tests_dir) -> List[Path]:
     test_paths = []
     for root, dirs, files in os.walk(tests_dir):
-        if not files:
+        if not files or '__' in root:
             continue
         for f in files:
             if f.endswith(".fsa") and "tmp" not in f:
