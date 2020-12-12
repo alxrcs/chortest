@@ -100,9 +100,9 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
     for test_path in test_paths:
         L.info(f"Generating LTS for {test_path}")
         genlts = timeit(cli.genlts, specific_data, "Time to generate LTS")
-        genlts(str(test_path), cut_filename=substitute_fsa)
+        lts_path = genlts(str(test_path), cut_filename=substitute_fsa)
+        lts_path = Path(lts_path).parent / (Path(lts_path).stem + "_ts5.dot")
 
-        lts_path = test_path.parent / (test_path.stem + "_ts5.dot")
         lts = LTS.parse(str(lts_path))
         specific_data["Number of nodes"].append(len(lts.configurations))
         specific_data["Number of transitions"].append(len(lts.transitions))
