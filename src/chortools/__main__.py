@@ -97,6 +97,7 @@ def gentests(
 
     elapsed_time = perf_counter() - start_time
     L.info(f"Tests generated in {elapsed_time}s")
+    return tests_path
 
 
 @app.command(no_args_is_help=True)
@@ -160,6 +161,8 @@ def genlts(
             retcode = call(["dot", dot.absolute(), "-Tpng"], stdout=outfile)
             assert retcode == 0, DOT_INVOKE_ERROR_MSG
             L.info(f'PNG file saved at "{output_filename}"')
+
+    return combined_filename
 
 
 @app.command()

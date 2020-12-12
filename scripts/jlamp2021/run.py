@@ -111,6 +111,10 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
         L.info(f"Checking projection test compliance...")
         checklts = timeit(cli.checklts, specific_data, "Time to check compliance")
         compliant = checklts(str(lts_path))
+
+        specific_data['Path'].append(str(lts_path))
+        specific_data["Pass"].append(compliant)
+
         general_data["Compliant tests"] += compliant
 
     general_data["Failed tests"] = (
