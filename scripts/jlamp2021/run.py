@@ -139,10 +139,11 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
     with open(log_path.with_suffix(".pertest.log"), "w") as j:
         json.dump(specific_data, j)
 
-    pd.DataFrame(specific_data).to_excel(log_path.with_suffix(".pertest.log.xlsx"))
-    pd.DataFrame(general_data, index=[0]).to_csv(
-        log_path.with_suffix(".summary.log.csv")
-    )
+    pd.DataFrame(specific_data).to_csv(log_path.with_suffix(".pertest.log.csv"))
+    pd.DataFrame(general_data, index=[0]).to_csv(log_path.with_suffix(".summary.log.csv"))
+
+    pd.DataFrame(specific_data).to_latex(log_path.with_suffix(".pertest.log.csv.tex"))
+    pd.DataFrame(general_data, index=[0]).to_latex(log_path.with_suffix(".summary.log.csv.tex"))
 
 
 def experiment_0():
