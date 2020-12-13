@@ -1,16 +1,16 @@
+import json
 import os
+import time
 from collections import defaultdict
 from logging import Formatter, basicConfig, getLogger
 from pathlib import Path
-from time import perf_counter, process_time
 from typing import DefaultDict, List, Optional, Union
-import json
 
+import pandas as pd
 from chortools import __main__ as cli
+from chortools.lts import LTS
 from rich.logging import RichHandler
 from typer import Typer
-
-from chortools.lts import LTS
 
 app = Typer()
 L = getLogger(__name__)
@@ -35,11 +35,6 @@ def mainCLI():
     # ])
 
 
-general_data: DefaultDict[str, Union[float, int]] = defaultdict(lambda: 0)
-specific_data: DefaultDict = defaultdict(lambda: list())
-import time
-
-
 def timeit(func, d: DefaultDict, param: str):
     def inner(*args, **kwargs):
         t1 = time.process_time()
@@ -58,7 +53,7 @@ def timeit(func, d: DefaultDict, param: str):
 def get_test_paths(tests_dir) -> List[Path]:
     test_paths = []
     for root, dirs, files in os.walk(tests_dir):
-        if not files or '__' in root:
+        if not files or "__" in root:
             continue
         for f in files:
             if f.endswith(".fsa") and "tmp" not in f:
@@ -83,6 +78,9 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
 
     BASE_DIR = gchor_path.parent
     GCHOR_FNAME = gchor_path.name
+
+    general_data: DefaultDict[str, Union[float, int]] = defaultdict(lambda: 0)
+    specific_data: DefaultDict = defaultdict(lambda: list())
 
     # Project global choreography
     project = timeit(cli.project, general_data, "Time to project")
@@ -112,7 +110,7 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
         checklts = timeit(cli.checklts, specific_data, "Time to check compliance")
         compliant = checklts(str(lts_path))
 
-        specific_data['Path'].append(str(lts_path))
+        specific_data["Path"].append(str(lts_path))
         specific_data["Pass"].append(compliant)
 
         general_data["Compliant tests"] += compliant
@@ -140,6 +138,11 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
         json.dump(general_data, j)
     with open(log_path.with_suffix(".pertest.log"), "w") as j:
         json.dump(specific_data, j)
+
+    pd.DataFrame(specific_data).to_excel(log_path.with_suffix(".pertest.log.xlsx"))
+    pd.DataFrame(general_data, index=[0]).to_csv(
+        log_path.with_suffix(".summary.log.csv")
+    )
 
 
 def experiment_0():
