@@ -1,6 +1,7 @@
 from datetime import datetime
 from logging import FileHandler, Formatter, basicConfig, getLogger
 from os import makedirs
+import os
 from pathlib import Path
 from subprocess import call
 from time import perf_counter
@@ -119,7 +120,7 @@ def genlts(
         if output_folder is None
         else Path(output_folder)
     )
-    output_path.mkdir(exist_ok=True)
+    os.makedirs(output_path, exist_ok=True)
 
     if cut_filename is not None:
         combined_foldername = f"{Path(fsa_filename).stem}__{Path(cut_filename).stem}"
@@ -127,9 +128,9 @@ def genlts(
             output_path / combined_foldername / (combined_foldername + ".fsa")
         )
         combine_fsa(fsa_filename, cut_filename, combined_filename)
-        copy( # oracle
+        copy(  # oracle
             Path(fsa_filename).parent / "oracle.yaml", output_path / combined_foldername
-        )  
+        )
     else:
         combined_filename = fsa_filename
 

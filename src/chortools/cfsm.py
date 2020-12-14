@@ -168,8 +168,12 @@ class CFSM:
             nds = list(self.non_deterministic_states())
             if nds:
                 # Union_{q\in{nds(M)}} split(M,q)
-                for q in nds:
-                    yield from self.split(q) # TODO: take the first one only and see what happens
+                for qnds in nds[:1]:
+                    yield from self.split(
+                        qnds
+                    )  # TODO: take the first one only and see what happens
+                    # yield next(self.split(qnds)) # TODO: take the first one only and see what happens
+
             else:  # if nds(M) is empty
                 yield self.copy()
         else:
@@ -182,23 +186,33 @@ class CFSM:
             )
             # if M(q) has output transitions
             if output_transitions:
-                for t in self.transitions[q]:
+                for t in output_transitions:
                     new_m = self.copy()
-                    for ot in output_transitions:
+                    # TODO: iterate over output_transitions - t to avoid the if
+                    for ot in self.transitions[q]:  
                         if ot is not t:
                             del new_m.transitions[q][ot]
                     yield from new_m.split()
+
+                ### From yesterday
+                # for ot in self.transitions[q]:
+                #     if ot is not t and isinstance(ot, InTransitionLabel):
+                #         ns1 = new_m.transitions[q][t]
+                #         ns2 = new_m.transitions[q][ot]
+
+                #         if new_m.transitions[ns1][ot] == new_m.transitions[ns2][t]:
+                # del new_m.transitions[q][ot]
+                ### End yesterday
+
             else:
                 for t1, t2 in combinations(self.transitions[q], 2):
+                    # TODO: Only split if the labels are the same but go to different states
                     q1 = self.transitions[q][t1]
                     q2 = self.transitions[q][t2]
-                    if (
-                        q1 == q2
-                    ):  # TODO: What happens if there are two input transitions to the same target state?
-                        raise ValueError()
-
-                    m = self.copy()
-                    yield from (m - Transition(q, t1, q1)).split()
+                    if t1 == t2 and q1 != q2:
+                        m = self.copy()
+                        yield from (m - Transition(q, t1, q1)).split()
+                        yield from (m - Transition(q, t2, q2)).split()
 
     # region operator overloads
     def __add__(self, t: Transition) -> "CFSM":

@@ -52,6 +52,9 @@ class LTSConfig:
     def __eq__(self, o: object) -> bool:
         return isinstance(o, LTSConfig) and self.str_rep == o.str_rep
 
+    def __hash__(self) -> int:
+        return self.str_rep.__hash__()
+
 
 @dataclass
 class LTSTransitionLabel:
@@ -91,6 +94,8 @@ class LTS:
     transitions: List[LTSTransition]
 
     initial: LTSConfig
+
+    cache: Dict[LTSConfig, bool] = {}
 
     def __init__(self, nodes, edges) -> None:
 
@@ -150,16 +155,25 @@ class LTS:
 
         if curr is None:
             curr = self.initial
+            LTS.cache = {}
 
+        if curr in LTS.cache:
+            return LTS.cache[curr]
+            
         if self.is_success_configuration(curr, final_configurations):
+            LTS.cache[curr] = True
             return True
 
         enabled_transitions = [t for t in self.transitions if t.src == curr]
         next_configs = list(map(lambda t: t.dest, enabled_transitions))
 
-        return len(next_configs) > 0 and all(
+        ret = len(next_configs) > 0 and all(
             map(lambda c: self.is_compliant(final_configurations, c), next_configs)
         )
+
+        LTS.cache[curr] = ret
+
+        return ret
 
     @staticmethod
     def parse(filename : str) -> 'LTS':
