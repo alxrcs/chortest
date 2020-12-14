@@ -1,6 +1,8 @@
 import json
 import os
+import shutil
 import time
+import sys
 from collections import defaultdict
 from logging import Formatter, basicConfig, getLogger
 from pathlib import Path
@@ -63,11 +65,14 @@ def get_test_paths(tests_dir) -> List[Path]:
     return test_paths
 
 
-def setup_log():
+def setup():
+    sys.setrecursionlimit(2000) # Default is 900
+
     rich_handler = RichHandler()
     rich_handler.setFormatter(Formatter("%(message)s"))
 
     basicConfig(level="DEBUG", datefmt="[%X]", handlers=[rich_handler])
+
 
 
 def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = None):
@@ -79,6 +84,8 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
 
     BASE_DIR = gchor_path.parent
     GCHOR_FNAME = gchor_path.name
+    TESTS_BASE_DIR = BASE_DIR / "fsa" / (Path(GCHOR_FNAME).stem + "_tests")
+    shutil.rmtree(TESTS_BASE_DIR)
 
     general_data: DefaultDict[str, Union[float, int]] = defaultdict(lambda: 0)
     specific_data: DefaultDict = defaultdict(lambda: list())
@@ -91,17 +98,18 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
     gentests = timeit(cli.gentests, general_data, "Time to generate tests")
     gentests(str(BASE_DIR / "fsa" / Path(GCHOR_FNAME).with_suffix(".fsa")))
 
-    TESTS_BASE_DIR = BASE_DIR / "fsa" / (Path(GCHOR_FNAME).stem + "_tests")
     test_paths = get_test_paths(TESTS_BASE_DIR)
 
     general_data["Number of tests"] = len(test_paths)
     general_data["Compliant tests"] = 0
+
     for test_path in track(test_paths, description='Checking tests...'):
         L.info(f"Generating LTS for {test_path}")
         genlts = timeit(cli.genlts, specific_data, "Time to generate LTS")
         lts_path = genlts(str(test_path), cut_filename=substitute_fsa)
         lts_path = Path(lts_path).parent / (Path(lts_path).stem + "_ts5.dot")
 
+        L.info(f'Parsing LTS {lts_path}...')
         lts = LTS.parse(str(lts_path))
         specific_data["Number of nodes"].append(len(lts.configurations))
         specific_data["Number of transitions"].append(len(lts.transitions))
@@ -239,5 +247,5 @@ def main():
 
 
 if __name__ == "__main__":
-    setup_log()
+    setup()
     main()
