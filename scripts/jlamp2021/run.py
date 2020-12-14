@@ -5,6 +5,7 @@ from collections import defaultdict
 from logging import Formatter, basicConfig, getLogger
 from pathlib import Path
 from typing import DefaultDict, List, Optional, Union
+from rich.progress import track
 
 import pandas as pd
 from chortools import __main__ as cli
@@ -95,7 +96,7 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
 
     general_data["Number of tests"] = len(test_paths)
     general_data["Compliant tests"] = 0
-    for test_path in test_paths:
+    for test_path in track(test_paths, description='Checking tests...'):
         L.info(f"Generating LTS for {test_path}")
         genlts = timeit(cli.genlts, specific_data, "Time to generate LTS")
         lts_path = genlts(str(test_path), cut_filename=substitute_fsa)
