@@ -148,3 +148,8 @@ experiments/**
 
 ## Excel files
 *.xlsx
+
+# Results
+*.csv
+*.tex
+
