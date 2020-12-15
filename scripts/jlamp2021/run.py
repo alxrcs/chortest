@@ -212,7 +212,7 @@ def experiment_2_1():
     """
     Uses wrong implementation of P from Isola paper.
     """
-    pass
+    run_experiment(gchor="scripts/jlamp2021/shipping/shipping.sgg", substitute_fsa='scripts/jlamp2021/shipping/fsa/shipping_01_faulty_provider.fsa')
 
 
 def experiment_2_2():
@@ -220,21 +220,21 @@ def experiment_2_2():
     Test P, where the order of cancel in the left thread of the right branch is swapped.
     (note: there should be no counterexample for this one)
     """
-    pass
+    run_experiment(gchor="scripts/jlamp2021/shipping/shipping.sgg", substitute_fsa='scripts/jlamp2021/shipping/fsa/shipping_02_provider_swaps_cancel_order_correctly.fsa')
 
 
 def experiment_2_3():
     """
     Test T, where you swap the input/output in the right thread or right branch
     """
-    pass
+    run_experiment(gchor="scripts/jlamp2021/shipping/shipping.sgg", substitute_fsa='scripts/jlamp2021/shipping/fsa/shipping_03_provider_swaps_cancel_order_wrongly.fsa')
 
 
 def experiment_2_4():
     """
     The client sends Shipments Details and places the order before ever receiving a quote.
     """
-    pass
+    run_experiment(gchor="scripts/jlamp2021/shipping/shipping.sgg", substitute_fsa='scripts/jlamp2021/shipping/fsa/shipping_04_client_details_order_before_quote.fsa')
 
 
 def main():
@@ -244,6 +244,10 @@ def main():
     # experiment_1_2()
     # experiment_1_3()
     # experiment_2_0()
+    experiment_2_1()
+    experiment_2_2()
+    experiment_2_3()
+    experiment_2_4()
 
 
 if __name__ == "__main__":
