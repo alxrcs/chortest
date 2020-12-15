@@ -1,21 +1,43 @@
 .outputs Customer
 .state graph
-q0____ 2 ! RequestForQuote qe0____
-qe0____ 2 ? Quote qe1____
-qe1*qe2____ 1 ! ShipmentDetails qe2____
-qe1____ 1 ! ShipmentDetails qe2*qe1____
-qe1____ 2 ! PlaceOrder qe1*qe2____
-qe2*qe1____ 2 ! PlaceOrder qe2____
+q0____ 1 ! RequestForQuote qe0____
+qe0____ 1 ? Quote qe1____
+qe1*qe2____ 2 ! ShipmentDetails qe2____
+qe1____ 1 ! PlaceOrder qe1*qe2____
+qe1____ 2 ! ShipmentDetails qe2*qe1____
+qe2*qe1____ 1 ! PlaceOrder qe2____
 qe2____ 3 ! PlaceOrder qe3__qe410*qe31____
 qe31*qe41__qe31*qe410__qe410*qe41__qe410*qe410____ 3 ? Cancel qe____qe__qe41*qe410____
-qe3__qe410*qe31____ 2 ? Cancel qe31*qe41__qe31*qe410__qe410*qe41__qe410*qe410____
-qe3__qe410*qe31____ 2 ? Confirm qe420__qe4210*qe420__qe4211*qe420____
+qe3__qe410*qe31____ 1 ? Cancel qe31*qe41__qe31*qe410__qe410*qe41__qe410*qe410____
+qe3__qe410*qe31____ 1 ? Confirm qe420__qe4210*qe420__qe4211*qe420____
 qe3__qe410*qe31____ 3 ? Cancel qe41*qe31____
-qe41*qe31____ 2 ? Cancel qe____qe__qe41*qe410____
+qe41*qe31____ 1 ? Cancel qe____qe__qe41*qe410____
 qe420*qe421__qe4210*qe421__qe4211*qe421____ 3 ? Goods qe____qe__qe41*qe410____
-qe420__qe4210*qe420__qe4211*qe420____ 2 ! Payment qe420*qe421__qe4210*qe421__qe4211*qe421____
+qe420__qe4210*qe420__qe4211*qe420____ 1 ! Payment qe420*qe421__qe4210*qe421__qe4211*qe421____
 qe420__qe4210*qe420__qe4211*qe420____ 3 ? Goods qe421*qe420____
-qe421*qe420____ 2 ! Payment qe____qe__qe41*qe410____
+qe421*qe420____ 1 ! Payment qe____qe__qe41*qe410____
+.marking q0____
+.end
+
+
+
+.outputs Provider
+.state graph
+q0____ 0 ? RequestForQuote qe0____
+qe0____ 0 ! Quote qe1__qe2*qe1____
+qe1*qe2__qe2__qe3____ 0 ! Cancel qe31*qe410____
+qe1*qe2__qe2__qe3____ 0 ! Confirm qe420____
+qe1*qe2__qe2__qe3____ 3 ! Cancel qe41*qe31__qe410*qe31____
+qe1__qe2*qe1____ 0 ? PlaceOrder qe1*qe2__qe2__qe3____
+qe31*qe410____ 2 ! Cancel qe31*qe41____
+qe31*qe410____ 3 ! Cancel qe41*qe410__qe410*qe410____
+qe31*qe41____ 3 ! Cancel qe__qe410*qe41____qe__qe4210*qe421__qe4211*qe421____
+qe41*qe31__qe410*qe31____ 0 ! Cancel qe41*qe410__qe410*qe410____
+qe41*qe410__qe410*qe410____ 2 ! Cancel qe__qe410*qe41____qe__qe4210*qe421__qe4211*qe421____
+qe420*qe421____ 2 ! Goods qe__qe410*qe41____qe__qe4210*qe421__qe4211*qe421____
+qe420____ 0 ? Payment qe420*qe421____
+qe420____ 2 ! Goods qe421*qe420__qe4210*qe420__qe4211*qe420____
+qe421*qe420__qe4210*qe420__qe4211*qe420____ 0 ? Payment qe__qe410*qe41____qe__qe4210*qe421__qe4211*qe421____
 .marking q0____
 .end
 
@@ -24,31 +46,9 @@ qe421*qe420____ 2 ! Payment qe____qe__qe41*qe410____
 .outputs Ship
 .state graph
 q0____ 0 ? ShipmentDetails qe2__qe2*qe1____
-qe2__qe2*qe1____ 2 ? Cancel qe__qe31*qe41__qe410*qe41____qe__qe421*qe420__qe4211*qe420__qe4211*qe421____
-qe2__qe2*qe1____ 2 ? Goods qe4210*qe420__qe4210*qe421____
+qe2__qe2*qe1____ 1 ? Cancel qe__qe31*qe41__qe410*qe41____qe__qe421*qe420__qe4211*qe420__qe4211*qe421____
+qe2__qe2*qe1____ 1 ? Goods qe4210*qe420__qe4210*qe421____
 qe4210*qe420__qe4210*qe421____ 3 ! Goods qe__qe31*qe41__qe410*qe41____qe__qe421*qe420__qe4211*qe420__qe4211*qe421____
-.marking q0____
-.end
-
-
-
-.outputs Supplier
-.state graph
-q0____ 0 ? RequestForQuote qe0____
-qe0____ 0 ! Quote qe1__qe2*qe1____
-qe1*qe2__qe2__qe3____ 0 ! Cancel qe31*qe410____
-qe1*qe2__qe2__qe3____ 0 ! Confirm qe420____
-qe1*qe2__qe2__qe3____ 3 ! Cancel qe41*qe31__qe410*qe31____
-qe1__qe2*qe1____ 0 ? PlaceOrder qe1*qe2__qe2__qe3____
-qe31*qe410____ 1 ! Cancel qe31*qe41____
-qe31*qe410____ 3 ! Cancel qe41*qe410__qe410*qe410____
-qe31*qe41____ 3 ! Cancel qe__qe410*qe41____qe__qe4210*qe421__qe4211*qe421____
-qe41*qe31__qe410*qe31____ 0 ! Cancel qe41*qe410__qe410*qe410____
-qe41*qe410__qe410*qe410____ 1 ! Cancel qe__qe410*qe41____qe__qe4210*qe421__qe4211*qe421____
-qe420*qe421____ 1 ! Goods qe__qe410*qe41____qe__qe4210*qe421__qe4211*qe421____
-qe420____ 0 ? Payment qe420*qe421____
-qe420____ 1 ! Goods qe421*qe420__qe4210*qe420__qe4211*qe420____
-qe421*qe420__qe4210*qe420__qe4211*qe420____ 0 ? Payment qe__qe410*qe41____qe__qe4210*qe421__qe4211*qe421____
 .marking q0____
 .end
 
@@ -57,8 +57,8 @@ qe421*qe420__qe4210*qe420__qe4211*qe420____ 0 ? Payment qe__qe410*qe41____qe__qe
 .outputs Truck
 .state graph
 q0____ 0 ? PlaceOrder qe3____
-qe3____ 1 ? Goods qe4211*qe420__qe4211*qe421____
-qe3____ 2 ? Cancel qe410*qe31__qe410*qe41__qe410*qe410____
+qe3____ 1 ? Cancel qe410*qe31__qe410*qe41__qe410*qe410____
+qe3____ 2 ? Goods qe4211*qe420__qe4211*qe421____
 qe410*qe31__qe410*qe41__qe410*qe410____ 0 ! Cancel qe__qe41*qe31__qe41*qe410____qe__qe421*qe420____
 qe4211*qe420__qe4211*qe421____ 0 ! Goods qe__qe41*qe31__qe41*qe410____qe__qe421*qe420____
 .marking q0____
