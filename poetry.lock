@@ -333,7 +333,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "lark"
-version = "0.10.1"
+version = "0.11.1"
 description = "a modern parsing library"
 category = "main"
 optional = false
@@ -797,7 +797,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "c1f33dadaf2047cbbebc57ca9d2614b6e04cefe59d7ce6319d9518af6c591124"
+content-hash = "9272533f3b1a35a0d84b71f1aab64c0bb7eb7bc35dfdb8a3ffe8c20fa9266fa7"
 
 [metadata.files]
 ansicon = [
@@ -975,8 +975,8 @@ kiwisolver = [
     {file = "kiwisolver-1.3.1.tar.gz", hash = "sha256:950a199911a8d94683a6b10321f9345d5a3a8433ec58b217ace979e18f16e248"},
 ]
 lark = [
-    {file = "lark-0.10.1-py2.py3-none-any.whl", hash = "sha256:eb919a7326a76af36e2e2cb5ac6c1be6723bba83945a0a33e6d533070cbaccc7"},
-    {file = "lark-0.10.1.tar.gz", hash = "sha256:98f2c6f8e41fe601fd103476eb759ac1ad4d3dc8094633133a16cef5a32b0f65"},
+    {file = "lark-0.11.1-py2.py3-none-any.whl", hash = "sha256:d755f63b8d361110dce780ca6806833b14ddb0b831f3dbcce2ddec187374ff37"},
+    {file = "lark-0.11.1.tar.gz", hash = "sha256:f2c6ed79ae128a89714bbaa4a6ecb61b6eec84d1b5d63b9195ad461762f96298"},
 ]
 markupsafe = [
     {file = "MarkupSafe-1.1.1-cp27-cp27m-macosx_10_6_intel.whl", hash = "sha256:09027a7803a62ca78792ad89403b1b7a73a01c8cb65909cd876f7fcebd79b161"},
