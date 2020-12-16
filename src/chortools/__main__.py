@@ -1,21 +1,24 @@
+import os
 from datetime import datetime
 from logging import FileHandler, Formatter, basicConfig, getLogger
 from os import makedirs
-import os
 from pathlib import Path
+from shutil import copy
 from subprocess import call
 from time import perf_counter
-from typing import Optional
-from shutil import copy
+from typing import List, Optional
 
+import typer
 from rich.logging import RichHandler
 from typer import Typer
 
 from chortools.helpers import combine_fsa
 from chortools.lts import LTS
 
-from .cfsm import CommunicatingSystem
+from .cfsm import CommunicatingSystem, State
 from .gchor import Participant
+
+import yaml
 
 app = Typer()
 L = getLogger()
@@ -108,6 +111,7 @@ def genlts(
     buffer_size: int = 5,
     fifo_semantics: bool = False,
     cut_filename: str = None,
+    gen_pngs: bool = False
 ):
     """
     Generates the labeled transition system
@@ -156,43 +160,55 @@ def genlts(
     L.info(f"Time to generate LTS: {elapsed_time}s")
 
     # output png graphic from dot diagram
-    for dot in Path(combined_filename).parent.glob("*.dot"):
-        output_filename = str(dot.with_suffix(".png"))
-        with open(output_filename, "wb") as outfile:
-            retcode = call(["dot", dot.absolute(), "-Tpng"], stdout=outfile)
-            assert retcode == 0, DOT_INVOKE_ERROR_MSG
-            L.info(f'PNG file saved at "{output_filename}"')
+    if gen_pngs:
+        for dot in Path(combined_filename).parent.glob("*.dot"):
+            output_filename = str(dot.with_suffix(".png"))
+            with open(output_filename, "wb") as outfile:
+                retcode = call(["dot", dot.absolute(), "-Tpng"], stdout=outfile)
+                assert retcode == 0, DOT_INVOKE_ERROR_MSG
+                L.info(f'PNG file saved at "{output_filename}"')
 
     return combined_filename
 
 
 @app.command()
-def checklts(lts_filename: str) -> bool:
+def checklts(
+    lts_filename: str,
+    parsed_lts=typer.Argument(
+        None,
+        hidden=True,
+    ),
+) -> bool:
     """
     Checks compliance of the given CS as a dot.
     """
 
     start = perf_counter()
 
-    lts: LTS = LTS.parse(lts_filename)
-    import yaml
+    lts = parsed_lts or LTS.parse(lts_filename)
+
+    if not parsed_lts:
+        L.info(f"LTS parsing check took {perf_counter() - start} seconds")
+        start = perf_counter()
 
     oracle_filename = ORACLE_DEFAULT_FILENAME
 
     with open(str(Path(lts_filename).parent / oracle_filename), "r") as oracle_f:
         oracle = yaml.load(oracle_f, Loader=yaml.FullLoader)
 
-    final_confs = [oracle["success_states"][p] for p in oracle["order"]]
-    compliant = lts.is_compliant(final_configurations=final_confs)
+    final_confs: List[List[State]] = [
+        oracle["success_states"][p] for p in oracle["order"]
+    ]
+    compliant = lts.is_compliant(final_confs)
 
     L.info(f"Compliance check took {perf_counter() - start} seconds")
 
     if compliant:
         L.info(f"{lts_filename} is compliant.")
-        return True
     else:
         L.warning(f"{lts_filename} is NOT compliant!")
-        return False
+
+    return compliant
 
 
 @app.command()

@@ -3,6 +3,7 @@ import os
 import shutil
 import time
 import sys
+from glob import glob
 from collections import defaultdict
 from logging import Formatter, basicConfig, getLogger
 from pathlib import Path
@@ -56,7 +57,7 @@ def timeit(func, d: DefaultDict, param: str):
 def get_test_paths(tests_dir) -> List[Path]:
     test_paths = []
     for root, dirs, files in os.walk(tests_dir):
-        if not files or "__" in root:
+        if not files or "__" in root: # Avoid using tests from other experiments
             continue
         for f in files:
             if f.endswith(".fsa") and "tmp" not in f:
@@ -85,7 +86,9 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
     BASE_DIR = gchor_path.parent
     GCHOR_FNAME = gchor_path.name
     TESTS_BASE_DIR = BASE_DIR / "fsa" / (Path(GCHOR_FNAME).stem + "_tests")
-    shutil.rmtree(TESTS_BASE_DIR)
+    for tdir in glob(str(TESTS_BASE_DIR) + '/*/test_*'):
+        if '__' not in tdir: # Avoid removing tests from other experiments
+            shutil.rmtree(tdir)
 
     general_data: DefaultDict[str, Union[float, int]] = defaultdict(lambda: 0)
     specific_data: DefaultDict = defaultdict(lambda: list())
@@ -110,14 +113,25 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
         lts_path = Path(lts_path).parent / (Path(lts_path).stem + "_ts5.dot")
 
         L.info(f'Parsing LTS {lts_path}...')
+        start = time.perf_counter()
         lts = LTS.parse(str(lts_path))
+        t = time.perf_counter() - start
+        L.info(f'Parsing took {t}')
+
+        specific_data['LTS parsing time'].append(t)
         specific_data["Number of nodes"].append(len(lts.configurations))
         specific_data["Number of transitions"].append(len(lts.transitions))
         specific_data["CUT"].append(test_path.parent.parent.stem)
 
         L.info(f"Checking projection test compliance...")
         checklts = timeit(cli.checklts, specific_data, "Time to check compliance")
-        compliant = checklts(str(lts_path))
+        compliant = checklts(str(lts_path), lts)
+        if not compliant:
+            fails = lts.get_failing_states()
+            L.warning(f'Failing configuration: {fails}')
+            specific_data["Failing configuration"].append(fails)
+        else:
+            specific_data["Failing configuration"].append('None')
 
         specific_data["Path"].append(str(lts_path))
         specific_data["Pass"].append(compliant)
@@ -238,15 +252,15 @@ def experiment_2_4():
 
 
 def main():
-    experiment_0()
-    # experiment_1_0()
-    # experiment_1_1()
-    # experiment_1_2()
-    # experiment_1_3()
-    # experiment_2_0()
-    experiment_2_1()
-    experiment_2_2()
-    experiment_2_3()
+#     experiment_0()
+    experiment_1_0()
+    experiment_1_1()
+#     experiment_1_2()
+#     experiment_1_3()
+#     experiment_2_0()
+#     experiment_2_1()
+#     experiment_2_2()
+#     experiment_2_3()
     experiment_2_4()
 
 

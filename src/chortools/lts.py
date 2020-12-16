@@ -1,8 +1,10 @@
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from lark.visitors import Transformer
 from typing import Dict, List, Tuple, Union
+
+from lark import Lark
+from lark.visitors import Transformer
 
 State = str
 Participant = str
@@ -96,6 +98,7 @@ class LTS:
     initial: LTSConfig
 
     cache: Dict[LTSConfig, bool] = {}
+    failing_states: List[LTSConfig]
 
     def __init__(self, nodes, edges) -> None:
 
@@ -125,6 +128,7 @@ class LTS:
                 self.transitions.append(t)
 
         self.initial = self.configurations[initial]
+        self.failing_states = []
 
     def is_success_configuration(
         self, conf: Union[str, LTSConfig], final_configurations: List[List[str]]
@@ -159,24 +163,43 @@ class LTS:
 
         if curr in LTS.cache:
             return LTS.cache[curr]
-            
-        if self.is_success_configuration(curr, final_configurations):
-            LTS.cache[curr] = True
-            return True
 
-        enabled_transitions = [t for t in self.transitions if t.src == curr]
-        next_configs = list(map(lambda t: t.dest, enabled_transitions))
+        curr_is_success = self.is_success_configuration(curr, final_configurations)
 
-        ret = len(next_configs) > 0 and all(
-            map(lambda c: self.is_compliant(final_configurations, c), next_configs)
-        )
+        if curr_is_success:
+            ret = True
+        else:
+            enabled_transitions = [t for t in self.transitions if t.src == curr]
+            next_configs = list(map(lambda t: t.dest, enabled_transitions))
+            is_an_intermediate_state = len(next_configs) > 0
+            all_subsequent_states_are_compliant = all(
+                map(lambda c: self.is_compliant(final_configurations, c), next_configs)
+            )
+
+            if is_an_intermediate_state:
+                ret = all_subsequent_states_are_compliant
+            else:
+                if not curr_is_success:
+                    self.failing_states.append(curr)
+                ret = curr_is_success
 
         LTS.cache[curr] = ret
-
         return ret
 
+    def get_failing_states(self):
+        """
+        Returns a string representation of all states disturbing compliance of the
+        current LTS. NOTE: This must be invoked after checking for compliance at least once
+        through `is_compliant`.
+        """
+        assert (
+            self.failing_states
+        ), "Current LTS is either compliant or compliance has not yet been checked."
+
+        return str(list(map(lambda c: str(", ".join(c.states)), self.failing_states)))
+
     @staticmethod
-    def parse(filename : str) -> 'LTS':
+    def parse(filename: str) -> "LTS":
         """
         Parses an LTS.
 
@@ -185,14 +208,15 @@ class LTS:
 
         # TODO: Complete .fsa support
         """
-        from lark import Lark
-
-        if filename.endswith('.dot'):
-            fsa_parser = Lark.open("grammars/tsdot.lark", start="graph", debug=True)
-            tree = fsa_parser.parse(open(filename).read())
+        if filename.endswith(".dot"):
+            fsa_parser = Lark.open("grammars/tsdot.lark", start="graph", parser='lalr', debug=True)
+            dot_text = open(filename).read()
+            tree = fsa_parser.parse(dot_text)
             return DOTTransformer().transform(tree)
-        else: 
-            raise ValueError('Unsupported file format for LTS: ', str(Path(filename).suffix))
+        else:
+            raise ValueError(
+                "Unsupported file format for LTS: ", str(Path(filename).suffix)
+            )
 
 
 class DOTTransformer(Transformer):
