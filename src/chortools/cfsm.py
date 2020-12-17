@@ -169,11 +169,8 @@ class CFSM:
             if nds:
                 # Union_{q\in{nds(M)}} split(M,q)
                 for qnds in nds[:1]:
-                    yield from self.split(
-                        qnds
-                    )  # TODO: take the first one only and see what happens
-                    # yield next(self.split(qnds)) # TODO: take the first one only and see what happens
-
+                # for qnds in nds:
+                    yield from self.split(qnds)
             else:  # if nds(M) is empty
                 yield self.copy()
         else:
@@ -189,7 +186,7 @@ class CFSM:
                 for t in output_transitions:
                     new_m = self.copy()
                     # TODO: iterate over output_transitions - t to avoid the if
-                    for ot in self.transitions[q]:  
+                    for ot in self.transitions[q]:
                         if ot is not t:
                             del new_m.transitions[q][ot]
                     yield from new_m.split()

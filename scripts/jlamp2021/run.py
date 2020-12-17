@@ -76,7 +76,7 @@ def setup():
 
 
 
-def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = None):
+def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = None, old_union=False):
 
     if gchor is None:
         gchor_path = Path(".") / "scripts" / "jlamp2021" / "ATM" / "atm_simple.gg"
@@ -252,15 +252,15 @@ def experiment_2_4():
 
 
 def main():
-#     experiment_0()
+    experiment_0()
     experiment_1_0()
     experiment_1_1()
-#     experiment_1_2()
-#     experiment_1_3()
-#     experiment_2_0()
-#     experiment_2_1()
-#     experiment_2_2()
-#     experiment_2_3()
+    experiment_1_2()
+    experiment_1_3()
+    experiment_2_0()
+    experiment_2_1()
+    experiment_2_2()
+    experiment_2_3()
     experiment_2_4()
 
 

@@ -1,0 +1,13 @@
+.outputs Provider
+.state graph
+q0____ 0 ? RequestForQuote qe0____
+qe0____ 0 ! Quote qe1__qe2*qe1____
+qe1__qe2*qe1____ 0 ? PlaceOrder qe1*qe2__qe2__qe3____
+qe1*qe2__qe2__qe3____ 0 ! Cancel qe31*qe410____
+qe1*qe2__qe2__qe3____ 0 ! Confirm qe420____
+qe420*qe421____ 2 ! Goods qe__qe410*qe41____qe__qe4210*qe421__qe4211*qe421____
+qe420____ 0 ? Payment qe420*qe421____
+qe420____ 2 ! Goods qe421*qe420__qe4210*qe420__qe4211*qe420____
+qe421*qe420__qe4210*qe420__qe4211*qe420____ 0 ? Payment qe__qe410*qe41____qe__qe4210*qe421__qe4211*qe421____
+.marking q0____
+.end

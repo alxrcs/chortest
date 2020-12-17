@@ -140,20 +140,25 @@ def genlts(
 
     # invoke the transition system builder
     start_time = perf_counter()
-    retcode = call(
-        [
-            str((CHORGRAM_BASE_PATH / "cfsm2gg.py").absolute()),
-            "-ts",
-            Path(combined_filename).absolute(),
-            "-dir",
-            Path(output_path).absolute(),
-            "-b",
-            str(buffer_size),
-            "-nf" if not fifo_semantics else "",
-            "-sn",  # Do not shorten state names
-        ],
-        cwd=CHORGRAM_BASE_PATH,
-    )
+
+    with open('chorgram_output.log','w') as l:
+        retcode = call(
+            [
+                str((CHORGRAM_BASE_PATH / "cfsm2gg.py").absolute()),
+                "-ts",
+                Path(combined_filename).absolute(),
+                "-dir",
+                Path(output_path).absolute(),
+                "-b",
+                str(buffer_size),
+                "-nf" if not fifo_semantics else "",
+                "-sn",  # Do not shorten state names
+            ],
+            stderr=l,
+            stdout=l,
+            cwd=CHORGRAM_BASE_PATH,
+        )
+        
     elapsed_time = perf_counter() - start_time
     assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
     L.info(f'LTS saved to "{output_path}/{Path(combined_filename).stem}"')
