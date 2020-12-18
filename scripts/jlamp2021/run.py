@@ -8,10 +8,12 @@ from collections import defaultdict
 from logging import Formatter, basicConfig, getLogger
 from pathlib import Path
 from typing import DefaultDict, List, Optional, Union
+import lark
 from rich.progress import track
 
 import pandas as pd
 from chortools import __main__ as cli
+from chortools.cfsm import CommunicatingSystem
 from chortools.lts import LTS
 from rich.logging import RichHandler
 from typer import Typer
@@ -57,7 +59,7 @@ def timeit(func, d: DefaultDict, param: str):
 def get_test_paths(tests_dir) -> List[Path]:
     test_paths = []
     for root, dirs, files in os.walk(tests_dir):
-        if not files or "__" in root: # Avoid using tests from other experiments
+        if not files or "__" in root:  # Avoid using tests from other experiments
             continue
         for f in files:
             if f.endswith(".fsa") and "tmp" not in f:
@@ -67,7 +69,7 @@ def get_test_paths(tests_dir) -> List[Path]:
 
 
 def setup():
-    sys.setrecursionlimit(2000) # Default is 900
+    sys.setrecursionlimit(2000)  # Default is 900
 
     rich_handler = RichHandler()
     rich_handler.setFormatter(Formatter("%(message)s"))
@@ -75,100 +77,114 @@ def setup():
     basicConfig(level="DEBUG", datefmt="[%X]", handlers=[rich_handler])
 
 
-
-def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = None, old_union=False):
+def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = None):
 
     if gchor is None:
         gchor_path = Path(".") / "scripts" / "jlamp2021" / "ATM" / "atm_simple.gg"
     else:
         gchor_path = Path(gchor)
 
+    substitute_name = "All"
+    if substitute_fsa is not None:
+        grammarfile_path = Path("grammars") / "fsa.lark"
+        fsa_parser = lark.Lark.open(str(grammarfile_path))
+
+        with open(substitute_fsa) as f:
+            tree = fsa_parser.parse(f.read())
+
+        try:
+            substitute_name = tree.children[0].children[0].children[0].value
+        except AttributeError:
+            raise Exception('Incorrect fsa format')
+        
+        assert (
+            substitute_name is not None and substitute_name != ""
+        ), "The participant name in the fsa file should be valid"
+
     BASE_DIR = gchor_path.parent
     GCHOR_FNAME = gchor_path.name
     TESTS_BASE_DIR = BASE_DIR / "fsa" / (Path(GCHOR_FNAME).stem + "_tests")
-    for tdir in glob(str(TESTS_BASE_DIR) + '/*/test_*'):
-        if '__' not in tdir: # Avoid removing tests from other experiments
+    for tdir in glob(str(TESTS_BASE_DIR) + "/*/test_*"):
+        if "__" not in tdir:  # Avoid removing tests from other experiments
             shutil.rmtree(tdir)
 
-    general_data: DefaultDict[str, Union[float, int]] = defaultdict(lambda: 0)
-    specific_data: DefaultDict = defaultdict(lambda: list())
+    summary_data: DefaultDict[str, Union[float, int]] = defaultdict(lambda: 0)
+    test_data: DefaultDict = defaultdict(lambda: list())
+
+    def log(value, description):
+        test_data[description].append(value)
 
     # Project global choreography
-    project = timeit(cli.project, general_data, "Time to project")
+    project = timeit(cli.project, summary_data, "Time to project")
     project((str(BASE_DIR / GCHOR_FNAME)))
 
     # Generate tests
-    gentests = timeit(cli.gentests, general_data, "Time to generate tests")
+    gentests = timeit(cli.gentests, summary_data, "Time to generate tests")
     gentests(str(BASE_DIR / "fsa" / Path(GCHOR_FNAME).with_suffix(".fsa")))
 
     test_paths = get_test_paths(TESTS_BASE_DIR)
 
-    general_data["Number of tests"] = len(test_paths)
-    general_data["Compliant tests"] = 0
-
-    for test_path in track(test_paths, description='Checking tests...'):
+    for test_path in track(test_paths, description="Checking tests..."):
         L.info(f"Generating LTS for {test_path}")
-        genlts = timeit(cli.genlts, specific_data, "Time to generate LTS")
+
+        # Generate the LTS for the current test
+        genlts = timeit(cli.genlts, test_data, "Time to generate LTS")
+
         lts_path = genlts(str(test_path), cut_filename=substitute_fsa)
         lts_path = Path(lts_path).parent / (Path(lts_path).stem + "_ts5.dot")
 
-        L.info(f'Parsing LTS {lts_path}...')
+        L.info(f"Parsing LTS {lts_path}...")
         start = time.perf_counter()
         lts = LTS.parse(str(lts_path))
         t = time.perf_counter() - start
-        L.info(f'Parsing took {t}')
+        L.info(f"Parsing took {t}")
 
-        specific_data['LTS parsing time'].append(t)
-        specific_data["Number of nodes"].append(len(lts.configurations))
-        specific_data["Number of transitions"].append(len(lts.transitions))
-        specific_data["CUT"].append(test_path.parent.parent.stem)
+        log(t, "LTS parsing time")
+        log(len(lts.configurations), "Number of nodes")
+        log(len(lts.transitions), "Number of transitions")
+        log(test_path.parent.parent.stem, "CUT")
 
         L.info(f"Checking projection test compliance...")
-        checklts = timeit(cli.checklts, specific_data, "Time to check compliance")
+        checklts = timeit(cli.checklts, test_data, "Time to check compliance")
         compliant = checklts(str(lts_path), lts)
+
         if not compliant:
             fails = lts.get_failing_states()
-            L.warning(f'Failing configuration: {fails}')
-            specific_data["Failing configuration"].append(fails)
+            L.info(f"Failing configuration: {fails}")
+            log(fails, "Failing configuration")
         else:
-            specific_data["Failing configuration"].append('None')
+            log("None", "Failing configuration")
 
-        specific_data["Path"].append(str(lts_path))
-        specific_data["Pass"].append(compliant)
-
-        general_data["Compliant tests"] += compliant
-
-    general_data["Failed tests"] = (
-        general_data["Number of tests"] - general_data["Compliant tests"]
-    )
-
-    total_time_for_lts_generation = sum(specific_data["Time to generate LTS"])
-    total_time_for_compliance_check = sum(specific_data["Time to check compliance"])
-
-    general_data["Total time for LTS generation"] = total_time_for_lts_generation
-    general_data["Total time for compliance check"] = total_time_for_compliance_check
-
-    general_data[
-        "Average time for LTS generation"
-    ] = total_time_for_lts_generation / len(test_paths)
-    general_data[
-        "Average time for compliance check"
-    ] = total_time_for_compliance_check / len(test_paths)
+        log(str(lts_path), "Path")
+        log(compliant, "Pass")
 
     log_path = gchor_path if substitute_fsa is None else Path(substitute_fsa)
 
-    with open(log_path.with_suffix(".summary.log"), "w") as j:
-        json.dump(general_data, j)
-    with open(log_path.with_suffix(".pertest.log"), "w") as j:
-        json.dump(specific_data, j)
+    tdf = pd.DataFrame(test_data)
 
-    sd = pd.DataFrame(specific_data)
-    sd.to_csv(log_path.with_suffix(".pertest.log.csv") , index=False)
-    sd.to_latex(log_path.with_suffix(".pertest.log.csv.tex"),index=False)
+    # Save unnagregated, unfiltered info
+    tdf.to_csv(log_path.with_suffix(".pertest.csv"), index=False)
+    tdf.to_latex(log_path.with_suffix(".pertest.tex"), index=False)
+    tdf.to_json(log_path.with_suffix(".pertest.json"))
 
-    gd = pd.DataFrame(general_data, index=[0])
-    gd.to_csv(log_path.with_suffix(".summary.log.csv"), index=False)
-    gd.to_latex(log_path.with_suffix(".summary.log.csv.tex"), index=False)
+    # Filter info for aggregation if the experiment 
+    # pertains a specific participant
+    tdf = tdf[tdf['CUT'] == substitute_name] if substitute_fsa is not None else tdf
+
+    summary = {
+        "Number of tests": len(tdf), 
+        "Total time for LTS generation": tdf["Time to generate LTS"].sum(),
+        "Total time for compliance check": tdf["Time to check compliance"].sum(),
+        "CUT": substitute_name,
+        "Failed tests": len(tdf) - tdf['Pass'].sum(),
+        "Average time for LTS generation": tdf["Time to generate LTS"].sum()/len(tdf),
+        "Average time for compliance check": tdf["Time to check compliance"].sum()/len(tdf)
+    }
+
+    gdf = pd.DataFrame(summary.update(summary_data), index=[0])
+    gdf.to_csv(log_path.with_suffix(".summary.csv"), index=False)
+    gdf.to_latex(log_path.with_suffix(".summary.tex"), index=False)
+    gdf.to_json(log_path.with_suffix(".summary.json"))
 
 
 def experiment_0():
@@ -226,7 +242,10 @@ def experiment_2_1():
     """
     Uses wrong implementation of P from Isola paper.
     """
-    run_experiment(gchor="scripts/jlamp2021/shipping/shipping.sgg", substitute_fsa='scripts/jlamp2021/shipping/fsa/shipping_01_faulty_provider.fsa')
+    run_experiment(
+        gchor="scripts/jlamp2021/shipping/shipping.sgg",
+        substitute_fsa="scripts/jlamp2021/shipping/fsa/shipping_01_faulty_provider.fsa",
+    )
 
 
 def experiment_2_2():
@@ -234,34 +253,43 @@ def experiment_2_2():
     Test P, where the order of cancel in the left thread of the right branch is swapped.
     (note: there should be no counterexample for this one)
     """
-    run_experiment(gchor="scripts/jlamp2021/shipping/shipping.sgg", substitute_fsa='scripts/jlamp2021/shipping/fsa/shipping_02_provider_swaps_cancel_order_correctly.fsa')
+    run_experiment(
+        gchor="scripts/jlamp2021/shipping/shipping.sgg",
+        substitute_fsa="scripts/jlamp2021/shipping/fsa/shipping_02_provider_swaps_cancel_order_correctly.fsa",
+    )
 
 
 def experiment_2_3():
     """
     Test T, where you swap the input/output in the right thread or right branch
     """
-    run_experiment(gchor="scripts/jlamp2021/shipping/shipping.sgg", substitute_fsa='scripts/jlamp2021/shipping/fsa/shipping_03_provider_swaps_cancel_order_wrongly.fsa')
+    run_experiment(
+        gchor="scripts/jlamp2021/shipping/shipping.sgg",
+        substitute_fsa="scripts/jlamp2021/shipping/fsa/shipping_03_truck_swaps_cancel_order_wrongly.fsa",
+    )
 
 
 def experiment_2_4():
     """
     The client sends Shipments Details and places the order before ever receiving a quote.
     """
-    run_experiment(gchor="scripts/jlamp2021/shipping/shipping.sgg", substitute_fsa='scripts/jlamp2021/shipping/fsa/shipping_04_client_details_order_before_quote.fsa')
+    run_experiment(
+        gchor="scripts/jlamp2021/shipping/shipping.sgg",
+        substitute_fsa="scripts/jlamp2021/shipping/fsa/shipping_04_client_details_order_before_quote.fsa",
+    )
 
 
 def main():
-    experiment_0()
-    experiment_1_0()
-    experiment_1_1()
-    experiment_1_2()
-    experiment_1_3()
+    # experiment_0()
+    # experiment_1_0()
+    # experiment_1_1()
+    # experiment_1_2()
+    # experiment_1_3()
     experiment_2_0()
     experiment_2_1()
-    experiment_2_2()
-    experiment_2_3()
-    experiment_2_4()
+    # experiment_2_2()
+    # experiment_2_3()
+    # experiment_2_4()
 
 
 if __name__ == "__main__":
