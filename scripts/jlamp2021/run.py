@@ -93,7 +93,7 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
             tree = fsa_parser.parse(f.read())
 
         try:
-            substitute_name = tree.children[0].children[0].children[0].value
+            substitute_name = tree.children[0].children[0].children[0].value # type: ignore
         except AttributeError:
             raise Exception('Incorrect fsa format')
         
@@ -181,7 +181,9 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
         "Average time for compliance check": tdf["Time to check compliance"].sum()/len(tdf)
     }
 
-    gdf = pd.DataFrame(summary.update(summary_data), index=[0])
+    summary.update(summary_data)
+
+    gdf = pd.DataFrame(summary, index=[0])
     gdf.to_csv(log_path.with_suffix(".summary.csv"), index=False)
     gdf.to_latex(log_path.with_suffix(".summary.tex"), index=False)
     gdf.to_json(log_path.with_suffix(".summary.json"))
@@ -280,16 +282,16 @@ def experiment_2_4():
 
 
 def main():
-    # experiment_0()
-    # experiment_1_0()
-    # experiment_1_1()
-    # experiment_1_2()
-    # experiment_1_3()
+    experiment_0()
+    experiment_1_0()
+    experiment_1_1()
+    experiment_1_2()
+    experiment_1_3()
     experiment_2_0()
     experiment_2_1()
-    # experiment_2_2()
-    # experiment_2_3()
-    # experiment_2_4()
+    experiment_2_2()
+    experiment_2_3()
+    experiment_2_4()
 
 
 if __name__ == "__main__":

@@ -152,4 +152,5 @@ experiments/**
 # Results
 *.csv
 *.tex
+*.json
 
