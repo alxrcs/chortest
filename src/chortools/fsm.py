@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List
 
-from chortools.gchor import GTransformer
+from lark import Transformer
 
 
 @dataclass
@@ -32,8 +32,8 @@ class LTS:
     transitions: List[Transition]
 
 
-class FSATransformer(GTransformer):
-    # TODO: Finish proper FSA parser
+class FSMTransformer(Transformer):
+    # TODO: Finish proper FSM parser
     def parameter(self, t):
         return Parameter(
             name=t[0],
