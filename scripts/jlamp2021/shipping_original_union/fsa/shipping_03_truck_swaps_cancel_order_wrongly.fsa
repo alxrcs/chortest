@@ -1,0 +1,9 @@
+.outputs Truck
+.state graph
+q0____ 0 ? PlaceOrder qe3____
+qe3____ 0 ! Cancel qe410*qe31__qe410*qe41__qe410*qe410____
+qe3____ 2 ? Goods qe4211*qe420__qe4211*qe421____
+qe410*qe31__qe410*qe41__qe410*qe410____ 1 ? Cancel qe__qe41*qe31__qe41*qe410____qe__qe421*qe420____
+qe4211*qe420__qe4211*qe421____ 0 ! Goods qe__qe41*qe31__qe41*qe410____qe__qe421*qe420____
+.marking q0____
+.end
