@@ -35,7 +35,7 @@ DOT_INVOKE_ERROR_MSG = (
 ORACLE_DEFAULT_FILENAME = "oracle.yaml"
 
 
-@app.command()
+@app.command(no_args_is_help=True)
 def project(gchor_filename: str, output_folder: str = None):
     """
     Projects a g-choreography into a communicating system
@@ -63,7 +63,7 @@ def project(gchor_filename: str, output_folder: str = None):
         L.info(f"Projections saved to {output_filepath}")
 
 
-@app.command()
+@app.command(no_args_is_help=True)
 def gentests(
     cs_filename: str,
     participant: Optional[str] = None,
@@ -111,7 +111,7 @@ def genlts(
     buffer_size: int = 5,
     fifo_semantics: bool = False,
     cut_filename: str = None,
-    gen_pngs: bool = False
+    gen_pngs: bool = False,
 ):
     """
     Generates the labeled transition system
@@ -141,7 +141,7 @@ def genlts(
     # invoke the transition system builder
     start_time = perf_counter()
 
-    with open('chorgram_output.log','w') as l:
+    with open("chorgram_output.log", "w") as l:
         retcode = call(
             [
                 str((CHORGRAM_BASE_PATH / "cfsm2gg.py").absolute()),
@@ -158,7 +158,7 @@ def genlts(
             stdout=l,
             cwd=CHORGRAM_BASE_PATH,
         )
-        
+
     elapsed_time = perf_counter() - start_time
     assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
     L.info(f'LTS saved to "{output_path}/{Path(combined_filename).stem}"')
@@ -176,7 +176,7 @@ def genlts(
     return combined_filename
 
 
-@app.command()
+@app.command(no_args_is_help=True)
 def checklts(
     lts_filename: str,
     parsed_lts=typer.Argument(
@@ -216,7 +216,7 @@ def checklts(
     return compliant
 
 
-@app.command()
+@app.command(no_args_is_help=True)
 def run(cs_filename: str):
     """
     Executes the given communicating system interactively.

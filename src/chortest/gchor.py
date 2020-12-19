@@ -3,6 +3,7 @@ from lark.visitors import Transformer
 
 Message = str
 
+
 @dataclass
 class Participant:
     "Represents a participant in a g-choregraphy."

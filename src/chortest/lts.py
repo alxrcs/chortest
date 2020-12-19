@@ -209,7 +209,9 @@ class LTS:
         # TODO: Complete .fsa support
         """
         if filename.endswith(".dot"):
-            fsa_parser = Lark.open("grammars/tsdot.lark", start="graph", parser='lalr', debug=True)
+            fsa_parser = Lark.open(
+                "grammars/tsdot.lark", start="graph", parser="lalr", debug=True
+            )
             dot_text = open(filename).read()
             tree = fsa_parser.parse(dot_text)
             return DOTTransformer().transform(tree)

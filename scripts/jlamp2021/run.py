@@ -1,21 +1,19 @@
-import json
 import os
 import shutil
-import time
 import sys
-from glob import glob
+import time
 from collections import defaultdict
+from glob import glob
 from logging import Formatter, basicConfig, getLogger
 from pathlib import Path
 from typing import DefaultDict, List, Optional, Union
-import lark
-from rich.progress import track
 
+import lark
 import pandas as pd
 from chortest import __main__ as cli
-from chortest.cfsm import CommunicatingSystem
 from chortest.lts import LTS
 from rich.logging import RichHandler
+from rich.progress import track
 from typer import Typer
 
 app = Typer()
@@ -69,7 +67,7 @@ def get_test_paths(tests_dir) -> List[Path]:
 
 
 def setup():
-    sys.setrecursionlimit(2000)  # Default is 900
+    sys.setrecursionlimit(2000)  # Default is ~900
 
     rich_handler = RichHandler()
     rich_handler.setFormatter(Formatter("%(message)s"))
@@ -93,10 +91,10 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
             tree = fsa_parser.parse(f.read())
 
         try:
-            substitute_name = tree.children[0].children[0].children[0].value # type: ignore
+            substitute_name = tree.children[0].children[0].children[0].value  # type: ignore
         except AttributeError:
-            raise Exception('Incorrect fsa format')
-        
+            raise Exception("Incorrect fsa format")
+
         assert (
             substitute_name is not None and substitute_name != ""
         ), "The participant name in the fsa file should be valid"
@@ -167,18 +165,19 @@ def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = 
     tdf.to_latex(log_path.with_suffix(".pertest.tex"), index=False)
     tdf.to_json(log_path.with_suffix(".pertest.json"))
 
-    # Filter info for aggregation if the experiment 
+    # Filter info for aggregation if the experiment
     # pertains a specific participant
-    tdf = tdf[tdf['CUT'] == substitute_name] if substitute_fsa is not None else tdf
+    tdf = tdf[tdf["CUT"] == substitute_name] if substitute_fsa is not None else tdf
 
     summary = {
-        "Number of tests": len(tdf), 
+        "Number of tests": len(tdf),
         "Total time for LTS generation": tdf["Time to generate LTS"].sum(),
         "Total time for compliance check": tdf["Time to check compliance"].sum(),
         "CUT": substitute_name,
-        "Failed tests": len(tdf) - tdf['Pass'].sum(),
-        "Average time for LTS generation": tdf["Time to generate LTS"].sum()/len(tdf),
-        "Average time for compliance check": tdf["Time to check compliance"].sum()/len(tdf)
+        "Failed tests": len(tdf) - tdf["Pass"].sum(),
+        "Average time for LTS generation": tdf["Time to generate LTS"].sum() / len(tdf),
+        "Average time for compliance check": tdf["Time to check compliance"].sum()
+        / len(tdf),
     }
 
     summary.update(summary_data)

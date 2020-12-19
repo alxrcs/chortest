@@ -169,7 +169,7 @@ class CFSM:
             if nds:
                 # Union_{q\in{nds(M)}} split(M,q)
                 for qnds in nds[:1]:
-                # for qnds in nds:
+                    # for qnds in nds:
                     yield from self.split(qnds)
             else:  # if nds(M) is empty
                 yield self.copy()
