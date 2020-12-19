@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "chortools"
+name = "chortest"
 version = "0.1.0"
 description = "A set of tools for working with g-choreographies"
 authors = ["Alex Coto <alexrc09@gmail.com>"]
@@ -31,4 +31,4 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-run = "src.chortools.main:main"
+run = "src.chortest.main:main"

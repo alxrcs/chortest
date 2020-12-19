@@ -1,8 +1,8 @@
 import pytest
 
 from lark import Lark
-from chortools.cfsm import CFSMBuilder
-from chortools.helpers import combine_fsa
+from chortest.cfsm import CFSMBuilder
+from chortest.helpers import combine_fsa
 
 # def test_fsa_parser():
 #     fsa_parser = Lark.open('grammars/fsa.lark')

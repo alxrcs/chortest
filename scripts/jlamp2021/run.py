@@ -12,9 +12,9 @@ import lark
 from rich.progress import track
 
 import pandas as pd
-from chortools import __main__ as cli
-from chortools.cfsm import CommunicatingSystem
-from chortools.lts import LTS
+from chortest import __main__ as cli
+from chortest.cfsm import CommunicatingSystem
+from chortest.lts import LTS
 from rich.logging import RichHandler
 from typer import Typer
 

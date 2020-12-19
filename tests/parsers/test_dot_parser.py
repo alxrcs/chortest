@@ -1,5 +1,5 @@
 import pytest
-from chortools.lts import LTS
+from chortest.lts import LTS
 
 @pytest.mark.wip
 def test_tsdot():

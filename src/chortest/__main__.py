@@ -12,8 +12,8 @@ import typer
 from rich.logging import RichHandler
 from typer import Typer
 
-from chortools.helpers import combine_fsa
-from chortools.lts import LTS
+from chortest.helpers import combine_fsa
+from chortest.lts import LTS
 
 from .cfsm import CommunicatingSystem, State
 from .gchor import Participant
@@ -226,7 +226,7 @@ def run(cs_filename: str):
 
 
 def main():
-    LOG_FILENAME = "chortools.log"
+    LOG_FILENAME = "chortest.log"
     log_file_handler = FileHandler(LOG_FILENAME)
     log_file_handler.setFormatter(
         Formatter("[%(asctime)s] - %(levelname)s - %(message)s")
@@ -240,7 +240,7 @@ def main():
 
     # try:
     app(
-        prog_name="chortools",
+        prog_name="chortest",
     )
     # except Exception as e:
     # L.info(f'⚠️  The command failed with message:\n"{str(e)}".')

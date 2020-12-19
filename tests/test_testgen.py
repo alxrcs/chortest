@@ -2,8 +2,8 @@ import pytest
 from os.path import exists
 from os import remove
 
-from chortools.gchor import Participant
-from chortools.cfsm import CommunicatingSystem
+from chortest.gchor import Participant
+from chortest.cfsm import CommunicatingSystem
 
 @pytest.fixture
 def large_atm() -> str:

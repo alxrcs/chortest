@@ -1,6 +1,6 @@
 import pytest
 
-# from chortools.parsers import FSATransformer
+# from chortest.parsers import FSATransformer
 
 # @pytest.mark.wip
 # def test_fsm():
