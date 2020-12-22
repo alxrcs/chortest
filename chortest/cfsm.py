@@ -477,15 +477,15 @@ class CommunicatingSystem:
     def to_networkx(self) -> List[nx.Graph]:
         return [self.machines[p].to_networkx() for p in self.machines]
 
-    def to_dot(self, output_folder : Optional[str]) -> List[str]:
+    def to_dot(self, output_folder : Optional[str]) -> List[Tuple[str, str]]:
 
-        dot_machines = [self.machines[p].to_dot() for p in self.machines]
+        dot_machines = [(self.machines[p].to_dot(), p.participant_name) for p in self.machines]
 
         if output_folder:
             p = Path(output_folder)
             p.mkdir(exist_ok=True)
-            for i, m in enumerate(dot_machines):
-                with open(p / f'machine_{i}.dot', 'w') as f:
+            for i, (m, name) in enumerate(dot_machines):
+                with open(p / f'machine_{i}_{name}.dot', 'w') as f:
                     f.write(m)
 
         return dot_machines
