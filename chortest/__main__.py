@@ -38,7 +38,7 @@ ORACLE_DEFAULT_FILENAME = "oracle.yaml"
 @app.command(no_args_is_help=True)
 def project(gchor_filename: str, output_folder: str = None):
     """
-    Projects a g-choreography into a communicating system
+    Projects a g-choreography into a communicating system.
     """
     gchor_path = Path(gchor_filename)
 

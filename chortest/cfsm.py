@@ -393,6 +393,9 @@ class CommunicatingSystem:
 
     @staticmethod
     def parse(cs_filename) -> "CommunicatingSystem":
+        """
+        Parses a communicating system from an .fsa file.
+        """
 
         grammarfile_path = Path("grammars") / "fsa.lark"
         fsa_parser = Lark.open(str(grammarfile_path))
@@ -470,6 +473,9 @@ class CommunicatingSystem:
 
     def to_networkx(self) -> List[nx.Graph]:
         return [self.machines[p].to_networkx() for p in self.machines]
+
+    def to_dot(self) -> List[str]:
+        return [self.machines[p].to_dot() for p in self.machines]
 
 
 class CFSMBuilder(Transformer):
