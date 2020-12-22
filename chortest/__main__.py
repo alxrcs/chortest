@@ -224,6 +224,18 @@ def run(cs_filename: str):
     cs = CommunicatingSystem.parse(cs_filename)
     cs.execute_interactively()
 
+@app.command(no_args_is_help=True)
+def getdot(cs_filename: str):
+    """
+    Converts the given CS to a dot diagram.
+    """
+    cs = CommunicatingSystem.parse(cs_filename)
+    fp = Path(cs_filename)
+    of = fp.parent
+
+    cs.to_dot(str(of))
+    L.info(f'Machines saved to {str(of)}')
+
 
 def main():
     LOG_FILENAME = "chortest.log"

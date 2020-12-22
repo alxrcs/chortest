@@ -109,7 +109,7 @@ class CFSM:
     current: State
 
     def __init__(
-        self, states: Set[State], initial: State, transitions: AdjacencyList
+        self, states: Set[State], initial: State, transitions: AdjacencyList, name: Optional[str] = None
     ) -> None:
         self.states = states
         self.initial = initial
@@ -118,6 +118,7 @@ class CFSM:
         self.success = self.default_oracle()
 
         self.current = initial
+        self.name = name
 
     # An oracle scheme of G for a given projection operator is a function f(A, τ) ∈ # P × T(G) on a set of states of the CFSM proj(G,A)
     def default_oracle(self):
@@ -132,7 +133,7 @@ class CFSM:
         }
 
     @staticmethod
-    def new(transitions: List[Tuple[State, TransitionStr, State]], initial: State):
+    def new(transitions: List[Tuple[State, TransitionStr, State]], initial: State, name: Optional[str] = None):
         """
         Convenience method for building CFSMs.
         Expects a list of triples <state> <transition> <state>.
@@ -148,7 +149,7 @@ class CFSM:
             else:
                 _transitions[q0][TransitionLabel.new(t)] = q1
 
-        return CFSM(states, initial, _transitions)
+        return CFSM(states, initial, _transitions, name)
 
     def non_deterministic_states(self):
         for q in self.states:
@@ -250,12 +251,14 @@ class CFSM:
             for q0 in self.transitions
             for label in self.transitions[q0]
         ]
-        return nx.DiGraph(edge_list)
+        return nx.DiGraph(incoming_graph_data=edge_list, name=self.name)
 
     def to_dot(self, path: Optional[str] = None) -> str:
         from networkx.drawing.nx_agraph import to_agraph
 
-        a = to_agraph(self.to_networkx())
+        nx = self.to_networkx()
+        a = to_agraph(nx)
+
         if path is not None:
             a.write(path)
         return a.to_string()
@@ -474,8 +477,18 @@ class CommunicatingSystem:
     def to_networkx(self) -> List[nx.Graph]:
         return [self.machines[p].to_networkx() for p in self.machines]
 
-    def to_dot(self) -> List[str]:
-        return [self.machines[p].to_dot() for p in self.machines]
+    def to_dot(self, output_folder : Optional[str]) -> List[str]:
+
+        dot_machines = [self.machines[p].to_dot() for p in self.machines]
+
+        if output_folder:
+            p = Path(output_folder)
+            p.mkdir(exist_ok=True)
+            for i, m in enumerate(dot_machines):
+                with open(p / f'machine_{i}.dot', 'w') as f:
+                    f.write(m)
+
+        return dot_machines
 
 
 class CFSMBuilder(Transformer):
@@ -516,7 +529,7 @@ class CFSMBuilder(Transformer):
 
     def graph(self, t):
         name = t[0]
-        self.cs[name] = CFSM.new(transitions=t[1], initial=t[2])
+        self.cs[name] = CFSM.new(transitions=t[1], initial=t[2], name=name)
         return (name, self.cs[name])
 
     def header(self, t):

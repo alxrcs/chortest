@@ -41,6 +41,7 @@ def simple_atm_cs() -> CommunicatingSystem:
             ("A4", "AC!bye", "A5"),
         ],
         initial="A1",
+        name='ATM'
     )
 
     bank_m = CFSM.new(
@@ -50,6 +51,7 @@ def simple_atm_cs() -> CommunicatingSystem:
             ("B2", "BA!deny", "B3"),
         ],
         initial="B1",
+        name='Bank'
     )
 
     client_m = CFSM.new(
@@ -59,6 +61,7 @@ def simple_atm_cs() -> CommunicatingSystem:
             ("C2", "AC?bye", "C3"),
         ],
         initial="C1",
+        name='Client'
     )
 
     d = {

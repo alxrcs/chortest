@@ -28,6 +28,9 @@ class Participant:
     def __lt__(self, o: "Participant") -> int:
         return self.participant_name < o.participant_name
 
+    def encode(self, *args, **kwargs):
+        return self.participant_name.encode(*args, **kwargs)
+
 
 class GChor:
     "Base class for g-choregraphies."
