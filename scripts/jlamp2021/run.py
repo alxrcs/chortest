@@ -20,25 +20,6 @@ app = Typer()
 L = getLogger(__name__)
 
 
-def mainCLI():
-    pass
-    # result = runner.invoke(app, [
-    #     'project', 'scripts/jlamp2021/ATM/atm_simple.gg'
-    # ])
-
-    # result = runner.invoke(app, [
-    #     'gentests', 'scripts/jlamp2021/ATM/fsa/atm_simple.fsa'
-    # ])
-
-    # result = runner.invoke(app, [
-    #     'genlts', 'scripts/jlamp2021/ATM/fsa/atm_simple_tests/A/test_0/test_0.fsa'
-    # ])
-
-    # result = runner.invoke(app, [
-    #     'checklts', 'scripts/jlamp2021/ATM/fsa/atm_simple_tests/A/test_0/test_0_ts5.dot'
-    # ])
-
-
 def timeit(func, d: DefaultDict, param: str):
     def inner(*args, **kwargs):
         t1 = time.process_time()
@@ -78,7 +59,7 @@ def setup():
 def run_experiment(gchor: Optional[str] = None, substitute_fsa: Optional[str] = None):
 
     if gchor is None:
-        gchor_path = Path(".") / "scripts" / "jlamp2021" / "ATM" / "atm_simple.gg"
+        gchor_path = Path(".") / "scripts" / "jlamp2021" / "ATM" / "atm_simple.gc"
     else:
         gchor_path = Path(gchor)
 
@@ -192,14 +173,14 @@ def experiment_0():
     """
     Just a small choreography for sanity checking.
     """
-    run_experiment("scripts/jlamp2021/ATM/atm_simple.gg")
+    run_experiment("scripts/jlamp2021/ATM/atm_simple.gc")
 
 
 def experiment_1_0():
     """
     A larger choreography for the ATM example.
     """
-    run_experiment("scripts/jlamp2021/ATM/atm_full.gg")
+    run_experiment("scripts/jlamp2021/ATM/atm_full.gc")
 
 
 def experiment_1_1():
@@ -207,7 +188,7 @@ def experiment_1_1():
     An example where the quit message from the ATM to the Bank is incorrectly removed.
     """
     run_experiment(
-        gchor="scripts/jlamp2021/ATM/atm_full.gg",
+        gchor="scripts/jlamp2021/ATM/atm_full.gc",
         substitute_fsa="scripts/jlamp2021/ATM/fsa/atm_full_01_no_quit_ATM2Bank.fsa",
     )
 
@@ -217,7 +198,7 @@ def experiment_1_2():
     An example where the ATM does not support the checkBalance message.
     """
     run_experiment(
-        gchor="scripts/jlamp2021/ATM/atm_full.gg",
+        gchor="scripts/jlamp2021/ATM/atm_full.gc",
         substitute_fsa="scripts/jlamp2021/ATM/fsa/atm_full_02_no_checkBalanceATM.fsa",
     )
 
@@ -227,7 +208,7 @@ def experiment_1_3():
     An example where the ATM does not interact with the bank when asked for a customer's balance.
     """
     run_experiment(
-        gchor="scripts/jlamp2021/ATM/atm_full.gg",
+        gchor="scripts/jlamp2021/ATM/atm_full.gc",
         substitute_fsa="scripts/jlamp2021/ATM/fsa/atm_full_03_no_ATM_balance_always_0.fsa",
     )
 

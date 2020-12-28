@@ -10,16 +10,16 @@ from chortest.__main__ import app
 @pytest.mark.chorgram
 @pytest.mark.cli
 def test_project():
-    DEFAULT_OUTPUT_FILENAME = 'examples/gchors/fsa/atm_simple.fsa'
-    result = runner.invoke(app, ['project', 'examples/gchors/atm_simple.gg'])
+    DEFAULT_OUTPUT_FILENAME = 'tests/files/gchors/fsa/atm_simple.fsa'
+    result = runner.invoke(app, ['project', 'tests/files/gchors/atm_simple.gc'])
     assert result.exit_code == 0
     assert os.path.exists(DEFAULT_OUTPUT_FILENAME)
     assert os.stat(DEFAULT_OUTPUT_FILENAME).st_size > 0
 
 @pytest.mark.cli
 def test_gentests_small():
-    result = runner.invoke(app, ['gentests', 'examples/gchors/fsa/atm_simple.fsa'])
-    DEFAULT_TESTS_OUTPUT_PATH = 'examples/gchors/fsa/atm_simple_tests'
+    result = runner.invoke(app, ['gentests', 'tests/files/gchors/fsa/atm_simple.fsa'])
+    DEFAULT_TESTS_OUTPUT_PATH = 'tests/files/gchors/fsa/atm_simple_tests'
     assert result.exit_code == 0
     assert os.path.exists(DEFAULT_TESTS_OUTPUT_PATH)
     assert len(os.listdir(DEFAULT_TESTS_OUTPUT_PATH)) > 0
@@ -41,7 +41,7 @@ def test_gentests_large():
 @pytest.mark.cli
 @pytest.mark.wip
 def test_main_full():
-    result = runner.invoke(app, ['project', 'tests/files/gchors/ex_parallel.gg'])
+    result = runner.invoke(app, ['project', 'tests/files/gchors/ex_parallel.gc'])
     assert result.exit_code == 0
     result = runner.invoke(app, ['gentests', 'tests/files/gchors/fsa/ex_parallel.fsa'])
     assert result.exit_code == 0

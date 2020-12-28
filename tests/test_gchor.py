@@ -27,14 +27,14 @@ def gg_parser():
 
 @fixture
 def atm_simple_tree(gg_parser):
-    return gg_parser.parse(open("examples/gchors/atm_simple.gg").read())
+    return gg_parser.parse(open("examples/gchors/atm_simple.gc").read())
 
 class TestGChorParser:
     def test_comment(self, gg_parser):
         text = "A -> C: money;  // comment \n B -> A: money"
         gg_parser.parse(text)
 
-    @pytest.mark.gg
+    @pytest.mark.gc
     @pytest.mark.parsers
     def test_parse(self, gg_parser, atm_simple_tree):
         print(atm_simple_tree.pretty())
