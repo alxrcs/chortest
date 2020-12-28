@@ -24,7 +24,8 @@ app = Typer()
 L = getLogger()
 
 CHORGRAM_BASE_PATH = Path("chorgram")
-PROJECTION_COMMAND = "gg2fsa"
+PROJECTION_COMMAND = "gc2fsa"
+LTSGEN_COMMAND = "cfsm2gc.py"
 FSA_OUTPUT_DEFAULT_FOLDER = "fsa"
 CHORGRAM_INVOKE_ERROR_MSG = (
     "Could not invoke chorgram. Check that dependencies are correctly installed."
@@ -144,7 +145,7 @@ def genlts(
     with open("chorgram_output.log", "w") as l:
         retcode = call(
             [
-                str((CHORGRAM_BASE_PATH / "cfsm2gg.py").absolute()),
+                str((CHORGRAM_BASE_PATH / LTSGEN_COMMAND).absolute()),
                 "-ts",
                 Path(combined_filename).absolute(),
                 "-dir",
