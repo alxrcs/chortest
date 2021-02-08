@@ -31,4 +31,4 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-run = "src.chortest.main:main"
+run = "chortest.__main__:main"
