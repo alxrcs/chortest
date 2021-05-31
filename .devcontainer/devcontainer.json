@@ -18,7 +18,9 @@
 		"ms-python.python",
 		"ms-python.vscode-pylance",
 		"eamodio.gitlens",
-		"haskell.haskell"
+		"haskell.haskell",
+		"tintinweb.graphviz-interactive-preview",
+		"bpmn-io.vs-code-bpmn-io"
 	]
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
