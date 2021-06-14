@@ -1,0 +1,1 @@
+A Collaboration diagram with a deadlocking execution.

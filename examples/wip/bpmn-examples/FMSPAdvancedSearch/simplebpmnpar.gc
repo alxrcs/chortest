@@ -1,0 +1,20 @@
+C -> B : login;
+B -> C : loginSuccess;
+C -> B : search;
+(
+    (
+        B -> A1 : getRoomInfo;
+        A1 -> B : roomInfo
+    )
+    |
+    (
+        B -> A2 : getRoomInfo;
+        A2 -> B : roomInfo
+    )
+    |
+    (
+        B -> A3 : getRoomInfo;
+        A3 -> B : roomInfo
+    )
+);
+B -> C : searchResult

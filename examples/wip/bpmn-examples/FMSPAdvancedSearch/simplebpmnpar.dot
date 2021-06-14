@@ -1,0 +1,34 @@
+digraph simplebpmnpar {
+   node [width=0.2, height=0.2]
+
+	node1 [label="", shape=circle, fixedsize=true]
+	node5 [label = "C &rarr; B : login", shape=rectangle, fontname=helvetica, fontcolor=MidnightBlue]
+	node9 [label = "B &rarr; C : loginSuccess", shape=rectangle, fontname=helvetica, fontcolor=MidnightBlue]
+	node13 [label = "C &rarr; B : search", shape=rectangle, fontname=helvetica, fontcolor=MidnightBlue]
+	node17 [label="|", shape=square, fixedsize=true, fillcolor=papayawhip, style=filled, fontsize=10, fontcolor=sienna]
+	node38 [label = "B &rarr; A1 : getRoomInfo", shape=rectangle, fontname=helvetica, fontcolor=MidnightBlue]
+	node42 [label = "A1 &rarr; B : roomInfo", shape=rectangle, fontname=helvetica, fontcolor=MidnightBlue]
+	node65 [label = "B &rarr; A2 : getRoomInfo", shape=rectangle, fontname=helvetica, fontcolor=MidnightBlue]
+	node69 [label = "A2 &rarr; B : roomInfo", shape=rectangle, fontname=helvetica, fontcolor=MidnightBlue]
+	node92 [label = "B &rarr; A3 : getRoomInfo", shape=rectangle, fontname=helvetica, fontcolor=MidnightBlue]
+	node96 [label = "A3 &rarr; B : roomInfo", shape=rectangle, fontname=helvetica, fontcolor=MidnightBlue]
+	node_17 [label="|", shape=square, fixedsize=true, fillcolor=sienna, style=filled, fontsize=10, fontcolor=papayawhip]
+	node100 [label = "B &rarr; C : searchResult", shape=rectangle, fontname=helvetica, fontcolor=MidnightBlue]
+	node_1 [label="", shape=circle, width=0.15, height=0.15, fixedsize=true, peripheries=2]
+	node1 -> node5
+	node5 -> node9
+	node9 -> node13
+	node13 -> node17
+	node17 -> node38
+	node38 -> node42
+	node42 -> node_17
+	node17 -> node65
+	node65 -> node69
+	node69 -> node_17
+	node17 -> node92
+	node92 -> node96
+	node96 -> node_17
+	node_17 -> node100
+	node100 -> node_1
+
+}

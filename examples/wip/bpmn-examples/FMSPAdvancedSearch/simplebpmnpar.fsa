@@ -1,0 +1,104 @@
+.outputs A1
+.state graph
+q0____ 3 ? getRoomInfo qe30*qe2*qe2__qe30*qe2*qe3__qe30*qe2*qe30__qe30*qe3*qe2__qe30*qe3*qe3__qe30*qe3*qe30__qe30*qe30*qe2__qe30*qe30*qe3__qe30*qe30*qe30____
+qe30*qe2*qe2__qe30*qe2*qe3__qe30*qe2*qe30__qe30*qe3*qe2__qe30*qe3*qe3__qe30*qe3*qe30__qe30*qe30*qe2__qe30*qe30*qe3__qe30*qe30*qe30____ 3 ! roomInfo qe__qe3__qe3*qe2*qe2__qe3*qe2*qe3__qe3*qe2*qe30__qe3*qe3*qe2__qe3*qe3*qe30__qe3*qe30*qe2__qe3*qe30*qe3__qe3*qe30*qe30____
+.marking q0____
+.end
+
+
+
+.outputs A2
+.state graph
+q0____ 3 ? getRoomInfo qe2*qe30*qe2__qe2*qe30*qe3__qe2*qe30*qe30__qe3*qe30*qe2__qe3*qe30*qe3__qe3*qe30*qe30__qe30*qe30*qe2__qe30*qe30*qe3__qe30*qe30*qe30____
+qe2*qe30*qe2__qe2*qe30*qe3__qe2*qe30*qe30__qe3*qe30*qe2__qe3*qe30*qe3__qe3*qe30*qe30__qe30*qe30*qe2__qe30*qe30*qe3__qe30*qe30*qe30____ 3 ! roomInfo qe__qe2*qe3*qe2__qe2*qe3*qe3__qe2*qe3*qe30__qe3__qe3*qe3*qe2__qe3*qe3*qe30__qe30*qe3*qe2__qe30*qe3*qe3__qe30*qe3*qe30____
+.marking q0____
+.end
+
+
+
+.outputs A3
+.state graph
+q0____ 3 ? getRoomInfo qe2*qe2*qe30__qe2*qe3*qe30__qe2*qe30*qe30__qe3*qe2*qe30__qe3*qe3*qe30__qe3*qe30*qe30__qe30*qe2*qe30__qe30*qe3*qe30__qe30*qe30*qe30____
+qe2*qe2*qe30__qe2*qe3*qe30__qe2*qe30*qe30__qe3*qe2*qe30__qe3*qe3*qe30__qe3*qe30*qe30__qe30*qe2*qe30__qe30*qe3*qe30__qe30*qe30*qe30____ 3 ! roomInfo qe__qe2*qe2*qe3__qe2*qe3*qe3__qe2*qe30*qe3__qe3__qe3*qe2*qe3__qe3*qe30*qe3__qe30*qe2*qe3__qe30*qe3*qe3__qe30*qe30*qe3____
+.marking q0____
+.end
+
+
+
+.outputs B
+.state graph
+q0____ 4 ? login qe0____
+qe0____ 4 ! loginSuccess qe1____
+qe1____ 4 ? search qe2____
+qe2*qe2*qe30____ 2 ? roomInfo qe2*qe2*qe3____
+qe2*qe2*qe30____ 0 ! getRoomInfo qe30*qe2*qe30____
+qe2*qe2*qe30____ 1 ! getRoomInfo qe2*qe30*qe30____
+qe2*qe2*qe3____ 0 ! getRoomInfo qe30*qe2*qe3____
+qe2*qe2*qe3____ 1 ! getRoomInfo qe2*qe30*qe3____
+qe2*qe3*qe2____ 0 ! getRoomInfo qe30*qe3*qe2____
+qe2*qe3*qe2____ 2 ! getRoomInfo qe2*qe3*qe30____
+qe2*qe3*qe30____ 2 ? roomInfo qe2*qe3*qe3____
+qe2*qe3*qe30____ 0 ! getRoomInfo qe30*qe3*qe30____
+qe2*qe3*qe3____ 0 ! getRoomInfo qe30*qe3*qe3____
+qe2*qe30*qe2____ 1 ? roomInfo qe2*qe3*qe2____
+qe2*qe30*qe2____ 0 ! getRoomInfo qe30*qe30*qe2____
+qe2*qe30*qe2____ 2 ! getRoomInfo qe2*qe30*qe30____
+qe2*qe30*qe30____ 1 ? roomInfo qe2*qe3*qe30____
+qe2*qe30*qe30____ 2 ? roomInfo qe2*qe30*qe3____
+qe2*qe30*qe30____ 0 ! getRoomInfo qe30*qe30*qe30____
+qe2*qe30*qe3____ 1 ? roomInfo qe2*qe3*qe3____
+qe2*qe30*qe3____ 0 ! getRoomInfo qe30*qe30*qe3____
+qe2____ 0 ! getRoomInfo qe30*qe2*qe2____
+qe2____ 1 ! getRoomInfo qe2*qe30*qe2____
+qe2____ 2 ! getRoomInfo qe2*qe2*qe30____
+qe3*qe2*qe2____ 1 ! getRoomInfo qe3*qe30*qe2____
+qe3*qe2*qe2____ 2 ! getRoomInfo qe3*qe2*qe30____
+qe3*qe2*qe30____ 2 ? roomInfo qe3*qe2*qe3____
+qe3*qe2*qe30____ 1 ! getRoomInfo qe3*qe30*qe30____
+qe3*qe2*qe3____ 1 ! getRoomInfo qe3*qe30*qe3____
+qe3*qe3*qe2____ 2 ! getRoomInfo qe3*qe3*qe30____
+qe3*qe3*qe30____ 2 ? roomInfo qe3____
+qe3*qe30*qe2____ 1 ? roomInfo qe3*qe3*qe2____
+qe3*qe30*qe2____ 2 ! getRoomInfo qe3*qe30*qe30____
+qe3*qe30*qe30____ 1 ? roomInfo qe3*qe3*qe30____
+qe3*qe30*qe30____ 2 ? roomInfo qe3*qe30*qe3____
+qe3*qe30*qe3____ 1 ? roomInfo qe3____
+qe30*qe2*qe2____ 0 ? roomInfo qe3*qe2*qe2____
+qe30*qe2*qe2____ 1 ! getRoomInfo qe30*qe30*qe2____
+qe30*qe2*qe2____ 2 ! getRoomInfo qe30*qe2*qe30____
+qe30*qe2*qe30____ 0 ? roomInfo qe3*qe2*qe30____
+qe30*qe2*qe30____ 2 ? roomInfo qe30*qe2*qe3____
+qe30*qe2*qe30____ 1 ! getRoomInfo qe30*qe30*qe30____
+qe30*qe2*qe3____ 0 ? roomInfo qe3*qe2*qe3____
+qe30*qe2*qe3____ 1 ! getRoomInfo qe30*qe30*qe3____
+qe30*qe3*qe2____ 0 ? roomInfo qe3*qe3*qe2____
+qe30*qe3*qe2____ 2 ! getRoomInfo qe30*qe3*qe30____
+qe30*qe3*qe30____ 0 ? roomInfo qe3*qe3*qe30____
+qe30*qe3*qe30____ 2 ? roomInfo qe30*qe3*qe3____
+qe30*qe3*qe3____ 0 ? roomInfo qe3____
+qe30*qe30*qe2____ 0 ? roomInfo qe3*qe30*qe2____
+qe30*qe30*qe2____ 1 ? roomInfo qe30*qe3*qe2____
+qe30*qe30*qe2____ 2 ! getRoomInfo qe30*qe30*qe30____
+qe30*qe30*qe30____ 0 ? roomInfo qe3*qe30*qe30____
+qe30*qe30*qe30____ 1 ? roomInfo qe30*qe3*qe30____
+qe30*qe30*qe30____ 2 ? roomInfo qe30*qe30*qe3____
+qe30*qe30*qe3____ 0 ? roomInfo qe3*qe30*qe3____
+qe30*qe30*qe3____ 1 ? roomInfo qe30*qe3*qe3____
+qe3____ 4 ! searchResult qe____
+.marking q0____
+.end
+
+
+
+.outputs C
+.state graph
+q0____ 3 ! login qe0____
+qe0____ 3 ? loginSuccess qe1____
+qe1____ 3 ! search qe2__qe2*qe2*qe3__qe2*qe2*qe30__qe2*qe3*qe2__qe2*qe3*qe3__qe2*qe3*qe30__qe2*qe30*qe2__qe2*qe30*qe3__qe2*qe30*qe30__qe3__qe3*qe2*qe2__qe3*qe2*qe3__qe3*qe2*qe30__qe3*qe3*qe2__qe3*qe3*qe30__qe3*qe30*qe2__qe3*qe30*qe3__qe3*qe30*qe30__qe30*qe2*qe2__qe30*qe2*qe3__qe30*qe2*qe30__qe30*qe3*qe2__qe30*qe3*qe3__qe30*qe3*qe30__qe30*qe30*qe2__qe30*qe30*qe3__qe30*qe30*qe30____
+qe2__qe2*qe2*qe3__qe2*qe2*qe30__qe2*qe3*qe2__qe2*qe3*qe3__qe2*qe3*qe30__qe2*qe30*qe2__qe2*qe30*qe3__qe2*qe30*qe30__qe3__qe3*qe2*qe2__qe3*qe2*qe3__qe3*qe2*qe30__qe3*qe3*qe2__qe3*qe3*qe30__qe3*qe30*qe2__qe3*qe30*qe3__qe3*qe30*qe30__qe30*qe2*qe2__qe30*qe2*qe3__qe30*qe2*qe30__qe30*qe3*qe2__qe30*qe3*qe3__qe30*qe3*qe30__qe30*qe30*qe2__qe30*qe30*qe3__qe30*qe30*qe30____ 3 ? searchResult qe____
+.marking q0____
+.end
+
+
+
+
