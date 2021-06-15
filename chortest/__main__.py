@@ -58,8 +58,8 @@ def project(gchor_filename: str, output_folder: str = None):
             stdout=outfile,
             stderr=outfile,
         )
-
-        assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG
+        
+        assert retcode == 0, CHORGRAM_INVOKE_ERROR_MSG + f' Check {output_filepath} for more details.'
 
         L.info(f"Projections saved to {output_filepath}")
 
@@ -225,6 +225,7 @@ def run(cs_filename: str):
     cs = CommunicatingSystem.parse(cs_filename)
     cs.execute_interactively()
 
+
 @app.command(no_args_is_help=True)
 def getdot(cs_filename: str):
     """
@@ -235,7 +236,7 @@ def getdot(cs_filename: str):
     of = fp.parent
 
     cs.to_dot(str(of))
-    L.info(f'Machines saved to {str(of)}')
+    L.info(f"Machines saved to {str(of)}")
 
 
 def main():
