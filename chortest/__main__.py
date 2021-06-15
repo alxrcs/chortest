@@ -1,14 +1,15 @@
 import os
+import subprocess
 from datetime import datetime
 from logging import FileHandler, Formatter, basicConfig, getLogger
 from os import makedirs
 from pathlib import Path
 from shutil import copy
-from subprocess import call
-from time import perf_counter
+from time import perf_counter, time
 from typing import List, Optional
 
 import typer
+import yaml
 from rich.logging import RichHandler
 from typer import Typer
 
@@ -17,8 +18,6 @@ from chortest.lts import LTS
 
 from .cfsm import CommunicatingSystem, State
 from .gchor import Participant
-
-import yaml
 
 app = Typer()
 L = getLogger()
@@ -35,6 +34,13 @@ DOT_INVOKE_ERROR_MSG = (
 )
 ORACLE_DEFAULT_FILENAME = "oracle.yaml"
 
+def call(cmd, *args, **kwargs):
+    before = time()
+    cmd_str = " ".join(map(lambda x: str(x), cmd))
+    L.info(f"Calling {str(cmd_str)}")
+    ret = subprocess.call(cmd, *args, **kwargs)
+    L.info(f"Done in {(time()-before):.3f}s!")
+    return 0 
 
 @app.command(no_args_is_help=True)
 def project(gchor_filename: str, output_folder: str = None):
