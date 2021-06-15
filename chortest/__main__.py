@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 from datetime import datetime
 from logging import FileHandler, Formatter, basicConfig, getLogger
 from os import makedirs
@@ -81,24 +82,31 @@ def gentests(
     Generates tests for a given communicating system.
     Expects the system to be in a single .fsa file.
     """
+
+    L.info(f'Parsing {cs_filename}')
     cs = CommunicatingSystem.parse(cs_filename)
+    L.info(f'Finished parsing {cs_filename}')
+
     output_foldername = str(datetime.now().isoformat(sep="_").replace(":", ""))
     fsa_f = Path(cs_filename)
     tests_path = fsa_f.parent / f"{fsa_f.stem}_tests"
+
     if include_timestamp:
         tests_path = tests_path / output_foldername
 
     if output is not None:
         tests_path = Path(output)
 
-    if participant is not None:
-        participants = [Participant(participant)]
-    else:
+    if participant is None:
+        L.info(f'No participant specified. Will generate tests for all participants.')
         participants = list(cs.participants)
+    else:
+        participants = [Participant(participant)]
 
     start_time = perf_counter()
 
     for p in participants:
+        L.info(f'Generating tests for participant {str(p)}')
         tests = list(cs.tests(p))
         for i, test in enumerate(tests):
             test.to_fsa(
