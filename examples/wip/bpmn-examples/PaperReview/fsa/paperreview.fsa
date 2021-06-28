@@ -1,0 +1,174 @@
+.outputs Author1
+.state graph
+q0*q0*qe__q0*q0*qe5*qe4__q0*qe*qe__q0*qe*qe5*qe4____ 2 ? DeskRejects qe__qe*q0*qe__qe*q0*qe5*qe4__qe*qe*qe5*qe4____
+q0____ 2 ? DeskRejects qe*q0*q0__qe*q0*qe0__qe*q0*qe0*qe0*qe1__qe*q0*qe0*qe1*qe0__qe*q0*qe0*qe1*qe1__qe*q0*qe1__qe*q0*qe1*qe0*qe0__qe*q0*qe1*qe0*qe1__qe*q0*qe1*qe1*qe0__qe*q0*qe1*qe1*qe2__qe*q0*qe1*qe2*qe1__qe*q0*qe1*qe2*qe2__qe*q0*qe2__qe*q0*qe2*qe1*qe1__qe*q0*qe2*qe1*qe2__qe*q0*qe2*qe2*qe1__qe*q0*qe2*qe2*qe3__qe*q0*qe2*qe3*qe2__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe2*qe2__qe*q0*qe3*qe2*qe3__qe*q0*qe3*qe3*qe2__qe*q0*qe4__qe*q0*qe4*qe5__qe*qe*q0__qe*qe*qe0__qe*qe*qe0*qe0*qe1__qe*qe*qe0*qe1*qe0__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe0*qe0__qe*qe*qe1*qe0*qe1__qe*qe*qe1*qe1*qe0__qe*qe*qe1*qe1*qe2__qe*qe*qe1*qe2*qe1__qe*qe*qe1*qe2*qe2__qe*qe*qe2__qe*qe*qe2*qe1*qe1__qe*qe*qe2*qe1*qe2__qe*qe*qe2*qe2*qe1__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2__qe*qe*qe4__qe*qe*qe4*qe5____
+q0____ 2 ? Notification q0*q0*qe__q0*q0*qe5*qe4__q0*qe*qe__q0*qe*qe5*qe4____
+qe*q0*q0__qe*q0*qe0__qe*q0*qe0*qe0*qe1__qe*q0*qe0*qe1*qe0__qe*q0*qe0*qe1*qe1__qe*q0*qe1__qe*q0*qe1*qe0*qe0__qe*q0*qe1*qe0*qe1__qe*q0*qe1*qe1*qe0__qe*q0*qe1*qe1*qe2__qe*q0*qe1*qe2*qe1__qe*q0*qe1*qe2*qe2__qe*q0*qe2__qe*q0*qe2*qe1*qe1__qe*q0*qe2*qe1*qe2__qe*q0*qe2*qe2*qe1__qe*q0*qe2*qe2*qe3__qe*q0*qe2*qe3*qe2__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe2*qe2__qe*q0*qe3*qe2*qe3__qe*q0*qe3*qe3*qe2__qe*q0*qe4__qe*q0*qe4*qe5__qe*qe*q0__qe*qe*qe0__qe*qe*qe0*qe0*qe1__qe*qe*qe0*qe1*qe0__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe0*qe0__qe*qe*qe1*qe0*qe1__qe*qe*qe1*qe1*qe0__qe*qe*qe1*qe1*qe2__qe*qe*qe1*qe2*qe1__qe*qe*qe1*qe2*qe2__qe*qe*qe2__qe*qe*qe2*qe1*qe1__qe*qe*qe2*qe1*qe2__qe*qe*qe2*qe2*qe1__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2__qe*qe*qe4__qe*qe*qe4*qe5____ 2 ? Notification qe__qe*q0*qe__qe*q0*qe5*qe4__qe*qe*qe5*qe4____
+.marking q0____
+.end
+
+
+
+.outputs Author2
+.state graph
+q0*q0*qe__q0*q0*qe4*qe5__qe*q0*qe__qe*q0*qe4*qe5____ 2 ? DeskRejects q0*qe*qe__q0*qe*qe4*qe5__qe__qe*qe*qe4*qe5____
+q0*qe*q0__q0*qe*qe0__q0*qe*qe0*qe0*qe1__q0*qe*qe0*qe1*qe0__q0*qe*qe0*qe1*qe1__q0*qe*qe1__q0*qe*qe1*qe0*qe0__q0*qe*qe1*qe0*qe1__q0*qe*qe1*qe1*qe0__q0*qe*qe1*qe1*qe2__q0*qe*qe1*qe2*qe1__q0*qe*qe1*qe2*qe2__q0*qe*qe2__q0*qe*qe2*qe1*qe1__q0*qe*qe2*qe1*qe2__q0*qe*qe2*qe2*qe1__q0*qe*qe2*qe2*qe3__q0*qe*qe2*qe3*qe2__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe2*qe2__q0*qe*qe3*qe2*qe3__q0*qe*qe3*qe3*qe2__q0*qe*qe4__q0*qe*qe5*qe4__qe*qe*q0__qe*qe*qe0__qe*qe*qe0*qe0*qe1__qe*qe*qe0*qe1*qe0__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe0*qe0__qe*qe*qe1*qe0*qe1__qe*qe*qe1*qe1*qe0__qe*qe*qe1*qe1*qe2__qe*qe*qe1*qe2*qe1__qe*qe*qe1*qe2*qe2__qe*qe*qe2__qe*qe*qe2*qe1*qe1__qe*qe*qe2*qe1*qe2__qe*qe*qe2*qe2*qe1__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2__qe*qe*qe4__qe*qe*qe5*qe4____ 2 ? Notification q0*qe*qe__q0*qe*qe4*qe5__qe__qe*qe*qe4*qe5____
+q0____ 2 ? DeskRejects q0*qe*q0__q0*qe*qe0__q0*qe*qe0*qe0*qe1__q0*qe*qe0*qe1*qe0__q0*qe*qe0*qe1*qe1__q0*qe*qe1__q0*qe*qe1*qe0*qe0__q0*qe*qe1*qe0*qe1__q0*qe*qe1*qe1*qe0__q0*qe*qe1*qe1*qe2__q0*qe*qe1*qe2*qe1__q0*qe*qe1*qe2*qe2__q0*qe*qe2__q0*qe*qe2*qe1*qe1__q0*qe*qe2*qe1*qe2__q0*qe*qe2*qe2*qe1__q0*qe*qe2*qe2*qe3__q0*qe*qe2*qe3*qe2__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe2*qe2__q0*qe*qe3*qe2*qe3__q0*qe*qe3*qe3*qe2__q0*qe*qe4__q0*qe*qe5*qe4__qe*qe*q0__qe*qe*qe0__qe*qe*qe0*qe0*qe1__qe*qe*qe0*qe1*qe0__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe0*qe0__qe*qe*qe1*qe0*qe1__qe*qe*qe1*qe1*qe0__qe*qe*qe1*qe1*qe2__qe*qe*qe1*qe2*qe1__qe*qe*qe1*qe2*qe2__qe*qe*qe2__qe*qe*qe2*qe1*qe1__qe*qe*qe2*qe1*qe2__qe*qe*qe2*qe2*qe1__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2__qe*qe*qe4__qe*qe*qe5*qe4____
+q0____ 2 ? Notification q0*q0*qe__q0*q0*qe4*qe5__qe*q0*qe__qe*q0*qe4*qe5____
+.marking q0____
+.end
+
+
+
+.outputs CommChair
+.state graph
+q0*q0*qe0__q0*q0*qe0*qe0*qe1__q0*q0*qe0*qe1*qe0__q0*q0*qe0*qe1*qe1__q0*q0*qe1__q0*q0*qe1*qe0*qe0__q0*q0*qe1*qe0*qe1__q0*q0*qe1*qe1*qe0__q0*q0*qe1*qe1*qe2__q0*q0*qe1*qe2*qe1__q0*q0*qe1*qe2*qe2__q0*q0*qe2__q0*q0*qe2*qe1*qe1__q0*q0*qe2*qe1*qe2__q0*q0*qe2*qe2*qe1__q0*q0*qe2*qe2*qe3__q0*q0*qe2*qe3*qe2__q0*q0*qe2*qe3*qe3__q0*q0*qe3__q0*q0*qe3*qe2*qe2__q0*q0*qe3*qe2*qe3__q0*q0*qe3*qe3*qe2____ 0 ! DeskRejects qe*q0*qe0__qe*q0*qe0*qe0*qe1__qe*q0*qe0*qe1*qe0__qe*q0*qe0*qe1*qe1__qe*q0*qe1__qe*q0*qe1*qe0*qe0__qe*q0*qe1*qe0*qe1__qe*q0*qe1*qe1*qe0__qe*q0*qe1*qe1*qe2__qe*q0*qe1*qe2*qe1__qe*q0*qe1*qe2*qe2__qe*q0*qe2__qe*q0*qe2*qe1*qe1__qe*q0*qe2*qe1*qe2__qe*q0*qe2*qe2*qe1__qe*q0*qe2*qe2*qe3__qe*q0*qe2*qe3*qe2__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe2*qe2__qe*q0*qe3*qe2*qe3__qe*q0*qe3*qe3*qe2____
+q0*q0*qe0__q0*q0*qe0*qe0*qe1__q0*q0*qe0*qe1*qe0__q0*q0*qe0*qe1*qe1__q0*q0*qe1__q0*q0*qe1*qe0*qe0__q0*q0*qe1*qe0*qe1__q0*q0*qe1*qe1*qe0__q0*q0*qe1*qe1*qe2__q0*q0*qe1*qe2*qe1__q0*q0*qe1*qe2*qe2__q0*q0*qe2__q0*q0*qe2*qe1*qe1__q0*q0*qe2*qe1*qe2__q0*q0*qe2*qe2*qe1__q0*q0*qe2*qe2*qe3__q0*q0*qe2*qe3*qe2__q0*q0*qe2*qe3*qe3__q0*q0*qe3__q0*q0*qe3*qe2*qe2__q0*q0*qe3*qe2*qe3__q0*q0*qe3*qe3*qe2____ 1 ! DeskRejects q0*qe*qe0__q0*qe*qe0*qe0*qe1__q0*qe*qe0*qe1*qe0__q0*qe*qe0*qe1*qe1__q0*qe*qe1__q0*qe*qe1*qe0*qe0__q0*qe*qe1*qe0*qe1__q0*qe*qe1*qe1*qe0__q0*qe*qe1*qe1*qe2__q0*qe*qe1*qe2*qe1__q0*qe*qe1*qe2*qe2__q0*qe*qe2__q0*qe*qe2*qe1*qe1__q0*qe*qe2*qe1*qe2__q0*qe*qe2*qe2*qe1__q0*qe*qe2*qe2*qe3__q0*qe*qe2*qe3*qe2__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe2*qe2__q0*qe*qe3*qe2*qe3__q0*qe*qe3*qe3*qe2____
+q0*q0*qe0__q0*q0*qe0*qe0*qe1__q0*q0*qe0*qe1*qe0__q0*q0*qe0*qe1*qe1__q0*q0*qe1__q0*q0*qe1*qe0*qe0__q0*q0*qe1*qe0*qe1__q0*q0*qe1*qe1*qe0__q0*q0*qe1*qe1*qe2__q0*q0*qe1*qe2*qe1__q0*q0*qe1*qe2*qe2__q0*q0*qe2__q0*q0*qe2*qe1*qe1__q0*q0*qe2*qe1*qe2__q0*q0*qe2*qe2*qe1__q0*q0*qe2*qe2*qe3__q0*q0*qe2*qe3*qe2__q0*q0*qe2*qe3*qe3__q0*q0*qe3__q0*q0*qe3*qe2*qe2__q0*q0*qe3*qe2*qe3__q0*q0*qe3*qe3*qe2____ 3 ? Notification q0*q0*qe4____
+q0*q0*qe4*qe5____ 0 ! DeskRejects qe*q0*qe4*qe5____
+q0*q0*qe4*qe5____ 0 ! Notification q0*q0*qe____
+q0*q0*qe4*qe5____ 1 ! DeskRejects q0*qe*qe4*qe5____
+q0*q0*qe4____ 0 ! DeskRejects qe*q0*qe4____
+q0*q0*qe4____ 0 ! Notification q0*q0*qe5*qe4____
+q0*q0*qe4____ 1 ! DeskRejects q0*qe*qe4____
+q0*q0*qe4____ 1 ! Notification q0*q0*qe4*qe5____
+q0*q0*qe5*qe4____ 0 ! DeskRejects qe*q0*qe5*qe4____
+q0*q0*qe5*qe4____ 1 ! DeskRejects q0*qe*qe5*qe4____
+q0*q0*qe5*qe4____ 1 ! Notification q0*q0*qe____
+q0*q0*qe____ 0 ! DeskRejects qe*q0*qe____
+q0*q0*qe____ 1 ! DeskRejects q0*qe*qe____
+q0*qe*q0____ 0 ! DeskRejects qe*qe*q0____
+q0*qe*q0____ 3 ! EligibleList q0*qe*qe0__q0*qe*qe0*qe0*qe1__q0*qe*qe0*qe1*qe0__q0*qe*qe0*qe1*qe1__q0*qe*qe1__q0*qe*qe1*qe0*qe0__q0*qe*qe1*qe0*qe1__q0*qe*qe1*qe1*qe0__q0*qe*qe1*qe1*qe2__q0*qe*qe1*qe2*qe1__q0*qe*qe1*qe2*qe2__q0*qe*qe2__q0*qe*qe2*qe1*qe1__q0*qe*qe2*qe1*qe2__q0*qe*qe2*qe2*qe1__q0*qe*qe2*qe2*qe3__q0*qe*qe2*qe3*qe2__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe2*qe2__q0*qe*qe3*qe2*qe3__q0*qe*qe3*qe3*qe2____
+q0*qe*qe0__q0*qe*qe0*qe0*qe1__q0*qe*qe0*qe1*qe0__q0*qe*qe0*qe1*qe1__q0*qe*qe1__q0*qe*qe1*qe0*qe0__q0*qe*qe1*qe0*qe1__q0*qe*qe1*qe1*qe0__q0*qe*qe1*qe1*qe2__q0*qe*qe1*qe2*qe1__q0*qe*qe1*qe2*qe2__q0*qe*qe2__q0*qe*qe2*qe1*qe1__q0*qe*qe2*qe1*qe2__q0*qe*qe2*qe2*qe1__q0*qe*qe2*qe2*qe3__q0*qe*qe2*qe3*qe2__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe2*qe2__q0*qe*qe3*qe2*qe3__q0*qe*qe3*qe3*qe2____ 0 ! DeskRejects qe*qe*qe0__qe*qe*qe0*qe0*qe1__qe*qe*qe0*qe1*qe0__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe0*qe0__qe*qe*qe1*qe0*qe1__qe*qe*qe1*qe1*qe0__qe*qe*qe1*qe1*qe2__qe*qe*qe1*qe2*qe1__qe*qe*qe1*qe2*qe2__qe*qe*qe2__qe*qe*qe2*qe1*qe1__qe*qe*qe2*qe1*qe2__qe*qe*qe2*qe2*qe1__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2____
+q0*qe*qe0__q0*qe*qe0*qe0*qe1__q0*qe*qe0*qe1*qe0__q0*qe*qe0*qe1*qe1__q0*qe*qe1__q0*qe*qe1*qe0*qe0__q0*qe*qe1*qe0*qe1__q0*qe*qe1*qe1*qe0__q0*qe*qe1*qe1*qe2__q0*qe*qe1*qe2*qe1__q0*qe*qe1*qe2*qe2__q0*qe*qe2__q0*qe*qe2*qe1*qe1__q0*qe*qe2*qe1*qe2__q0*qe*qe2*qe2*qe1__q0*qe*qe2*qe2*qe3__q0*qe*qe2*qe3*qe2__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe2*qe2__q0*qe*qe3*qe2*qe3__q0*qe*qe3*qe3*qe2____ 3 ? Notification q0*qe*qe4____
+q0*qe*qe4*qe5____ 0 ! DeskRejects qe*qe*qe4*qe5____
+q0*qe*qe4*qe5____ 0 ! Notification q0*qe*qe____
+q0*qe*qe4____ 0 ! DeskRejects qe*qe*qe4____
+q0*qe*qe4____ 0 ! Notification q0*qe*qe5*qe4____
+q0*qe*qe4____ 1 ! Notification q0*qe*qe4*qe5____
+q0*qe*qe5*qe4____ 0 ! DeskRejects qe*qe*qe5*qe4____
+q0*qe*qe5*qe4____ 1 ! Notification q0*qe*qe____
+q0*qe*qe____ 0 ! DeskRejects qe____
+q0____ 0 ! DeskRejects qe*q0*q0____
+q0____ 1 ! DeskRejects q0*qe*q0____
+q0____ 3 ! EligibleList q0*q0*qe0__q0*q0*qe0*qe0*qe1__q0*q0*qe0*qe1*qe0__q0*q0*qe0*qe1*qe1__q0*q0*qe1__q0*q0*qe1*qe0*qe0__q0*q0*qe1*qe0*qe1__q0*q0*qe1*qe1*qe0__q0*q0*qe1*qe1*qe2__q0*q0*qe1*qe2*qe1__q0*q0*qe1*qe2*qe2__q0*q0*qe2__q0*q0*qe2*qe1*qe1__q0*q0*qe2*qe1*qe2__q0*q0*qe2*qe2*qe1__q0*q0*qe2*qe2*qe3__q0*q0*qe2*qe3*qe2__q0*q0*qe2*qe3*qe3__q0*q0*qe3__q0*q0*qe3*qe2*qe2__q0*q0*qe3*qe2*qe3__q0*q0*qe3*qe3*qe2____
+qe*q0*q0____ 1 ! DeskRejects qe*qe*q0____
+qe*q0*q0____ 3 ! EligibleList qe*q0*qe0__qe*q0*qe0*qe0*qe1__qe*q0*qe0*qe1*qe0__qe*q0*qe0*qe1*qe1__qe*q0*qe1__qe*q0*qe1*qe0*qe0__qe*q0*qe1*qe0*qe1__qe*q0*qe1*qe1*qe0__qe*q0*qe1*qe1*qe2__qe*q0*qe1*qe2*qe1__qe*q0*qe1*qe2*qe2__qe*q0*qe2__qe*q0*qe2*qe1*qe1__qe*q0*qe2*qe1*qe2__qe*q0*qe2*qe2*qe1__qe*q0*qe2*qe2*qe3__qe*q0*qe2*qe3*qe2__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe2*qe2__qe*q0*qe3*qe2*qe3__qe*q0*qe3*qe3*qe2____
+qe*q0*qe0__qe*q0*qe0*qe0*qe1__qe*q0*qe0*qe1*qe0__qe*q0*qe0*qe1*qe1__qe*q0*qe1__qe*q0*qe1*qe0*qe0__qe*q0*qe1*qe0*qe1__qe*q0*qe1*qe1*qe0__qe*q0*qe1*qe1*qe2__qe*q0*qe1*qe2*qe1__qe*q0*qe1*qe2*qe2__qe*q0*qe2__qe*q0*qe2*qe1*qe1__qe*q0*qe2*qe1*qe2__qe*q0*qe2*qe2*qe1__qe*q0*qe2*qe2*qe3__qe*q0*qe2*qe3*qe2__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe2*qe2__qe*q0*qe3*qe2*qe3__qe*q0*qe3*qe3*qe2____ 1 ! DeskRejects qe*qe*qe0__qe*qe*qe0*qe0*qe1__qe*qe*qe0*qe1*qe0__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe0*qe0__qe*qe*qe1*qe0*qe1__qe*qe*qe1*qe1*qe0__qe*qe*qe1*qe1*qe2__qe*qe*qe1*qe2*qe1__qe*qe*qe1*qe2*qe2__qe*qe*qe2__qe*qe*qe2*qe1*qe1__qe*qe*qe2*qe1*qe2__qe*qe*qe2*qe2*qe1__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2____
+qe*q0*qe0__qe*q0*qe0*qe0*qe1__qe*q0*qe0*qe1*qe0__qe*q0*qe0*qe1*qe1__qe*q0*qe1__qe*q0*qe1*qe0*qe0__qe*q0*qe1*qe0*qe1__qe*q0*qe1*qe1*qe0__qe*q0*qe1*qe1*qe2__qe*q0*qe1*qe2*qe1__qe*q0*qe1*qe2*qe2__qe*q0*qe2__qe*q0*qe2*qe1*qe1__qe*q0*qe2*qe1*qe2__qe*q0*qe2*qe2*qe1__qe*q0*qe2*qe2*qe3__qe*q0*qe2*qe3*qe2__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe2*qe2__qe*q0*qe3*qe2*qe3__qe*q0*qe3*qe3*qe2____ 3 ? Notification qe*q0*qe4____
+qe*q0*qe4*qe5____ 0 ! Notification qe*q0*qe____
+qe*q0*qe4*qe5____ 1 ! DeskRejects qe*qe*qe4*qe5____
+qe*q0*qe4____ 0 ! Notification qe*q0*qe5*qe4____
+qe*q0*qe4____ 1 ! DeskRejects qe*qe*qe4____
+qe*q0*qe4____ 1 ! Notification qe*q0*qe4*qe5____
+qe*q0*qe5*qe4____ 1 ! DeskRejects qe*qe*qe5*qe4____
+qe*q0*qe5*qe4____ 1 ! Notification qe*q0*qe____
+qe*q0*qe____ 1 ! DeskRejects qe____
+qe*qe*q0____ 3 ! EligibleList qe*qe*qe0__qe*qe*qe0*qe0*qe1__qe*qe*qe0*qe1*qe0__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe0*qe0__qe*qe*qe1*qe0*qe1__qe*qe*qe1*qe1*qe0__qe*qe*qe1*qe1*qe2__qe*qe*qe1*qe2*qe1__qe*qe*qe1*qe2*qe2__qe*qe*qe2__qe*qe*qe2*qe1*qe1__qe*qe*qe2*qe1*qe2__qe*qe*qe2*qe2*qe1__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2____
+qe*qe*qe0__qe*qe*qe0*qe0*qe1__qe*qe*qe0*qe1*qe0__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe0*qe0__qe*qe*qe1*qe0*qe1__qe*qe*qe1*qe1*qe0__qe*qe*qe1*qe1*qe2__qe*qe*qe1*qe2*qe1__qe*qe*qe1*qe2*qe2__qe*qe*qe2__qe*qe*qe2*qe1*qe1__qe*qe*qe2*qe1*qe2__qe*qe*qe2*qe2*qe1__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2____ 3 ? Notification qe*qe*qe4____
+qe*qe*qe4*qe5____ 0 ! Notification qe____
+qe*qe*qe4____ 0 ! Notification qe*qe*qe5*qe4____
+qe*qe*qe4____ 1 ! Notification qe*qe*qe4*qe5____
+qe*qe*qe5*qe4____ 1 ! Notification qe____
+.marking q0____
+.end
+
+
+
+.outputs PCChair
+.state graph
+q0*q0*qe0*qe0*qe1__q0*qe*qe0*qe0*qe1__qe*q0*qe0*qe0*qe1__qe*qe*qe0*qe0*qe1____ 4 ! AssignedList q0*q0*qe1*qe0*qe1__q0*qe*qe1*qe0*qe1__qe*q0*qe1*qe0*qe1__qe*qe*qe1*qe0*qe1____
+q0*q0*qe0*qe0*qe1__q0*qe*qe0*qe0*qe1__qe*q0*qe0*qe0*qe1__qe*qe*qe0*qe0*qe1____ 5 ! AssignedList q0*q0*qe0*qe1*qe1__q0*qe*qe0*qe1*qe1__qe*q0*qe0*qe1*qe1__qe*qe*qe0*qe1*qe1____
+q0*q0*qe0*qe1*qe0__q0*qe*qe0*qe1*qe0__qe*q0*qe0*qe1*qe0__qe*qe*qe0*qe1*qe0____ 4 ! AssignedList q0*q0*qe1*qe1*qe0__q0*qe*qe1*qe1*qe0__qe*q0*qe1*qe1*qe0__qe*qe*qe1*qe1*qe0____
+q0*q0*qe0*qe1*qe0__q0*qe*qe0*qe1*qe0__qe*q0*qe0*qe1*qe0__qe*qe*qe0*qe1*qe0____ 6 ! AssignedList q0*q0*qe0*qe1*qe1__q0*qe*qe0*qe1*qe1__qe*q0*qe0*qe1*qe1__qe*qe*qe0*qe1*qe1____
+q0*q0*qe0*qe1*qe1__q0*qe*qe0*qe1*qe1__qe*q0*qe0*qe1*qe1__qe*qe*qe0*qe1*qe1____ 4 ! AssignedList q0*q0*qe1__q0*qe*qe1__qe*q0*qe1__qe*qe*qe1____
+q0*q0*qe0__q0*qe*qe0__qe*q0*qe0__qe*qe*qe0____ 4 ! AssignedList q0*q0*qe1*qe0*qe0__q0*qe*qe1*qe0*qe0__qe*q0*qe1*qe0*qe0__qe*qe*qe1*qe0*qe0____
+q0*q0*qe0__q0*qe*qe0__qe*q0*qe0__qe*qe*qe0____ 5 ! AssignedList q0*q0*qe0*qe1*qe0__q0*qe*qe0*qe1*qe0__qe*q0*qe0*qe1*qe0__qe*qe*qe0*qe1*qe0____
+q0*q0*qe0__q0*qe*qe0__qe*q0*qe0__qe*qe*qe0____ 6 ! AssignedList q0*q0*qe0*qe0*qe1__q0*qe*qe0*qe0*qe1__qe*q0*qe0*qe0*qe1__qe*qe*qe0*qe0*qe1____
+q0*q0*qe1*qe0*qe0__q0*qe*qe1*qe0*qe0__qe*q0*qe1*qe0*qe0__qe*qe*qe1*qe0*qe0____ 5 ! AssignedList q0*q0*qe1*qe1*qe0__q0*qe*qe1*qe1*qe0__qe*q0*qe1*qe1*qe0__qe*qe*qe1*qe1*qe0____
+q0*q0*qe1*qe0*qe0__q0*qe*qe1*qe0*qe0__qe*q0*qe1*qe0*qe0__qe*qe*qe1*qe0*qe0____ 6 ! AssignedList q0*q0*qe1*qe0*qe1__q0*qe*qe1*qe0*qe1__qe*q0*qe1*qe0*qe1__qe*qe*qe1*qe0*qe1____
+q0*q0*qe1*qe0*qe1__q0*qe*qe1*qe0*qe1__qe*q0*qe1*qe0*qe1__qe*qe*qe1*qe0*qe1____ 5 ! AssignedList q0*q0*qe1__q0*qe*qe1__qe*q0*qe1__qe*qe*qe1____
+q0*q0*qe1*qe1*qe0__q0*qe*qe1*qe1*qe0__qe*q0*qe1*qe1*qe0__qe*qe*qe1*qe1*qe0____ 6 ! AssignedList q0*q0*qe1__q0*qe*qe1__qe*q0*qe1__qe*qe*qe1____
+q0*q0*qe1*qe1*qe2__q0*qe*qe1*qe1*qe2__qe*q0*qe1*qe1*qe2__qe*qe*qe1*qe1*qe2____ 4 ? Reviews q0*q0*qe2*qe1*qe2__q0*qe*qe2*qe1*qe2__qe*q0*qe2*qe1*qe2__qe*qe*qe2*qe1*qe2____
+q0*q0*qe1*qe1*qe2__q0*qe*qe1*qe1*qe2__qe*q0*qe1*qe1*qe2__qe*qe*qe1*qe1*qe2____ 5 ? Reviews q0*q0*qe1*qe2*qe2__q0*qe*qe1*qe2*qe2__qe*q0*qe1*qe2*qe2__qe*qe*qe1*qe2*qe2____
+q0*q0*qe1*qe2*qe1__q0*qe*qe1*qe2*qe1__qe*q0*qe1*qe2*qe1__qe*qe*qe1*qe2*qe1____ 4 ? Reviews q0*q0*qe2*qe2*qe1__q0*qe*qe2*qe2*qe1__qe*q0*qe2*qe2*qe1__qe*qe*qe2*qe2*qe1____
+q0*q0*qe1*qe2*qe1__q0*qe*qe1*qe2*qe1__qe*q0*qe1*qe2*qe1__qe*qe*qe1*qe2*qe1____ 6 ? Reviews q0*q0*qe1*qe2*qe2__q0*qe*qe1*qe2*qe2__qe*q0*qe1*qe2*qe2__qe*qe*qe1*qe2*qe2____
+q0*q0*qe1*qe2*qe2__q0*qe*qe1*qe2*qe2__qe*q0*qe1*qe2*qe2__qe*qe*qe1*qe2*qe2____ 4 ? Reviews q0*q0*qe2__q0*qe*qe2__qe*q0*qe2__qe*qe*qe2____
+q0*q0*qe1__q0*qe*qe1__qe*q0*qe1__qe*qe*qe1____ 4 ? Reviews q0*q0*qe2*qe1*qe1__q0*qe*qe2*qe1*qe1__qe*q0*qe2*qe1*qe1__qe*qe*qe2*qe1*qe1____
+q0*q0*qe1__q0*qe*qe1__qe*q0*qe1__qe*qe*qe1____ 5 ? Reviews q0*q0*qe1*qe2*qe1__q0*qe*qe1*qe2*qe1__qe*q0*qe1*qe2*qe1__qe*qe*qe1*qe2*qe1____
+q0*q0*qe1__q0*qe*qe1__qe*q0*qe1__qe*qe*qe1____ 6 ? Reviews q0*q0*qe1*qe1*qe2__q0*qe*qe1*qe1*qe2__qe*q0*qe1*qe1*qe2__qe*qe*qe1*qe1*qe2____
+q0*q0*qe2*qe1*qe1__q0*qe*qe2*qe1*qe1__qe*q0*qe2*qe1*qe1__qe*qe*qe2*qe1*qe1____ 5 ? Reviews q0*q0*qe2*qe2*qe1__q0*qe*qe2*qe2*qe1__qe*q0*qe2*qe2*qe1__qe*qe*qe2*qe2*qe1____
+q0*q0*qe2*qe1*qe1__q0*qe*qe2*qe1*qe1__qe*q0*qe2*qe1*qe1__qe*qe*qe2*qe1*qe1____ 6 ? Reviews q0*q0*qe2*qe1*qe2__q0*qe*qe2*qe1*qe2__qe*q0*qe2*qe1*qe2__qe*qe*qe2*qe1*qe2____
+q0*q0*qe2*qe1*qe2__q0*qe*qe2*qe1*qe2__qe*q0*qe2*qe1*qe2__qe*qe*qe2*qe1*qe2____ 5 ? Reviews q0*q0*qe2__q0*qe*qe2__qe*q0*qe2__qe*qe*qe2____
+q0*q0*qe2*qe2*qe1__q0*qe*qe2*qe2*qe1__qe*q0*qe2*qe2*qe1__qe*qe*qe2*qe2*qe1____ 6 ? Reviews q0*q0*qe2__q0*qe*qe2__qe*q0*qe2__qe*qe*qe2____
+q0*q0*qe2*qe2*qe3__q0*qe*qe2*qe2*qe3__qe*q0*qe2*qe2*qe3__qe*qe*qe2*qe2*qe3____ 7 ? FinalList q0*q0*qe3*qe2*qe3__q0*qe*qe3*qe2*qe3__qe*q0*qe3*qe2*qe3__qe*qe*qe3*qe2*qe3____
+q0*q0*qe2*qe2*qe3__q0*qe*qe2*qe2*qe3__qe*q0*qe2*qe2*qe3__qe*qe*qe2*qe2*qe3____ 8 ? FinalList q0*q0*qe2*qe3*qe3__q0*qe*qe2*qe3*qe3__qe*q0*qe2*qe3*qe3__qe*qe*qe2*qe3*qe3____
+q0*q0*qe2*qe3*qe2__q0*qe*qe2*qe3*qe2__qe*q0*qe2*qe3*qe2__qe*qe*qe2*qe3*qe2____ 7 ? FinalList q0*q0*qe3*qe3*qe2__q0*qe*qe3*qe3*qe2__qe*q0*qe3*qe3*qe2__qe*qe*qe3*qe3*qe2____
+q0*q0*qe2*qe3*qe2__q0*qe*qe2*qe3*qe2__qe*q0*qe2*qe3*qe2__qe*qe*qe2*qe3*qe2____ 9 ? FinalList q0*q0*qe2*qe3*qe3__q0*qe*qe2*qe3*qe3__qe*q0*qe2*qe3*qe3__qe*qe*qe2*qe3*qe3____
+q0*q0*qe2*qe3*qe3__q0*qe*qe2*qe3*qe3__qe*q0*qe2*qe3*qe3__qe*qe*qe2*qe3*qe3____ 7 ? FinalList q0*q0*qe3__q0*qe*qe3__qe*q0*qe3__qe*qe*qe3____
+q0*q0*qe2__q0*qe*qe2__qe*q0*qe2__qe*qe*qe2____ 7 ? FinalList q0*q0*qe3*qe2*qe2__q0*qe*qe3*qe2*qe2__qe*q0*qe3*qe2*qe2__qe*qe*qe3*qe2*qe2____
+q0*q0*qe2__q0*qe*qe2__qe*q0*qe2__qe*qe*qe2____ 8 ? FinalList q0*q0*qe2*qe3*qe2__q0*qe*qe2*qe3*qe2__qe*q0*qe2*qe3*qe2__qe*qe*qe2*qe3*qe2____
+q0*q0*qe2__q0*qe*qe2__qe*q0*qe2__qe*qe*qe2____ 9 ? FinalList q0*q0*qe2*qe2*qe3__q0*qe*qe2*qe2*qe3__qe*q0*qe2*qe2*qe3__qe*qe*qe2*qe2*qe3____
+q0*q0*qe3*qe2*qe2__q0*qe*qe3*qe2*qe2__qe*q0*qe3*qe2*qe2__qe*qe*qe3*qe2*qe2____ 8 ? FinalList q0*q0*qe3*qe3*qe2__q0*qe*qe3*qe3*qe2__qe*q0*qe3*qe3*qe2__qe*qe*qe3*qe3*qe2____
+q0*q0*qe3*qe2*qe2__q0*qe*qe3*qe2*qe2__qe*q0*qe3*qe2*qe2__qe*qe*qe3*qe2*qe2____ 9 ? FinalList q0*q0*qe3*qe2*qe3__q0*qe*qe3*qe2*qe3__qe*q0*qe3*qe2*qe3__qe*qe*qe3*qe2*qe3____
+q0*q0*qe3*qe2*qe3__q0*qe*qe3*qe2*qe3__qe*q0*qe3*qe2*qe3__qe*qe*qe3*qe2*qe3____ 8 ? FinalList q0*q0*qe3__q0*qe*qe3__qe*q0*qe3__qe*qe*qe3____
+q0*q0*qe3*qe3*qe2__q0*qe*qe3*qe3*qe2__qe*q0*qe3*qe3*qe2__qe*qe*qe3*qe3*qe2____ 9 ? FinalList q0*q0*qe3__q0*qe*qe3__qe*q0*qe3__qe*qe*qe3____
+q0*q0*qe3__q0*qe*qe3__qe*q0*qe3__qe*qe*qe3____ 2 ! Notification q0*q0*qe__q0*q0*qe4__q0*q0*qe4*qe5__q0*q0*qe5*qe4__q0*qe*qe__q0*qe*qe4__q0*qe*qe4*qe5__q0*qe*qe5*qe4__qe__qe*q0*qe__qe*q0*qe4__qe*q0*qe4*qe5__qe*q0*qe5*qe4__qe*qe*qe4__qe*qe*qe4*qe5__qe*qe*qe5*qe4____
+q0____ 2 ? EligibleList q0*q0*qe0__q0*qe*qe0__qe*q0*qe0__qe*qe*qe0____
+.marking q0____
+.end
+
+
+
+.outputs PCMember1
+.state graph
+q0*q0*qe1__q0*q0*qe1*qe0*qe0__q0*q0*qe1*qe0*qe1__q0*q0*qe1*qe1*qe0__q0*qe*qe1__q0*qe*qe1*qe0*qe0__q0*qe*qe1*qe0*qe1__q0*qe*qe1*qe1*qe0__qe*q0*qe1__qe*q0*qe1*qe0*qe0__qe*q0*qe1*qe0*qe1__qe*q0*qe1*qe1*qe0__qe*qe*qe1__qe*qe*qe1*qe0*qe0__qe*qe*qe1*qe0*qe1__qe*qe*qe1*qe1*qe0____ 3 ! Reviews q0*q0*qe__q0*q0*qe2__q0*q0*qe2*qe1*qe1__q0*q0*qe2*qe1*qe2__q0*q0*qe2*qe2*qe1__q0*q0*qe2*qe2*qe3__q0*q0*qe2*qe3*qe2__q0*q0*qe2*qe3*qe3__q0*q0*qe3__q0*q0*qe3*qe2*qe2__q0*q0*qe3*qe2*qe3__q0*q0*qe3*qe3*qe2__q0*q0*qe4__q0*q0*qe4*qe5__q0*q0*qe5*qe4__q0*qe*qe__q0*qe*qe2__q0*qe*qe2*qe1*qe1__q0*qe*qe2*qe1*qe2__q0*qe*qe2*qe2*qe1__q0*qe*qe2*qe2*qe3__q0*qe*qe2*qe3*qe2__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe2*qe2__q0*qe*qe3*qe2*qe3__q0*qe*qe3*qe3*qe2__q0*qe*qe4__q0*qe*qe4*qe5__q0*qe*qe5*qe4__qe__qe*q0*qe__qe*q0*qe2__qe*q0*qe2*qe1*qe1__qe*q0*qe2*qe1*qe2__qe*q0*qe2*qe2*qe1__qe*q0*qe2*qe2*qe3__qe*q0*qe2*qe3*qe2__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe2*qe2__qe*q0*qe3*qe2*qe3__qe*q0*qe3*qe3*qe2__qe*q0*qe4__qe*q0*qe4*qe5__qe*q0*qe5*qe4__qe*qe*qe2__qe*qe*qe2*qe1*qe1__qe*qe*qe2*qe1*qe2__qe*qe*qe2*qe2*qe1__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2__qe*qe*qe4__qe*qe*qe4*qe5__qe*qe*qe5*qe4____
+q0____ 3 ? AssignedList q0*q0*qe1__q0*q0*qe1*qe0*qe0__q0*q0*qe1*qe0*qe1__q0*q0*qe1*qe1*qe0__q0*qe*qe1__q0*qe*qe1*qe0*qe0__q0*qe*qe1*qe0*qe1__q0*qe*qe1*qe1*qe0__qe*q0*qe1__qe*q0*qe1*qe0*qe0__qe*q0*qe1*qe0*qe1__qe*q0*qe1*qe1*qe0__qe*qe*qe1__qe*qe*qe1*qe0*qe0__qe*qe*qe1*qe0*qe1__qe*qe*qe1*qe1*qe0____
+.marking q0____
+.end
+
+
+
+.outputs PCMember2
+.state graph
+q0*q0*qe0*qe1*qe0__q0*q0*qe0*qe1*qe1__q0*q0*qe1__q0*q0*qe1*qe1*qe0__q0*qe*qe0*qe1*qe0__q0*qe*qe0*qe1*qe1__q0*qe*qe1__q0*qe*qe1*qe1*qe0__qe*q0*qe0*qe1*qe0__qe*q0*qe0*qe1*qe1__qe*q0*qe1__qe*q0*qe1*qe1*qe0__qe*qe*qe0*qe1*qe0__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe1*qe0____ 3 ! Reviews q0*q0*qe__q0*q0*qe1*qe2*qe1__q0*q0*qe1*qe2*qe2__q0*q0*qe2__q0*q0*qe2*qe2*qe1__q0*q0*qe2*qe2*qe3__q0*q0*qe2*qe3*qe2__q0*q0*qe2*qe3*qe3__q0*q0*qe3__q0*q0*qe3*qe2*qe2__q0*q0*qe3*qe2*qe3__q0*q0*qe3*qe3*qe2__q0*q0*qe4__q0*q0*qe4*qe5__q0*q0*qe5*qe4__q0*qe*qe__q0*qe*qe1*qe2*qe1__q0*qe*qe1*qe2*qe2__q0*qe*qe2__q0*qe*qe2*qe2*qe1__q0*qe*qe2*qe2*qe3__q0*qe*qe2*qe3*qe2__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe2*qe2__q0*qe*qe3*qe2*qe3__q0*qe*qe3*qe3*qe2__q0*qe*qe4__q0*qe*qe4*qe5__q0*qe*qe5*qe4__qe__qe*q0*qe__qe*q0*qe1*qe2*qe1__qe*q0*qe1*qe2*qe2__qe*q0*qe2__qe*q0*qe2*qe2*qe1__qe*q0*qe2*qe2*qe3__qe*q0*qe2*qe3*qe2__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe2*qe2__qe*q0*qe3*qe2*qe3__qe*q0*qe3*qe3*qe2__qe*q0*qe4__qe*q0*qe4*qe5__qe*q0*qe5*qe4__qe*qe*qe1*qe2*qe1__qe*qe*qe1*qe2*qe2__qe*qe*qe2__qe*qe*qe2*qe2*qe1__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2__qe*qe*qe4__qe*qe*qe4*qe5__qe*qe*qe5*qe4____
+q0____ 3 ? AssignedList q0*q0*qe0*qe1*qe0__q0*q0*qe0*qe1*qe1__q0*q0*qe1__q0*q0*qe1*qe1*qe0__q0*qe*qe0*qe1*qe0__q0*qe*qe0*qe1*qe1__q0*qe*qe1__q0*qe*qe1*qe1*qe0__qe*q0*qe0*qe1*qe0__qe*q0*qe0*qe1*qe1__qe*q0*qe1__qe*q0*qe1*qe1*qe0__qe*qe*qe0*qe1*qe0__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe1*qe0____
+.marking q0____
+.end
+
+
+
+.outputs PCMember3
+.state graph
+q0*q0*qe0*qe0*qe1__q0*q0*qe0*qe1*qe1__q0*q0*qe1__q0*q0*qe1*qe0*qe1__q0*qe*qe0*qe0*qe1__q0*qe*qe0*qe1*qe1__q0*qe*qe1__q0*qe*qe1*qe0*qe1__qe*q0*qe0*qe0*qe1__qe*q0*qe0*qe1*qe1__qe*q0*qe1__qe*q0*qe1*qe0*qe1__qe*qe*qe0*qe0*qe1__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe0*qe1____ 3 ! Reviews q0*q0*qe__q0*q0*qe1*qe1*qe2__q0*q0*qe1*qe2*qe2__q0*q0*qe2__q0*q0*qe2*qe1*qe2__q0*q0*qe2*qe2*qe3__q0*q0*qe2*qe3*qe2__q0*q0*qe2*qe3*qe3__q0*q0*qe3__q0*q0*qe3*qe2*qe2__q0*q0*qe3*qe2*qe3__q0*q0*qe3*qe3*qe2__q0*q0*qe4__q0*q0*qe4*qe5__q0*q0*qe5*qe4__q0*qe*qe__q0*qe*qe1*qe1*qe2__q0*qe*qe1*qe2*qe2__q0*qe*qe2__q0*qe*qe2*qe1*qe2__q0*qe*qe2*qe2*qe3__q0*qe*qe2*qe3*qe2__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe2*qe2__q0*qe*qe3*qe2*qe3__q0*qe*qe3*qe3*qe2__q0*qe*qe4__q0*qe*qe4*qe5__q0*qe*qe5*qe4__qe__qe*q0*qe__qe*q0*qe1*qe1*qe2__qe*q0*qe1*qe2*qe2__qe*q0*qe2__qe*q0*qe2*qe1*qe2__qe*q0*qe2*qe2*qe3__qe*q0*qe2*qe3*qe2__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe2*qe2__qe*q0*qe3*qe2*qe3__qe*q0*qe3*qe3*qe2__qe*q0*qe4__qe*q0*qe4*qe5__qe*q0*qe5*qe4__qe*qe*qe1*qe1*qe2__qe*qe*qe1*qe2*qe2__qe*qe*qe2__qe*qe*qe2*qe1*qe2__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2__qe*qe*qe4__qe*qe*qe4*qe5__qe*qe*qe5*qe4____
+q0____ 3 ? AssignedList q0*q0*qe0*qe0*qe1__q0*q0*qe0*qe1*qe1__q0*q0*qe1__q0*q0*qe1*qe0*qe1__q0*qe*qe0*qe0*qe1__q0*qe*qe0*qe1*qe1__q0*qe*qe1__q0*qe*qe1*qe0*qe1__qe*q0*qe0*qe0*qe1__qe*q0*qe0*qe1*qe1__qe*q0*qe1__qe*q0*qe1*qe0*qe1__qe*qe*qe0*qe0*qe1__qe*qe*qe0*qe1*qe1__qe*qe*qe1__qe*qe*qe1*qe0*qe1____
+.marking q0____
+.end
+
+
+
+.outputs TrackChair1
+.state graph
+q0____ 3 ! FinalList q0*q0*qe3__q0*q0*qe3*qe2*qe2__q0*q0*qe3*qe2*qe3__q0*q0*qe3*qe3*qe2__q0*qe*qe3__q0*qe*qe3*qe2*qe2__q0*qe*qe3*qe2*qe3__q0*qe*qe3*qe3*qe2__qe*q0*qe3__qe*q0*qe3*qe2*qe2__qe*q0*qe3*qe2*qe3__qe*q0*qe3*qe3*qe2__qe*qe*qe3__qe*qe*qe3*qe2*qe2__qe*qe*qe3*qe2*qe3__qe*qe*qe3*qe3*qe2____
+.marking q0____
+.end
+
+
+
+.outputs TrackChair2
+.state graph
+q0____ 3 ! FinalList q0*q0*qe2*qe3*qe2__q0*q0*qe2*qe3*qe3__q0*q0*qe3__q0*q0*qe3*qe3*qe2__q0*qe*qe2*qe3*qe2__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe3*qe2__qe*q0*qe2*qe3*qe2__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe3*qe2__qe*qe*qe2*qe3*qe2__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe3*qe2____
+.marking q0____
+.end
+
+
+
+.outputs TrackChair3
+.state graph
+q0____ 3 ! FinalList q0*q0*qe2*qe2*qe3__q0*q0*qe2*qe3*qe3__q0*q0*qe3__q0*q0*qe3*qe2*qe3__q0*qe*qe2*qe2*qe3__q0*qe*qe2*qe3*qe3__q0*qe*qe3__q0*qe*qe3*qe2*qe3__qe*q0*qe2*qe2*qe3__qe*q0*qe2*qe3*qe3__qe*q0*qe3__qe*q0*qe3*qe2*qe3__qe*qe*qe2*qe2*qe3__qe*qe*qe2*qe3*qe3__qe*qe*qe3__qe*qe*qe3*qe2*qe3____
+.marking q0____
+.end
+
+
+
+
