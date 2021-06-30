@@ -1,4 +1,3 @@
-from numpy.core.fromnumeric import partition
 import streamlit as sl
 from tempfile import NamedTemporaryFile as tmpf
 from PIL import Image
@@ -13,7 +12,8 @@ from glob import glob
 GRAPHML_PATH = 'choreography.graphml'
 OUTPNG_NAME = 'choreography.png'
 OUTPUT_FOLDER = 'tmp'
-DEFAULT_GCHOR = """A -> B : request;  { B -> A : ACK | B -> A : details} ; sel {A -> B: x + A -> B : y}"""
+# DEFAULT_GCHOR = """A -> B : request;  { B -> A : ACK | B -> A : details} ; sel {A -> B: x + A -> B : y}"""
+DEFAULT_GCHOR = 'A -> B : req; sel {B -> A: ok + B -> A : err}; A->B : ack'
 DEBUG = False
 
 def call(cmd, debug=DEBUG, err_msg = None):
@@ -34,13 +34,13 @@ def get_png_for_dot(dot_path):
     return Image.open(f'{outpng_path}','r')
 
 def get_png_for_gc(gc_path):
-    call(f"./chorgram/gc2dot -d {OUTPUT_FOLDER}/ {f.name}")
-    dot_name = Path(f.name).with_suffix('.dot').name
+    call(f"./chorgram/gc2dot -d {OUTPUT_FOLDER}/ {gc_path}")
+    dot_name = Path(gc_path).with_suffix('.dot').name
     return get_png_for_dot(f'{OUTPUT_FOLDER}/{dot_name}')
 
 
 # Cleanup tmp folder
-call(f'rm {OUTPUT_FOLDER}/* -rf')
+# call(f'rm {OUTPUT_FOLDER}/* -rf')
 
 gchor = sl.text_area("G-chor source", value=DEFAULT_GCHOR)
 
@@ -72,5 +72,9 @@ cut = sl.selectbox('CUT', participant_list)
 
 call(f'chortest gentests --participant {cut} {OUTPUT_FOLDER}/{fsa_path.name}')
 
-os.listdir(f'{OUTPUT_FOLDER}')
+def get_number_of_tests_for_participant(p):
+    tests_dir = f'{fsa_path.stem}_tests/{cut}'
+    return len(os.listdir(f'{OUTPUT_FOLDER}/{tests_dir}'))
+
+sl.write(f'Number of tests generated: {get_number_of_tests_for_participant(cut)}')
 
