@@ -251,7 +251,7 @@ class CFSM:
             for q0 in self.transitions
             for label in self.transitions[q0]
         ]
-        return nx.DiGraph(incoming_graph_data=edge_list, name=self.name)
+        return nx.MultiDiGraph(incoming_graph_data=edge_list, name=self.name)
 
     def to_dot(self, path: Optional[str] = None) -> str:
         from networkx.drawing.nx_agraph import to_agraph
