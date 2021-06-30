@@ -132,6 +132,10 @@ def genlts(
     Generates the labeled transition system
     for a given communicating system.
     """
+    if not fsa_filename.endswith('.fsa') or not os.path.exists(fsa_filename):
+        typer.echo('Please provide a valid .fsa file.')
+        raise typer.Exit(1)
+
     output_path = (
         Path(
             fsa_filename
