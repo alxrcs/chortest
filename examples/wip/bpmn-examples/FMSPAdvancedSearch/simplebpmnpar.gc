@@ -1,20 +1,14 @@
-C -> B : login;
-B -> C : loginSuccess;
-C -> B : search;
+User -> App : login;
+App -> User : loginSuccess;
+User -> App : search;
 (
-    (
-        B -> A1 : getRoomInfo;
-        A1 -> B : roomInfo
-    )
-    |
-    (
-        B -> A2 : getRoomInfo;
-        A2 -> B : roomInfo
-    )
-    |
-    (
-        B -> A3 : getRoomInfo;
-        A3 -> B : roomInfo
-    )
+    (App -> RoomA : getRoomInfo;
+    RoomA -> App : roomInfo) 
+    | 
+    (App -> RoomB : getRoomInfo;
+    RoomB -> App : roomInfo)
+    | 
+    (App -> RoomC : getRoomInfo;
+    RoomC -> App : roomInfo)
 );
-B -> C : searchResult
+App -> User : searchResult

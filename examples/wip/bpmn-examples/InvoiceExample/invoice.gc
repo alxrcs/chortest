@@ -1,0 +1,11 @@
+Assistant -> Approver : invoice;
+(
+    repeat Approver {
+        (Approver -> Assistant : refusal;
+        Assistant -> Approver : reviewedInvoice)
+        + 
+        Approver -> Accountant : approvedInvoice
+    }
+)
+
+.. not Well-branched (why?)

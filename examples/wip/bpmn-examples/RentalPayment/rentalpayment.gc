@@ -1,0 +1,20 @@
+(Tenant -> RBO : payBond
+|  
+repeat Tenant {
+    Tenant -> LandLord : regularRentPayments
+});
+(
+    (LandLord -> RBO : bondClaim;
+    (
+        Tenant -> RBO : dispute
+        +
+        (
+            Tenant -> RBO : claimAcceptance;
+            RBO -> LandLord : bondTransfer
+        )
+    ))
+    + (
+    LandLord -> RBO : releaseBond;
+    RBO -> Tenant : bundRefund
+    )
+)
