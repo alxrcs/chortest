@@ -154,3 +154,6 @@ experiments/**
 *.tex
 *.json
 *.mov
+
+# streamlit stuff
+tmp/

@@ -15,6 +15,7 @@ Jinja2 = "^2.11.2"
 networkx = "^2.5"
 pygraphviz = "^1.6"
 PyYAML = "^5.3.1"
+streamlit = "^0.83.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.1"
