@@ -26,16 +26,18 @@ def get_id_from(gc_str):
 def call(cmd, debug=DEBUG, err_msg=None, is_new_gc=True):
     if not is_new_gc:
         return
+    if debug:
+        st.spinner(f'Invoking "{cmd}"')
     res = run(cmd, shell=True, capture_output=True)
     if res.returncode != 0:
         if err_msg:
             st.error(err_msg)
-            st.error(f"Output: {str(res.stderr)}")
-        else:
-            st.error(f"Error invoking {cmd}. Output: {str(res.stdout)}.")
+        st.error(f"{cmd}. \nOutput: {str(res.stdout)}\n Error: {str(res.stderr)}")
         st.stop()
     elif debug:
-        st.success(f'Invoked "{cmd}". Output: {str(res.stdout)}')
+        st.success(f"{cmd}")
+        st.write(res.stdout.decode('utf-8'))
+        
 
 
 def get_png_for_dot(dot_path):
