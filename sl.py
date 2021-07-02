@@ -16,12 +16,14 @@ OUTPNG_NAME = "choreography.png"
 OUTPUT_FOLDER = "tmp"
 # DEFAULT_GCHOR = """A -> B : request;  { B -> A : ACK | B -> A : details} ; sel {A -> B: x + A -> B : y}"""
 DEFAULT_GCHOR = "A -> B : req; sel {B -> A: ok + B -> A : err}; A->B : ack"
-DEBUG = True
+DEBUG = False
 
 is_new_gc = False
 
+
 def get_id_from(gc_str):
     return hex(abs(hash(gc_str)))[2:]
+
 
 def call(cmd, debug=DEBUG, err_msg=None, is_new_gc=True):
     if not is_new_gc:
@@ -36,20 +38,22 @@ def call(cmd, debug=DEBUG, err_msg=None, is_new_gc=True):
         st.stop()
     elif debug:
         st.success(f"{cmd}")
-        st.write(res.stdout.decode('utf-8'))
-        
+        st.write(res.stdout.decode("utf-8"))
 
 
 def get_png_for_dot(dot_path):
     outpng_path = Path(dot_path).with_suffix(".png")
-    call(f"dot -Tpng {dot_path} -o {outpng_path}", is_new_gc)
+    call(f"dot -Tpng {dot_path} -o {outpng_path}", is_new_gc=is_new_gc)
     return Image.open(f"{outpng_path}", "r")
 
 
 def get_png_for_gc(gc_path, gc_id):
-    call(f"./chorgram/gc2dot -d {OUTPUT_FOLDER}/{gc_id}/ {gc_path}")
+    call(
+        f"./chorgram/gc2dot -d {OUTPUT_FOLDER}/{gc_id}/ {gc_path}", is_new_gc=is_new_gc
+    )
     dot_name = Path(gc_path).with_suffix(".dot").name
     return get_png_for_dot(f"{OUTPUT_FOLDER}/{gc_id}/{dot_name}")
+
 
 @st.cache(suppress_st_warning=True)
 def generate_gchor(gc_text):
@@ -58,7 +62,7 @@ def generate_gchor(gc_text):
 
     gc_id = get_id_from(gc_text)
 
-    os.makedirs(f'{OUTPUT_FOLDER}/{gc_id}', exist_ok=True)
+    os.makedirs(f"{OUTPUT_FOLDER}/{gc_id}", exist_ok=True)
 
     f = open(f"{OUTPUT_FOLDER}/{gc_id}/chor.gc", "w")
     f.write(gc_text)
@@ -79,21 +83,26 @@ bar = st.sidebar.progress(0)
 
 # Cleanup tmp folder
 # with st.spinner("Deleting old files..."):
-    # call(f"rm {OUTPUT_FOLDER}/* -rf", is_new_gc)
-    # bar.progress(10)
+# call(f"rm {OUTPUT_FOLDER}/* -rf", is_new_gc)
+# bar.progress(10)
 
 img, fname, gc_id = generate_gchor(gc_text)
 
 st.image(img, caption="G-choreography")
 
 with st.spinner("Projecting..."):
-    call(f"chortest project {fname} --output-folder {OUTPUT_FOLDER}/{gc_id}", is_new_gc)
+    call(
+        f"chortest project {fname} --output-folder {OUTPUT_FOLDER}/{gc_id}",
+        is_new_gc=is_new_gc,
+    )
     bar.progress(30)
 
 fsa_path = Path(fname).with_suffix(".fsa")
 
 with st.spinner("Getting dot files for projections..."):
-    call(f"chortest getdot {OUTPUT_FOLDER}/{gc_id}/{fsa_path.name}", is_new_gc)
+    call(
+        f"chortest getdot {OUTPUT_FOLDER}/{gc_id}/{fsa_path.name}", is_new_gc=is_new_gc
+    )
     bar.progress(50)
 
 participant_list = []
@@ -108,7 +117,7 @@ cut = st.sidebar.selectbox("CUT", participant_list)
 with st.spinner(f"Generating tests for participant {cut}..."):
     call(
         f"chortest gentests --participant {cut} {OUTPUT_FOLDER}/{gc_id}/{fsa_path.name}",
-        is_new_gc,
+        is_new_gc=is_new_gc,
     )
     bar.progress(70)
 
@@ -116,7 +125,9 @@ tests_dir = f"{OUTPUT_FOLDER}/{gc_id}/{fsa_path.stem}_tests/{cut}/"
 total_tests = len(os.listdir(tests_dir))
 st.sidebar.write(f"Number of tests generated: {total_tests}")
 
-test_no = st.sidebar.number_input("Select a test", min_value=0, max_value=total_tests - 1)
+test_no = st.sidebar.number_input(
+    "Select a test", min_value=0, max_value=total_tests - 1
+)
 
 if not st.sidebar.button("Generate LTS"):
     bar.progress(100)
@@ -126,7 +137,7 @@ test_path = f"{tests_dir}/test_{test_no}"
 
 with st.spinner(f"Generating LTS for test {test_no}"):
     call(
-        f"chortest genlts {test_path}/test_{test_no}.fsa"
+        f"chortest genlts {test_path}/test_{test_no}.fsa", is_new_gc=is_new_gc
     )  # TODO: Add the CUT substitution here with --cut-filename
     bar.progress(80)
 
