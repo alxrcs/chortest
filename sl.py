@@ -18,17 +18,18 @@ OUTPUT_FOLDER = "tmp"
 DEFAULT_GCHOR = "A -> B : req; sel {B -> A: ok + B -> A : err}; A->B : ack"
 DEBUG = False
 
-is_new_gc = False
+g_is_new_gc = False
 
 
 def get_id_from(gc_str):
     return hex(abs(hash(gc_str)))[2:]
 
 
-def call(cmd, debug=DEBUG, err_msg=None, is_new_gc=True):
-    if not is_new_gc:
+def call(cmd, err_msg=None, force_call=False):
+    global g_is_new_gc
+    if not g_is_new_gc and not force_call:
         return
-    if debug:
+    if DEBUG:
         st.spinner(f'Invoking "{cmd}"')
     res = run(cmd, shell=True, capture_output=True)
     if res.returncode != 0:
@@ -36,20 +37,22 @@ def call(cmd, debug=DEBUG, err_msg=None, is_new_gc=True):
             st.error(err_msg)
         st.error(f"{cmd}. \nOutput: {str(res.stdout)}\n Error: {str(res.stderr)}")
         st.stop()
-    elif debug:
+    elif DEBUG:
         st.success(f"{cmd}")
         st.write(res.stdout.decode("utf-8"))
 
 
-def get_png_for_dot(dot_path):
+def get_png_for_dot(dot_path, force_call=False):
     outpng_path = Path(dot_path).with_suffix(".png")
-    call(f"dot -Tpng {dot_path} -o {outpng_path}", is_new_gc=is_new_gc)
+    call(
+        f"dot -Tpng {dot_path} -o {outpng_path}", force_call=force_call
+    )
     return Image.open(f"{outpng_path}", "r")
 
 
 def get_png_for_gc(gc_path, gc_id):
     call(
-        f"./chorgram/gc2dot -d {OUTPUT_FOLDER}/{gc_id}/ {gc_path}", is_new_gc=is_new_gc
+        f"./chorgram/gc2dot -d {OUTPUT_FOLDER}/{gc_id}/ {gc_path}",
     )
     dot_name = Path(gc_path).with_suffix(".dot").name
     return get_png_for_dot(f"{OUTPUT_FOLDER}/{gc_id}/{dot_name}")
@@ -57,16 +60,15 @@ def get_png_for_gc(gc_path, gc_id):
 
 @st.cache(suppress_st_warning=True)
 def generate_gchor(gc_text):
-    global is_new_gc
-    is_new_gc = True
+    global g_is_new_gc
+    g_is_new_gc = True
 
     gc_id = get_id_from(gc_text)
 
     os.makedirs(f"{OUTPUT_FOLDER}/{gc_id}", exist_ok=True)
 
-    f = open(f"{OUTPUT_FOLDER}/{gc_id}/chor.gc", "w")
-    f.write(gc_text)
-    f.flush()
+    with open(f"{OUTPUT_FOLDER}/{gc_id}/chor.gc", "w") as f:
+        f.write(gc_text)
 
     img = get_png_for_gc(f.name, gc_id)
 
@@ -93,7 +95,6 @@ st.image(img, caption="G-choreography")
 with st.spinner("Projecting..."):
     call(
         f"chortest project {fname} --output-folder {OUTPUT_FOLDER}/{gc_id}",
-        is_new_gc=is_new_gc,
     )
     bar.progress(30)
 
@@ -101,7 +102,7 @@ fsa_path = Path(fname).with_suffix(".fsa")
 
 with st.spinner("Getting dot files for projections..."):
     call(
-        f"chortest getdot {OUTPUT_FOLDER}/{gc_id}/{fsa_path.name}", is_new_gc=is_new_gc
+        f"chortest getdot {OUTPUT_FOLDER}/{gc_id}/{fsa_path.name}",
     )
     bar.progress(50)
 
@@ -117,7 +118,6 @@ cut = st.sidebar.selectbox("CUT", participant_list)
 with st.spinner(f"Generating tests for participant {cut}..."):
     call(
         f"chortest gentests --participant {cut} {OUTPUT_FOLDER}/{gc_id}/{fsa_path.name}",
-        is_new_gc=is_new_gc,
     )
     bar.progress(70)
 
@@ -135,16 +135,18 @@ if not st.sidebar.button("Generate LTS"):
 
 test_path = f"{tests_dir}/test_{test_no}"
 
+st.write(f"chortest genlts {test_path}/test_{test_no}.fsa")
 with st.spinner(f"Generating LTS for test {test_no}"):
     call(
-        f"chortest genlts {test_path}/test_{test_no}.fsa", is_new_gc=is_new_gc
+        f"chortest genlts {test_path}/test_{test_no}.fsa",
+        force_call=True
     )  # TODO: Add the CUT substitution here with --cut-filename
     bar.progress(80)
 
 lts_path = f"{test_path}/test_{test_no}_ts5.dot"
 
 with st.spinner(f"Generating png for dot file {lts_path}..."):
-    st.image(get_png_for_dot(lts_path), caption=f"LTS for {lts_path}")
+    st.image(get_png_for_dot(lts_path, force_call=True), caption=f"LTS for {lts_path}")
 
 with st.spinner(f"Parsing LTS..."):
     lts = LTS.parse(str(lts_path))
