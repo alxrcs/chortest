@@ -107,12 +107,13 @@ def gentests(
 
     for p in participants:
         L.info(f'Generating tests for participant {str(p)}')
-        tests = list(cs.tests(p))
+        tests = cs.tests(p)
         for i, test in enumerate(tests):
+            L.info(f'Generating test #{i}')
             test.to_fsa(
                 str(tests_path / p.participant_name / f"test_{i}" / f"test_{i}.fsa")
             )
-        L.info(f'{len(tests)} tests saved to "{str(tests_path / p.participant_name)}"')
+        L.info(f'Tests saved to "{str(tests_path / p.participant_name)}"')
 
     elapsed_time = perf_counter() - start_time
     L.info(f"Tests generated in {elapsed_time}s")
