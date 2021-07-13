@@ -117,7 +117,7 @@ cut = st.sidebar.selectbox("CUT", participant_list)
 
 with st.spinner(f"Generating tests for participant {cut}..."):
     call(
-        f"chortest gentests --participant {cut} {OUTPUT_FOLDER}/{gc_id}/{fsa_path.name}",
+        f"chortest gentests --participant {cut} {OUTPUT_FOLDER}/{gc_id}/{fsa_path.name}", force_call=True
     )
     bar.progress(70)
 

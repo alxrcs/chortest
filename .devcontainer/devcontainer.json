@@ -11,7 +11,6 @@
 	"shutdownAction": "stopCompose",
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
-		"terminal.integrated.shell.linux": "/usr/bin/bash"
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
@@ -22,7 +21,7 @@
 		"tintinweb.graphviz-interactive-preview",
 		"bpmn-io.vs-code-bpmn-io"
 	],
-	"onCreateCommand": "poetry install",
+	"onCreateCommand": "poetry install && pyenv rehash",
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
