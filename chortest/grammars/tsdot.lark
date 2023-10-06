@@ -1,0 +1,29 @@
+graph 	    : 	[ "strict" ] ("graph" | "digraph") [ ID ] "{" stmt_list "}"
+stmt_list 	: 	[ stmt [ ";" ] stmt_list ]
+stmt 	    : 	subgraph
+        |   node_stmt
+        | 	edge_stmt
+        | 	attr_stmt
+        |   ID "=" ID -> assignment
+attr_stmt 	: 	("graph" | node_stmt | edge_stmt) attr_list
+attr_list 	: 	"[" a_list? "]" [ attr_list ]
+a_list 	: 	ID "=" ID [ (";" | ",") ] [ a_list ]
+edge_stmt 	: 	(node_id | subgraph) edge_rhs [ attr_list ]
+edge_rhs 	: 	edge_op (node_id | subgraph) [ edge_rhs ]
+node_stmt 	: 	node_id [ attr_list ]
+?node_id 	: 	ID [ port ]
+port 	    : 	":" ID [ ":" compass_pt ]
+        | 	":" compass_pt
+subgraph 	: 	[ "subgraph" ID? ] "{" stmt_list "}"
+compass_pt 	: 	("n" | "ne" | "e" | "se" | "s" | "sw" | "w" | "nw" | "c" | "_")
+
+
+edge_op: "--" | "->"
+ID: ESCAPED_STRING | CNAME | NUMBER
+
+%import common.CNAME
+%import common.WS
+%import common.DIGIT
+%import common.NUMBER
+%import common.ESCAPED_STRING
+%ignore WS

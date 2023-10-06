@@ -1,0 +1,23 @@
+.outputs A
+.state graph
+q0 1 ! hag q1
+q1 1 ? price q0
+q0 1 ! happy q2
+q2 2 ! info q3
+.marking q0
+.end
+
+.outputs B
+.state graph
+q0 0 ? hag q1
+q1 0 ! price q0
+q0 0 ? happy q2
+.marking q0
+.end
+
+.outputs C
+.state graph
+q0 0 ? info q1
+.marking q0
+.end
+

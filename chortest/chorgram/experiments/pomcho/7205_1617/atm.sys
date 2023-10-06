@@ -1,0 +1,40 @@
+.. Preparation for the last class test (ay16-17)
+..
+system atm of C, A, B:
+	C = A ! auth;(
+			A ? authPass; (
+				A ! withdraw do Cw																							.. 
+				+
+				A ! quit ; A ? card
+		 	)
+			+
+			A ? authFail ; A ? card; B ? failedAttempt
+		 )
+   ||
+	Cw = A ? card + A ? money do C
+	
+	||
+	A = C ? auth;(
+			C ! authFail; B ! accessFailed ; C ! card
+			+
+			C ! authPass; B ! accessGranted; (
+				C ? withdraw do Aw
+				+
+				C ? quit ; B ! quit ; C ! card
+			)
+		 )
+	||
+	Aw = B ! withdraw; (B ? deny; C ! card + B ? allow ; C ! money do A)  									.. forgetting B ! withdraw yield a first problem 
+	||
+	B = A ? accessFailed; C ! failedAttempt
+		 +
+		 A ? accessGranted;(
+		 	A ? withdraw;(
+		 		A ! deny
+				+
+				A ! allow do B
+			)
+			+
+			A ? quit
+		 )
+

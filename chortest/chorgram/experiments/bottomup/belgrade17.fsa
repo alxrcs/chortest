@@ -1,0 +1,46 @@
+.outputs T
+.state graph
+q0 1 ! car q1
+q0 1 ! flight q2
+q1 1 ? carPrice q3
+q1 1 ! flight q4
+q2 1 ! car q4
+q2 1 ? flightPrice q5
+q3 1 ! flight q6
+q4 1 ? carPrice q6
+q4 1 ? flightPrice q7
+q5 1 ! car q7
+q6 1 ? flightPrice q8
+q7 1 ? carPrice q8
+q8 2 ! upd q0
+q0 1 ! dest q9
+q9 1 ? fullPrice q8
+.marking q0
+.end
+
+.outputs B
+.state graph
+q0 0 ? car q1
+q0 0 ? flight q2
+q1 0 ! carPrice q3
+q1 0 ? flight q4
+q2 0 ? car q4
+q2 0 ! flightPrice q5
+q3 0 ? flight q6
+q4 0 ! carPrice q6
+q4 0 ! flightPrice q7
+q5 0 ? car q7
+q6 0 ! flightPrice q0
+q7 0 ! carPrice q0
+q0 0 ? dest q8
+q8 0 ! fullPrice q0
+.marking q0
+.end
+
+.outputs D
+.state graph
+q0 0 ? upd q0
+.marking q0
+.end
+
+

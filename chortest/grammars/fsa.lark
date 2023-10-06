@@ -1,0 +1,25 @@
+start: (graph)+
+
+graph: header edges markings ".end"
+header: ".outputs" GRAPH_NAME ".state" "graph"
+edges: (edge)*
+markings: (".marking" NODE_ID)* 
+
+edge: NODE_ID PARTICIPANT_NO "?" MESSAGE_NAME NODE_ID -> receive_msg
+    | NODE_ID PARTICIPANT_NO "!" MESSAGE_NAME NODE_ID -> send_msg
+    | NODE_ID "tau" NODE_ID                           -> empty
+    
+MESSAGE_NAME: CNAME
+PARTICIPANT_NO: INT
+GRAPH_NAME: CNAME
+NODE_ID: ("_"|LETTER|DIGIT) ("_"|LETTER|DIGIT|"*")*
+
+%import common.CNAME
+%import common.WS
+%import common.INT
+%import common.NEWLINE
+%import common.LETTER
+%import common.DIGIT
+
+%ignore WS
+%ignore NEWLINE

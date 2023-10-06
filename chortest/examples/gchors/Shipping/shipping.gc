@@ -1,0 +1,14 @@
+Customer -> Provider: RequestForQuote;
+Provider -> Customer: Quote;
+{Customer -> Ship: ShipmentDetails | Customer -> Provider: PlaceOrder};
+Customer -> Truck: PlaceOrder;
+sel Provider {
+    Provider -> Customer: Confirm;
+    {{
+        Provider -> Ship: Goods;
+        Ship -> Truck: Goods;
+        Truck -> Customer: Goods
+    } | Customer -> Provider: Payment}
++
+{{Provider -> Truck : Cancel ; Truck -> Customer: Cancel} | Provider -> Customer: Cancel; Provider -> Ship : Cancel}
+}

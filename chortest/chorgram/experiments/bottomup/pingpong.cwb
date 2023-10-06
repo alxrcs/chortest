@@ -1,0 +1,35 @@
+agent Buffer(i : act, o : act) = (Cell(i,x) | Cell(x,o))\x;
+agent Cell(i : act, o : act) = i.'o.Cell(i,o);
+agent Ping(pi : act, po : act,f : act) = 'pi.po.'f.0;
+agent Pong(pi : act, po : act,f : act) = f.0 + pi.'po.Pong(pi,po,f);
+agent S = Ping(pib,bpo,bf) | Buffer(pib,bpi) | Buffer(pob,bpo) | Buffer(fb,bf) | Pong(bpi,pob,fb);
+agent Sh = (Ping(pib,bpo,bf) | Buffer(pib,bpi) | Buffer(pob,bpo) | Buffer(fb,bf) | Pong(bpi,pob,fb))\{pib,bpo,bf,bpi,pob,fb,bf};
+agent C1 = 'r1.0 | Pong2(p1, r1, f1, p2, r2, f2);
+agent C2 = 'r2.0 | Pong2(p1, r1, f1, p2, r2,f2);
+agent Pong2(p1, r1, f1, p2, r2, f2) =
+ f1.Pong(p2, r2, f2) +
+ f2.Pong(p1, r1, f1) +
+ p1.C1 +
+ p2.C2;
+agent S2 =
+ Ping(pib1,bpi1,fb1) |
+ Ping(pib2,bpi2,fb2) |
+ Buffer(pib1,bpo1) |
+ Buffer(pob1,bpi1) |
+ Buffer(fb1,bf1) |
+ Buffer(pib2,bpo2) |
+ Buffer(pob2,bpi2) |
+ Buffer(fb2,bf2) |
+ Pong2(bpo1,pob1,bf1,bpo2,pob2,bf2)
+;
+agent Sh2 =
+ (Ping(pib1,bpo1,bf1) |
+  Ping(pib2,bpo2,bf2) |
+  Buffer(pib1,bpo1) |
+  Buffer(pob1,bpo1) |
+  Buffer(fb1,bf1) |
+  Buffer(pib2,bpi2) |
+  Buffer(pob2,bpo2) |
+  Buffer(fb2,bf2) |
+  Pong2(bpi1,pob1,fb1,bpi2,pob2,fb2)
+)\{bpi1,pob1,fb1,bpi2,pob2,fb2,pib1,pib2};

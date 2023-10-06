@@ -1,0 +1,67 @@
+.. In betty's chapter
+..
+system atm of C, A, B:
+	C = A ! auth;(
+			A ? authPass; (
+				A ! checkBalance; A ? balance
+				+
+				A ! withdraw do Cw																							.. 
+				+
+				A ! quit ; A ? card
+		 	)
+			+
+			A ? authFail ; A ? card; B ? failedAttempt
+		 )
+   ||
+	Cw = A ? card + A ? money do C
+	
+	||
+	A = C ? auth;(
+			C ! authFail; B ! accessFailed ; C ! card
+			+
+			C ! authPass; B ! accessGranted; (
+				C ? checkBalance do Ac
+				+
+				C ? withdraw do Aw
+				+
+				C ? quit ; B ! quit ; C ! card
+			)
+		 )
+   ||
+	Ac = B ! checkBalance; B ? balance ; C ! balance
+	||
+	Aw = B ! withdraw; (B ? deny; C ! card + B ? allow ; C ! money do A)  									.. forgetting B ! withdraw yield a first problem 
+
+[
+
+	The bank is notified by the ATM about the outcome of the
+	authentication; in case of failed authentication, B tells the
+	customer that there has been a failed attempt (in a real application
+	this could be an sms sent to the customer's mobile phone).
+	%
+	Otherwise, the bank waits to be told which service is requested
+	and reacts accordingly.
+	%
+	More precisely, when the ATM forwards the checkBalance message,
+	B replies with the balance to be displayed to the customer.
+	%
+	If the withdraw service is required, the bank decides whether
+	to allow or deny it.
+
+]
+
+	||
+	B = A ? accessFailed; C ! failedAttempt
+		 +
+		 A ? accessGranted;(
+		 	A ? checkBalance; A ! balance
+	    	+
+		 	A ? withdraw;(
+		 		A ! deny
+				+
+				A ! allow do B
+			)
+			+
+			A ? quit
+		 )
+

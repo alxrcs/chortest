@@ -1,0 +1,19 @@
+.outputs Client
+.state graph
+0 1 ! int 2
+2 1 ? Yes 1
+2 1 ? No 1
+.marking 0
+.end
+
+.outputs Server
+.state graph
+0 0 ? int 2
+2 0 ! Yes 1
+2 0 ! No 1
+.marking 0
+.end
+
+
+
+

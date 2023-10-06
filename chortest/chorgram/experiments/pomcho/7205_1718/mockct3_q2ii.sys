@@ -1,0 +1,27 @@
+.. Q2.ii of mock class test 3
+..
+system Mock_abc of A, B, C:
+	A = B ! b;(
+			B ? a do A																							.. 
+			+
+			B ? q
+		 )
+		 +
+		 C ! c;(
+			C ? a do A																							.. 
+			+
+			C ? q
+		 )
+	||
+	B = A ? b; (
+         A ! a do B
+			+
+			A ! q
+	    )
+   ||
+	C = A ? c	; (
+         A ! a do C
+			+
+			A ! q
+	    )
+

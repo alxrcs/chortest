@@ -1,0 +1,14 @@
+.outputs A
+.state graph
+start 1 ! a w
+w 1 ! b start
+.marking start
+.end
+
+
+.outputs B
+.state graph
+start 0 ? b r
+r 0 ? a start
+.marking start
+.end

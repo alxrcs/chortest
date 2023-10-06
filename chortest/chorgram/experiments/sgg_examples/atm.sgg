@@ -1,0 +1,27 @@
+C -> A : card;
+*(
+	C -> A : auth;
+	(
+		A -> C : authOK;
+			A -> B : accessGranted;
+			(
+				C -> A : withdraw;
+					A -> B : withdraw;
+					(
+						B -> A : allow;
+							A -> C : money
+						+
+						B -> A : deny;
+							A -> C : card
+					)
+				+
+				C -> A : quit;
+					(A -> C : card | A -> B : quit)
+			)
+		+
+		(A -> B : accessFailed | A -> C : authFail | A -> C : card);
+			B -> C : failedAttempt
+	)
+)@C
+
+

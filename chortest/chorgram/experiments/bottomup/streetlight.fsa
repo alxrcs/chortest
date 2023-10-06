@@ -1,0 +1,32 @@
+.outputs Cp
+.state graph
+q 2 ! z q
+.marking q
+.end
+
+
+.outputs L1
+.state graph
+q 3 ? x q
+q 3 ? x r
+r 4 ! x q
+.marking q
+.end
+
+.outputs La
+q 0 ? z r
+r 3 ! carX q
+.marking q
+.end
+
+.outputs Ls
+q 2 ? carX r
+r 1 ! x q
+.marking q
+.end
+
+.outputs E
+.state graph
+q 1 ? x q
+.marking q
+.end

@@ -1,0 +1,16 @@
+from chortest.session import Transport
+
+from .{{model_name}}_session_types import (
+    {{participants|join('Type, ')}}Type
+)
+
+from .{{model_name}}_types import (
+    {{messages|join(',\n\t')}}
+)
+
+{% for pt in participants %}
+async def {{pt|lower}}(transport: Transport):
+    t = {{pt}}Type(transport)
+    ... # TODO: implement
+
+{% endfor %}

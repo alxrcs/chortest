@@ -1,0 +1,57 @@
+[
+	- The ATM checks credentials and grants/denies access
+	- The bank logs attempted uses of a card
+	- On failed attempts the bank notifies the customer
+	- If a request cannot be served the choregraphy terminates
+	- After successful attempts the customer decides either to quit or try other services
+]
+
+system atm of C, A, B:
+	C = A ! auth;(
+			A ? authPass do Ca
+			+
+			A ? authFail ; A ? card; B ? failedAttempt
+		 )
+	||
+	Ca = A ! checkBalance; A ? balance do Cf
+		  +
+		  A ! withdraw ; (A ? card + A ? money do Cf)
+	||
+	Cf = A ! newService do Ca + A ! quit; A ? card
+	
+	||
+	A = C ? auth; (C ! authPass; B ! accessGranted do Aa   +   C ! authFail; B ! accessFailed ; C ! card)
+	||
+	Aa = C ? checkBalance do Ac   +   C ? withdraw do Aw
+   ||
+	Ac = B ! checkBalance; B ? balance ; C ! balance do Af
+	||
+	Aw = B ! withdraw; (B ? deny; C ! card   +    B ? allow ; C ! money do Af)  											.. forgetting B ! withdraw yield a first problem
+	||
+	Af = (C ? quit; C ! card) + (C ? newService do Ac)
+
+	||
+	B = A ? accessFailed; C ! failedAttempt																							.. The bank tells the customer the the attempt failed
+		 +
+		 A ? accessGranted do Ba
+	||
+	Ba = A ? checkBalance; A ! balance do Ba
+	     +
+		  A ? withdraw;(
+		  		A ! deny
+				+
+				A ! allow do Ba
+			)
+
+[
+	The tool reports that
+	- a few states of machines C and A are not represented in the
+	  transition system, while all states of machine B are represented.
+	- the configuration where the local states of C, A, and B respectively
+     are qCf, qAf, and qBa is a 'No choice awareness' configuration
+     (highlighted in yellow in the synchronous transition system).
+	%
+	Inspecting the syncrhonous transition system, we note that such
+	configuration leads to deadlocks (highlighted in orange in the
+	synchronous transition system).
+]

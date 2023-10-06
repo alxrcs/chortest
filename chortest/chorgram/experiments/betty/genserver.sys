@@ -1,0 +1,10 @@
+system genserver of C, L, S :
+	C = L ! start do starting
+	||
+	starting = L ? error do C + L ? ok do running
+	||
+	running  = L ! call;(L ? reply do running + S ? reply do running + L ? error do C) + L ! cast do running
+	||
+	L = end
+	||
+	S =end

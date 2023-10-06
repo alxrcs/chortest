@@ -1,0 +1,15 @@
+{
+    sel sender {
+        sender -> receiver_A : string
+        +
+        sender -> receiver_A : number
+    }
+    |
+    sel sender {
+        sender -> receiver_B : string
+        +
+        sender -> receiver_B : number
+    }
+}
+
+

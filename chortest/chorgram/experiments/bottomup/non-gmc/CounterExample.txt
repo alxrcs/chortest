@@ -1,0 +1,25 @@
+.outputs 
+.state graph
+q0 1 ! a q1
+q1 1 ! a q2
+q2 2 ! d q3
+.marking q0
+.end
+
+.outputs 
+.state graph
+q0 2 ? b q4
+q0 0 ? a q1
+q1 0 ? a q2
+q1 2 ? b q3
+q2 2 ? b q4
+q3 0 ? a q4
+.marking q0
+.end
+
+.outputs 
+.state graph
+q0 0 ? d q1
+q1 1 ! b q2
+.marking q0
+.end

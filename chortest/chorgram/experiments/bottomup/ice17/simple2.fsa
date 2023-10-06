@@ -1,0 +1,21 @@
+.outputs A
+.state graph
+q0 1 ! loop q0
+q0 2 ! exit q
+.marking q0
+.end
+
+.outputs B
+.state graph
+q0 0 ? loop q0
+q0 2 ? exit q
+.marking q0
+.end
+
+.outputs C
+.state graph
+q0 0 ? exit q
+q 1 ! exit qe
+.marking q0
+.end
+

@@ -1,0 +1,660 @@
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- fb ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- fb ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- fb ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bpi ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpo ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bf ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- fb ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'fb ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pob ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bf ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bf ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bf ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bf ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bf ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bf ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- fb ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- fb ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bf ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpi ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- tau ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bf ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'fb ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bf ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bf ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- fb ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- fb ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pob ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'fb ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- bf ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Sc
+
+--- tau ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'fb ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'fb ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- fb ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pob ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'fb ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- pob ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bf ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpo ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bf ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bpi ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- pob ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bf ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bf ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'fb ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- 'bf ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpi ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bpo ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bf ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- 'bf ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- fb ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- pob ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- bf ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- fb ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- tau ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- fb ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'fb ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- bf ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bf ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- 'bf ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pob ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- 'bf ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bf ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- fb ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- tau ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- fb ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'fb ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- fb ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpi ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bf ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bf ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'fb ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bf ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bf ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+--- tau ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpi ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+
+0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- fb ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- fb ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'fb ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pob ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bf ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- tau ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bf ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'fb ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- tau ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bf ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- bpi ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bf ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpi ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- fb ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- pob ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+
+Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- tau ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- tau ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- fb ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'fb ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+
+--- fb ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | 'bf.Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- pib ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'bpi ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- 'pob ---> 0 | Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+--- bf ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- bpi ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 'pob.Pong(bpi,pob,bf)
+--- bpi ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- fb ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | Pong(bpi,pob,bf)
+--- pob ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+--- 'bpo ---> bpi.Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | Pong(bpi,pob,bf)
+
+Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- tau ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- fb ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pob ---> Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpo ---> Ping(pib,bpi,fb) | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'fb ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'pib ---> bpi.Ping(pib,bpi,fb) | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0
+
+--- fb ---> 0 | 'bpo.Cell(pib,bpo) | Cell(pob,bpi) | 'bf.Cell(fb,bf) | 0
+--- pob ---> 0 | 'bpo.Cell(pib,bpo) | 'bpi.Cell(pob,bpi) | Cell(fb,bf) | 0
+--- 'bpo ---> 0 | Cell(pib,bpo) | Cell(pob,bpi) | Cell(fb,bf) | 0

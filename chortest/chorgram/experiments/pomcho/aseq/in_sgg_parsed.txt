@@ -1,0 +1,1 @@
+Seq [Act ("A","B") "b",Par [Act ("B","A") "c",Act ("A","D") "c"]]

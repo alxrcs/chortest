@@ -1,0 +1,4 @@
+C -> A: withdraw;
+A -> B: authW;
+B -> A: allow;
+A -> C: money

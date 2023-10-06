@@ -1,0 +1,7 @@
+[
+ this choice is not well branched becuase C is part of it
+ however, it could be considered wb if it were equivalent to
+ {A -> B : one  +  A -> B : two}; A -> C : done    .. more comment
+]
+
+{A -> B : one; A -> C : done}  +  {A -> B : two; A -> C : done}

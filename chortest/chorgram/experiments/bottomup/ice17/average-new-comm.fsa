@@ -1,0 +1,82 @@
+.outputs Thermometer1
+.state graph
+q20 1 ? <temp,m8> q22
+q20 1 ? <temp,m8> q23
+q20 2 ! <quit,m4> q38
+q21 1 ? <temp,m8> q22
+q21 1 ? <temp,m8> q24
+q21 2 ! <quit,m4> q39
+q22 1 ! <temp,m5> q21
+q22 1 ? <temp,m8> q25
+q22 2 ! <quit,m4> q40
+q23 1 ! <temp,m2> q29
+q23 1 ? <temp,m8> q25
+q23 2 ! <temp,m1> q32
+q24 1 ! <temp,m2> q30
+q24 1 ? <temp,m8> q25
+q24 2 ! <temp,m1> q33
+q25 1 ! <temp,m2> q31
+q25 1 ! <temp,m5> q24
+q25 2 ! <temp,m1> q34
+q26 1 ? <temp,m8> q23
+q26 1 ? <temp,m8> q28
+q26 2 ! <quit,m4> q38
+q27 1 ? <temp,m8> q24
+q27 1 ? <temp,m8> q28
+q27 2 ! <quit,m4> q39
+q28 1 ! <temp,m5> q27
+q28 1 ? <temp,m8> q25
+q28 2 ! <quit,m4> q40
+q29 1 ? <temp,m8> q23
+q29 1 ? <temp,m8> q31
+q29 2 ! <quit,m4> q38
+q30 1 ? <temp,m8> q24
+q30 1 ? <temp,m8> q31
+q30 2 ! <quit,m4> q39
+q31 1 ! <temp,m5> q30
+q31 1 ? <temp,m8> q25
+q31 2 ! <quit,m4> q40
+q32 1 ! <temp,m1> q35
+q32 1 ? <temp,m8> q34
+q33 1 ! <temp,m1> q36
+q33 1 ? <temp,m8> q34
+q34 1 ! <temp,m1> q37
+q34 1 ! <temp,m5> q33
+q35 1 ? <temp,m8> q37
+q35 2 ? <ack,m10> q26
+q35 2 ? <ack,m9> q26
+q36 1 ? <temp,m8> q37
+q36 2 ? <ack,m10> q27
+q36 2 ? <ack,m9> q27
+q37 1 ! <temp,m5> q36
+q37 2 ? <ack,m10> q28
+q37 2 ? <ack,m9> q28
+q38 1 ? <temp,m8> q40
+q39 1 ? <temp,m8> q40
+q40 1 ! <temp,m5> q39
+.marking q20
+.end
+
+.outputs Thermometer2
+.state graph
+q6 0 ! <temp,m8> q8
+q7 0 ! <temp,m8> q8
+q8 0 ? <temp,m1> q7
+q8 0 ? <temp,m2> q7
+q8 0 ? <temp,m5> q7
+.marking q6
+.end
+
+.outputs Thermostat
+.state graph
+q10 0 ? <quit,m4> q14
+q10 0 ? <temp,m1> q13
+q11 0 ? <quit,m4> q14
+q11 0 ? <temp,m1> q13
+q12 0 ? <quit,m4> q14
+q12 0 ? <temp,m1> q13
+q13 0 ! <ack,m10> q10
+q13 0 ! <ack,m9> q11
+.marking q12
+.end
+

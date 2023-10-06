@@ -1,0 +1,4 @@
+system pingpong of Ping , Pong :
+	Ping = Pong ! finished ; end + (* Pong ! ping ; Pong ? pong )
+	||
+	Pong = Ping ? finished ; end + (* Ping ? ping ; Ping ! pong ; end)

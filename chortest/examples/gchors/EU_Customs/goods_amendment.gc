@@ -1,0 +1,42 @@
+.. This process covers the amendment of an ENS at the Customs office of first entry (COFE).
+.. Participants: 
+.. Declarant: Declarant 
+.. COFE: Customs Office of First Entry
+.. OCOFE: Other Customs Office than COFE
+Declarant -> COFE: ENS;
+sel COFE { .. Validity of the amendment
+    {..Valid
+        sel COFE { .. Is the ENS Amendment lodged at COFE?
+            .. Yes
+            COFE -> Declarant : RegistrationNotification;
+            .. Optional message, sent only 
+            sel COFE {
+                .. Message sent optionally only
+                .. when Carrier != Declarant and if
+                .. Carrier previously requested it.
+                COFE -> Carrier : RegistrationNotification
+                +
+                (o)
+            }
+            + .. No
+            COFE -> OCOFE : RegistrationNotification
+        }
+    }
+    +
+    {..Invalid
+        sel COFE { .. Is the ENS Amendment lodged at COFE?
+            .. Yes
+            COFE -> Declarant : RejectionNotification;
+            sel COFE { 
+                .. Message sent optionally only
+                .. when Carrier != Declarant and if
+                .. Carrier previously requested it.
+                COFE -> Carrier : RejectionNotification
+                +
+                (o)
+            }
+            + .. No
+            COFE -> OCOFE : RejectionNotification
+        }
+    }
+}

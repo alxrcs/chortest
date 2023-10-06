@@ -1,0 +1,11 @@
+from chortest.session import (LocalProtocol, Choose, Eps, Offer, Recv, Send)
+from .{{model_name}}_types import ({{participants|join(', ')}}, {{messages|join(', ')}})
+
+{{ allTypesStr }}
+
+# Initial types
+{%- for pt in participants %}
+{{pt}}Type = T_{{pt}}_{{cfsm.machines[pt].initial}}
+{%- endfor %}
+
+LocalProtocol.type_globals = globals() # type: ignore

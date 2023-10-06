@@ -1,0 +1,25 @@
+start       :  parameters NEWLINE "---" NEWLINE states  "---" NEWLINE transitions
+parameters  :  parameter+
+parameter   :  PARAMETER_NAME "(" DOMAIN_CARDINALITY ")" DOMAIN_NAME ("\"" DOMAIN_VALUE "\"")* NEWLINE?
+states      :  state+
+state       :  ((INT|WORD)+) NEWLINE
+transitions :  transition+
+transition  :  SOURCE_STATE TARGET_STATE "\"" LABEL "\"" NEWLINE?
+
+PARAMETER_NAME     : CNAME
+DOMAIN_CARDINALITY : INT
+DOMAIN_NAME        : CNAME
+DOMAIN_VALUE       : INT|WORD
+
+LABEL              : CNAME
+
+SOURCE_STATE       : INT
+TARGET_STATE       : INT
+
+%import common.NEWLINE
+%import common.CNAME
+%import common.INT
+%import common.WORD
+%import common.WS
+
+%ignore " "  

@@ -1,0 +1,63 @@
+[
+	The previous choregraphy does not consider the possibility that a withdraw
+	request cannot be satisfied because the ATM does not have enough cash to
+	dispense. Let us refine our choreography to attain this.
+]
+
+system atm of C, A, B:
+	C = A ! auth;(
+			A ? authPass do Ca
+			+
+			A ? authFail ; A ? card; B ? failedAttempt
+		 )
+	||
+	Ca = A ! checkBalance; A ? balance do Ca
+		  +
+		  A ! withdraw ; (A ? card + A ? money do Ca + A ? notEnoughCach)
+		  +
+		  A ! quit
+	
+	||
+	A = C ? auth; (C ! authPass; B ! accessGranted do Aa
+   				   +
+					   C ! authFail; B ! accessFailed ; C ! card
+					  )
+	||
+	Aa = C ? checkBalance do Ac
+        +
+		  C ? withdraw do Aw
+		  +
+		  C ? quit; B ! quit
+   ||
+	Ac = B ! checkBalance; B ? balance ; C ! balance do Aa
+	||
+	Aw = B ! withdraw; (B ? deny; C ! card   +    B ? allow ; C ! money do Aa)
+		  +
+		  C ! notEnoughCach
+
+	||
+	B = A ? accessFailed; C ! failedAttempt																							.. The bank tells the customer the the attempt failed
+		 +
+		 A ? accessGranted do Ba
+	||
+	Ba = A ? checkBalance; A ! balance do Ba
+		  +
+		  A ? withdraw;(
+		  		A ! deny
+				+
+				A ! allow do Ba
+			)
+	     +
+		  A ? quit
+
+[
+	This breaks gmc; in fact, the tool reports that (\_5,qAw,qBa) is 'No choice awareness' configuration.
+	Again by inspecting the global graph computed by the tool we realise that the problem is due to the
+	fact that the bank is not notified about the termination of the protocol and therefore machine B is
+	left in state qBa waiting for a message from A.
+	%
+	This can be easily fixed by making C and A loop back to Ca and Aa respectively after they have exchanged
+	the 'notEnoughCach' message.
+	%
+	Our tool accepts the amended version as gmc.
+]

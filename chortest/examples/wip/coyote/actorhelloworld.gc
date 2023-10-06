@@ -1,0 +1,4 @@
+repeat Actor {
+    Actor -> Greeter : RequestGreeting;
+    Greeter -> Actor : Greeting
+}

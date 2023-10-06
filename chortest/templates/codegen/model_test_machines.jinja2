@@ -1,0 +1,26 @@
+from hypothesis import strategies as st
+
+from chortest.session import (Choose, Eps, Left,
+                    LocalProtocol, Offer, Recv,
+                    Right, Send, TestMachine)
+
+from .{{model_name}}_types import ({{participants|join(', ')}}, {{messages|join(', ')}})
+
+{% for pt in participants %}
+{% set lpt = pt|lower %}
+{% set m = cfsm.machines[pt] %}
+class {{pt}}TestMachine(TestMachine):
+    {{lpt}}: LocalProtocol
+    data: st.DataObject
+
+    def __init__(self, {{lpt}}: LocalProtocol, state: int, data: st.DataObject) -> None:
+        self.data = data
+        self.{{lpt}} = {{lpt}}
+        self.part_type = {{pt}}
+        super().__init__(state, {{lpt}})
+    {% for t in allTypes -%}
+    {% if t.participant == pt %}
+        {{output_method(t)}}
+    {% endif -%}
+    {%- endfor -%}    
+{% endfor %}

@@ -1,0 +1,21 @@
+.outputs A
+.state graph
+start 1 ! 1 w
+start 1 ! tt w2
+w 1 ! 2 f
+w 1 ! ff f
+w 1 ! bye f
+.marking start
+.end
+
+
+.outputs B
+.state graph
+start 0 ? 1 l
+start 0 ? tt r
+l 0 ? 2 f
+l 0 ? ff f
+r 0 ? bye f
+f 0 ! ff f
+.marking start
+.end

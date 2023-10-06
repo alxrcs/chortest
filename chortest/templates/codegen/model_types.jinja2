@@ -1,0 +1,14 @@
+from dataclasses import dataclass
+
+from chortest.session import (MessageType, ParticipantType)
+
+{% for messageType in messages %}
+@dataclass(frozen=True)
+class {{messageType}}(MessageType):
+    pass
+{% endfor %}
+
+{% for participantType in participants %}
+class {{participantType}}(ParticipantType):
+    pass
+{% endfor %}

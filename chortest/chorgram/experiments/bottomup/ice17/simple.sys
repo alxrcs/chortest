@@ -1,0 +1,6 @@
+system choice of A , B , C :
+	A = B ! l ; do A  + C ! r do A
+	||
+	B = A ? l ; C ! l do B + C ? r ; do B
+	||
+	C = A ? r; B ! r do C + B ? l do C

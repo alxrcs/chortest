@@ -1,0 +1,6 @@
+sel {
+  {A -> B : a | A -> B : a}
+  +
+  sel B { A -> C: b + sel A {A -> B : y + A -> C : x} }
+};
+sel B { A -> C: b + sel A {A -> B : y + A -> C : x} }

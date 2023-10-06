@@ -1,0 +1,33 @@
+Client -> PoolServer : CreatePool;
+PoolServer -> Pool: CreatePool;
+{
+    Pool -> PoolServer: CreatePoolResp;
+    PoolServer -> Client: CreatePoolResp
+} 
+|
+{
+    Pool -> AzureStorage: CreatePoolEntity;
+    Pool -> AzureStorage: ReserveAccountQuotaXn;
+    Pool -> Account : ReserveAccountQuota;
+    Account -> AzureStorage : UpdateAccountEntity;
+    Pool -> AzureStorage : BuildDeploymentMapXn;
+    Pool -> QuotaManager : BuildDeploymentMap;
+    QuotaManager -> AzureStorage : UpdateSubscriptionEntity;
+    Pool -> AzureStorage: CreateDeploymentXn;
+    Pool -> PoolFlow : GrowPoolReq;
+    PoolFlow -> Deployment : CreateDeploymentReq;
+    Deployment -> AzureStorage : CreateDepEntity;
+    Deployment -> DeploymentManager : CreateDeployment;
+    Deployment -> DeploymentManager : GetOperationStatus;
+    Deployment -> DeploymentManager : GetDeployment;
+    Deployment -> PoolFlow : CreateDeploymentResponse;
+    PoolFlow -> GrowTTCoordinator : CreateCoordinator;
+    PoolFlow -> GrowTTCoordinator : AddVMsToTTRequest;
+    GrowTTCoordinator -> PoolFlow : AddVMsToTTRequestResponse;
+    PoolFlow -> Pool : GrowPoolResp;
+    Pool -> AzureStorage : CommitQuotasUpdateXn;
+    Pool -> Account : CommitAccountQuota;
+    Pool -> QuotaManager : CommitSubscriptionQuota;
+    Pool -> AzureStorage : UpdatePoolEntity;
+    Pool -> AzureStorage : DeleteTransactionEntity
+}

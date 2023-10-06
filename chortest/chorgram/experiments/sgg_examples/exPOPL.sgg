@@ -1,0 +1,20 @@
+[ A -> B : start;
+A -> C : start;
+A -> D : start;
+]
+*{
+	{ [ C -> D : busy	| ]
+	A -> C: cwin ; C -> B : blose
+	  	+
+	A -> B: bwin ; B -> C : close		
+	};
+	{
+		B -> A : sig
+		|
+		C -> A : msg
+	};
+	A -> D : free
+} @ A
+
+
+

@@ -1,0 +1,21 @@
+{
+    ExcelReader -> Joiner : CallsData
+    |
+    FileReader -> Joiner : ContractData
+};
+Joiner -> Preprocessor : JoinedData;
+{
+    Preprocessor -> DecisionTreeLearner : TrainingData;
+    {
+        DecisionTreeLearner -> PMMLWriter : TrainedModelInfo
+        | 
+        DecisionTreeLearner -> DecisionTreePredictor : TrainedModelInfo
+    }
+    |
+    Preprocessor -> DecisionTreePredictor : PartitionedData
+};
+{
+DecisionTreePredictor -> ROCCurve : PredictionData
+|
+DecisionTreePredictor -> Scorer : PredictionData
+}

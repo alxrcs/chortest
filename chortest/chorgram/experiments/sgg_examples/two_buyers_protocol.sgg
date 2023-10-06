@@ -1,0 +1,16 @@
+Buyer1 -> Seller : title;
+Seller -> Buyer1 : price;
+*{
+	Buyer1 -> Buyer2 : share;
+	sel {
+		Buyer2 -> Buyer1 : accept;
+		Buyer2 -> Seller : deliveryAddress;
+		Seller -> Buyer2 : deliveryDate;
+		(o)
+	+
+		Buyer2 -> Buyer1 : reject
+	}
+} @ Buyer1
+
+
+

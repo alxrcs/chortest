@@ -1,0 +1,25 @@
+.outputs A
+.state graph
+start 1 ! int i
+i 2 ! bool f
+start 1 ! str s
+s 2 ! bool f
+start 2 ! bool q
+q 1 ! int f
+q 1 ! str f
+.marking start
+.end
+
+
+.outputs B
+.state graph
+start 0 ? int r
+start 0 ? str r
+.marking start
+.end
+
+.outputs C
+.state graph
+start 0 ? bool r
+.marking start
+.end

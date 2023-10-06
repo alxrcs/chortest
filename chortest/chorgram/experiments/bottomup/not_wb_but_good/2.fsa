@@ -1,0 +1,34 @@
+.outputs A
+.state graph
+start 1 ! int f
+start 1 ! str f
+.marking start
+.end
+
+
+.outputs B
+.state graph
+start 0 ? int f
+start 0 ? str f
+.marking start
+.end
+
+.outputs C
+.state graph
+start 3 ? bool f
+f 3 ! x fx
+fx 3 ! y ff
+f 3 ! y fy
+fy 3 ! x ff
+.marking start
+.end
+
+.outputs D
+.state graph
+start 2 ! bool f
+f 2 ? x fx
+fx 2 ? y ff
+f 2 ? y fy
+fy 2 ? x ff
+.marking start
+.end

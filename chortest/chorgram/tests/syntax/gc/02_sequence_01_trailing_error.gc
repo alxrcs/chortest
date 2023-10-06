@@ -1,0 +1,2 @@
+A -> B: request;
+B -> A: reply;

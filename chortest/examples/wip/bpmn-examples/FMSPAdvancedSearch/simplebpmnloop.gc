@@ -1,0 +1,8 @@
+C -> B : login;
+B -> C : loginSuccess;
+C -> B : search;
+repeat B {
+    B -> A : getRoomInfo;
+    A -> B : roomInfo
+};
+B -> C : searchResult

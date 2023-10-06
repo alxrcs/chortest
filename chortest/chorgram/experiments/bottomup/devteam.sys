@@ -1,0 +1,50 @@
+ system devteam of lead, dev, repo, biz:
+
+ lead = dev ? releaseCandidate;
+        biz ! evaluate;
+	(
+		biz ? iterate;
+		repo ! tagRC;
+		dev ! continue
+		do lead
+	+	
+		biz ? accept;
+		repo ! tagRelease;
+		dev ! stop;
+		end
+	)   
+ ||
+ dev = repo ! commit;
+       (repo ? revision
+         do devPart2
+	+
+	repo ? blah; end)
+ ||
+ devPart2 = lead ! releaseCandidate;
+ 	    (
+ 	    lead ? continue;
+	      repo ! commit;
+	      repo ? revision
+	      do devPart2
+	    +
+	    lead ? stop; end
+	    )
+ ||
+ repo = dev ? commit;
+        dev ! revision ;
+	(
+	lead ? tagRC
+	do repo
+	)	
+	+
+	(
+	lead ? tagRelease; end	
+	)
+ ||
+ biz = lead ? evaluate;
+       (
+              lead ! accept; end
+       +
+	      lead ! iterate
+	      do biz
+       )

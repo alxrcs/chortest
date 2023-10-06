@@ -1,0 +1,7 @@
+sel S {
+    S -> A: req;
+    A -> S: rep
+    +
+    S -> B: req;
+    B -> S: rep
+}

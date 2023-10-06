@@ -1,0 +1,63 @@
+.. COPC: Customs Offices Potentially Concerned by the Movement of the Goods
+.. COFE: Customs Offices of First Entry (The customs office identified within the ENS as the Customs Office competent for customs supervision at the place where the means of transport carrying the goods first arrives in the customs territory of the Union, from a territory outside that territory)
+
+.. Assumptions made for simplicity:
+.. * For simplicity, the processing of optional amendments has not been modeled.
+.. * The ENS is assumed to be lodged at the COFE to avoid excesive branching.
+
+.. NOTES:
+.. If the assumption that the Carrier is the same as the Declarant, 
+.. is added, or that it did not request to be notified, the optional 
+.. requests to the carrier can be removed.
+.. Properly expresing this while respecting the well-formedness 
+.. condition would imply repeating the whole protocol with this being
+.. an external choice.
+.. Since the BPMN Diagrams only offer a description of the protocols
+.. that is local to the COFE, it is hard to infer a proper global
+.. specification that does not look overly repetitive
+
+sel COFE { .. Is the ENS Valid
+    .. No
+    COFE -> Declarant : NotifyENSRejection
+    + .. Yes
+    COFE -> Declarant : NotifyENSRegistration;
+    sel COFE {
+        .. Message sent optionally only
+        .. when Carrier != Declarant and if
+        .. Carrier previously requested it.
+        
+        COFE -> Carrier : RejectionNotification
+        +
+        (o)
+    };
+    COFE -> COPC : ForwardedENS;
+    COPC -> COFE : IdentifiedRiskInformation;
+    repeat COFE { .. Additional Information Required (0 or more times)
+        COFE -> Declarant : MoreInformationRequested;
+        sel COFE { .. NOTE: Also optional, probably decided by the Carrier beforehand
+            COFE -> Carrier : MoreInformationRequested
+            +
+            (o)
+        };
+        Declarant -> COFE : AdditionalInformation
+    };
+    sel COFE {
+        .. Controls to be performed
+        COFE -> Declarant : AdvancedIntervention;
+        sel COFE { .. NOTE: Also optional, probably decided by the Carrier beforehand
+            COFE -> Carrier : AdvancedIntervention
+            +
+            (o)
+        }
+        +
+        .. No Immediate action required
+        (o)
+    };
+    sel COFE { .. Whether other customs offices are concerned
+        .. Yes
+        COFE -> COPC : ENSDataRiskResultsAndControlMeasures
+        +
+        .. No
+        (o)
+    }
+}

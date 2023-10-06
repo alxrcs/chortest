@@ -1,0 +1,7 @@
+Actor -> Greeter : RequestGreeting;
+Greeter -> Actor : Greeting;
+Actor -> Greeter : RequestGreeting;
+Greeter -> Actor : Greeting;
+Greeter -> Actor : Greeting;
+Actor -> Greeter : RequestGreeting;
+Greeter -> Actor : Greeting

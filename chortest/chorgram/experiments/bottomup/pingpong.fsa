@@ -1,0 +1,16 @@
+.outputs Ping
+.state graph
+start 1 ! ping w
+w 1 ? pong start
+start 1 ! finished f
+.marking start
+.end
+
+
+.outputs Pong
+.state graph
+start 0 ? ping r
+start 0 ? finished f
+r 0 ! pong start
+.marking start
+.end

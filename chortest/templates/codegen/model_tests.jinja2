@@ -1,0 +1,44 @@
+import asyncio as aio
+from pathlib import Path
+
+import pytest
+from chortest.cfsm import CommunicatingSystem
+from chortest.parsing import Parsers
+from hypothesis import given, strategies as st
+
+from chortest.session import (AsyncioTransport, ImplementationMap, run_test_loop)
+
+from .{{model_name}}_types import {{participants|join(', ')}}
+from .{{model_name}}_implementations import ({{participants|map("lower")|join(', ')}})
+from .{{model_name}}_test_machines import ({{participants|join('TestMachine, ')}}TestMachine)
+from .{{model_name}}_session_types import ({{participants|join('Type, ')}}Type)
+
+path = Path(__file__).parent
+parsed_model: CommunicatingSystem = Parsers.parseFSA(str(path/"{{model_name}}.fsa"))
+
+{%- for pt in participants %}
+{% set lpt = pt | lower %}
+
+@pytest.mark.asyncio
+@given(data=st.data())
+async def test_{{lpt}}(data: st.DataObject, pytestconfig):
+    model = parsed_model.copy()
+
+    # init transport
+    {{participants|join('_tr,')|lower}}_tr = AsyncioTransport.make_for("{{participants|join('", "')}}")
+
+    # schedule the cut
+    cut_task = aio.create_task({{lpt}}({{lpt}}_tr))
+    cut = {{pt}}
+
+    # init machines
+    machines: ImplementationMap = {
+        {%-for p in participants%}
+        {%-if pt != p%}
+        {{p}}: {{p}}TestMachine({{p}}Type({{p|lower}}_tr), 0, data),
+        {%- endif -%}
+        {%-endfor%}
+    }
+
+    await run_test_loop(model, machines, cut, cut_task, data, pytestconfig.model_coverage)
+{% endfor %}

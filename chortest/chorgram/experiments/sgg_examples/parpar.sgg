@@ -1,0 +1,10 @@
+-- G = * G2 ; G2 ; * G1 @ A
+G = G1 ; G2
+|
+A -> B : b
+|
+* A -> C : c | * G1 @ A
+&
+G1 = * A -> C : c @ C ; A -> C : c @ A
+&
+G2 = A -> C : c ; A -> C : c ; A -> C : c ; A -> C : c ; A -> C : c ; A -> C : c ; A -> C : c ; A -> C : c

@@ -1,0 +1,14 @@
+User -> App : login;
+App -> User : loginSuccess;
+User -> App : search;
+(
+    (App -> RoomA : getRoomInfo;
+    RoomA -> App : roomInfo) 
+    | 
+    (App -> RoomB : getRoomInfo;
+    RoomB -> App : roomInfo)
+    | 
+    (App -> RoomC : getRoomInfo;
+    RoomC -> App : roomInfo)
+);
+App -> User : searchResult

@@ -1,0 +1,45 @@
+.outputs A
+.state graph
+a0 1 ! bWin a1
+a0 2 ! cWin a1
+a1 1 ? sig a2
+a1 2 ? msg a3
+a2 2 ? msg a4
+a3 1 ? sig a4
+a4 3 ! free a0
+.marking a0
+.end
+
+.outputs B
+.state graph
+b0 0 ? bWin b1
+b1 2 ! cLose b2
+b0 2 ? bLose b2
+b2 0 ! sig b0
+.marking b0
+.end
+
+.outputs C
+.state graph
+c0 1 ? cLose c3
+c0 3 ! busy c2
+c0 0 ? cWin c1
+c1 3 ! busy c4
+c1 1 ! bLose c3
+c2 1 ? cLose c5
+c2 0 ? cWin c4
+c3 3 ! busy c5
+c4 1 ! bLose c5
+c5 0 ! msg c0
+.marking c0
+.end
+
+.outputs D
+.state graph
+d0 2 ? busy d1
+d1 0 ? free d0
+.marking d0
+.end
+
+
+

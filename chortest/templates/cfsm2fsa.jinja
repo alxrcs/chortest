@@ -1,0 +1,9 @@
+{% for p in participants %}
+.outputs {{p}}
+.state graph
+{%for t in transitions[p]-%}
+{{t[0]}} {{t[1]}} {{t[2]}} {{t[3]}} {{t[4]}}
+{%endfor-%}
+.marking {{initial_states[p]}}
+.end
+{% endfor %}

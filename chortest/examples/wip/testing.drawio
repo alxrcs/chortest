@@ -1,0 +1,67 @@
+<mxfile host="65bd71144e">
+    <diagram id="LgqkKRXy0sBwWvTWl0ub" name="Page-1">
+        <mxGraphModel dx="622" dy="452" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="28" value="" style="edgeStyle=none;html=1;" parent="1" source="26" target="27" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="Generate tests for a given g-chor (project, gentests)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="180" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="" style="edgeStyle=none;html=1;" parent="1" source="27" target="29" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="Generate &amp;lt;n&amp;gt; mutants for a given participant in the original g-chor" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="260" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="" style="edgeStyle=none;html=1;" parent="1" source="29" target="34" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="Run the entire test suite for each of the n mutants (genlts &amp;amp; checklts)" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="340" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="31" target="26" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="170" y="140"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="33" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="31" target="26" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="550" y="140" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="600" y="140"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="31" value="split at the gc-level" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="295" y="80" width="170" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="Graphics and tables" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="440" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" value="-&amp;gt; Number of tests&lt;br&gt;-&amp;gt; Size of the tests (in terms of numbers of states and transitions - both CUT and test machines)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="480" y="200" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="-&amp;gt; Number of split gcs&lt;br&gt;-&amp;gt; Nesting in the parse tree of the GC" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="470" y="90" width="130" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="Optionally guarantee the mutants are unique?" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="270" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" value="-&amp;gt; Number of killed mutants vs total&lt;br&gt;&amp;nbsp;(as well as which mutation was used)&lt;br&gt;-&amp;gt; Time to failure per mutant (and specific mutant)&lt;br&gt;(or time to completion)&lt;br&gt;(potentially minimal counter-example)&lt;br&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="340" width="280" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" value="Record total time for each step&lt;br&gt;Memory" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="620" y="135" width="180" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" value="Guarantee that the mutations introduce errors" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="300" width="260" height="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -1,0 +1,15 @@
+Gsplit = T -> B : flight ;
+         B -> T : flightPrice
+         |
+         T -> B : car :
+	 B -> T : carPrice
+&
+Gfull = T -> B: dest ;
+        B -> T : fullPrice
+&
+Gex = * {
+         { Gsplit + Gfull } ; T -> D : upd
+        } @ T
+
+
+

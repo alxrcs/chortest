@@ -1,0 +1,53 @@
+[
+Very odd example: this is not gmc, but the tool says it is.
+One problem is that Af loops back to Ac instead of Aa; changing this does not make the
+system gmc, but the tool still does not return representability problems.
+The other problem is that Ba should loop back to Bf and not to Ba.
+]
+
+system atm of C, A, B:
+	C = A ! auth;(
+			A ? authPass do Ca
+			+
+			A ? authFail ; A ? card; B ? failedAttempt
+		 )
+	||
+	Ca = A ! checkBalance; A ? balance do Cf
+		  +
+		  A ! withdraw ; (A ? card + A ? money do Cf)
+..		  +		  A ! quit
+	||
+	Cf = A ! newService do Ca + A ! quit; A ? card
+	
+	||
+	A = C ? auth; (C ! authPass; B ! accessGranted do Aa
+   				   +
+					   C ! authFail; B ! accessFailed ; C ! card
+					  )
+	||
+	Aa = C ? checkBalance do Ac
+        +
+		  C ? withdraw do Aw
+..		  +		  C ? quit; B ! quit
+   ||
+	Ac = B ! checkBalance; B ? balance ; C ! balance do Af
+	||
+	Aw = B ! withdraw; (B ? deny; C ! card   +    B ? allow ; C ! money do Af)  											.. forgetting B ! withdraw yield a first problem
+	||
+	Af = (C ? quit ; B ! quit; C ! card) + (C ? newService; B ! newService do Ac)
+
+	||
+	B = A ? accessFailed; C ! failedAttempt																							.. The bank tells the customer the the attempt failed
+		 +
+		 A ? accessGranted do Ba
+	||
+	Ba = A ? checkBalance; A ! balance do Ba
+		  +
+		  A ? withdraw;(
+		  		A ! deny
+				+
+				A ! allow do Bf
+			)
+	||
+	Bf = A ? quit + A ? newService do Ba
+

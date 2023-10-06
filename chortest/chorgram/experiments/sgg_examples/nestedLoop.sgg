@@ -1,0 +1,7 @@
+[ a nested loop ]
+
+*{
+  C -> B : z(t),y ; [ note that messages are not just characters ]  
+  * B -> A : a @ B ;
+  A -> C : c
+} @ A

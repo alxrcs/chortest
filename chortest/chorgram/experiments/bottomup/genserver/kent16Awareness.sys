@@ -1,0 +1,50 @@
+system genserver of C, L, S :
+	C = L ! start;
+	  	 (L ? error do C + L ? ok do runningC)
+	  ..where
+	  || runningC = L ! cast;
+	                   (L ? error do C + L ? ok do runningC)
+						 +
+						 L ! call do callingC
+	  || callingC = L ? reply do runningC + L ? error do C
+	||
+	L = C ? start;
+		 S ! handleInit do wait
+	  .. where
+	  || wait     = S ? ok;
+	                   C ! ok do runningL
+					    +
+						 S ? stop;
+						    C ! error do L
+	  || runningL = C ? cast;
+	                   S ! cast; (S ? handleCast; C ! ok do runningL
+							            +
+							 			   S ? stop do stopL
+							 			  )
+				  		 +
+				  		 C ? call;
+						    S ! handleCall do callingL
+	  || callingL = S ? stop  do stopL
+						 +
+						 S ? reply;
+						    C ! reply do runningL
+	  || stopL    = C ! error;
+	                S ! terminate;
+						 S ? term do L
+	||
+	S = L ? handleInit; (L ! stop do S
+	                     +
+								L ! ok do runningS
+							  )
+	  ..where
+	  || runningS = L ? handleCall do callingS
+	                +
+						 L ? cast;
+						    (L ! handleCast do runningS + L ! stop do stopS)
+	  || callingS = L ! reply do runningS
+						 +
+						 L ! noreply do runningS
+						 +
+						 L ! stop do stopS
+	  || stopS    = L ? terminate;
+	                L ! term do S

@@ -1,0 +1,21 @@
+.. Q2.ii of class test 3
+..
+system abc of A, B, C:
+	A = B ! b;(
+			C ? a do A																							.. 
+			+
+			B ! q
+		 )
+	||
+	B = A ? b; (
+         C ! c do B
+			+
+			A ? q; C ! q
+	    )
+   ||
+	C = B ? c; (
+		   B ? q
+			+
+			A ! a do C
+	    )
+

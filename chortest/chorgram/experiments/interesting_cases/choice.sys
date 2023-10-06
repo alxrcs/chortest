@@ -1,0 +1,6 @@
+system choice of A , B , C :
+	A = ( B ! one ; C ? sig ; end ) + B ! two ; C ? sig ; end
+	||
+	B = A ? one ; end + A ? two ; end
+	||
+	C = A ! sig ; end

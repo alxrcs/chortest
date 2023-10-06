@@ -1,0 +1,24 @@
+{
+    sel sender {
+        sender -> receiver : string;
+        receiver -> sender : bool
+        +
+        sender -> receiver : number;
+        receiver -> sender : bool
+    }
+    |
+    sel sender {
+        sender -> receiver2 : string;
+        receiver2 -> sender : bool
+        +
+        sender -> receiver2 : number;
+        receiver2 -> sender : bool
+    }
+}
+;
+{
+sender -> receiver : string;
+sender -> receiver : bool
+}
+
+

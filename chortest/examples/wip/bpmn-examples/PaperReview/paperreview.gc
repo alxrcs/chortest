@@ -1,0 +1,32 @@
+(
+    (
+        CommChair -> Author1: DeskRejects | 
+        CommChair -> Author2: DeskRejects
+    )
+    |
+    (
+        CommChair -> PCChair: EligibleList;
+        (
+            PCChair -> PCMember1 : AssignedList |
+            PCChair -> PCMember2 : AssignedList |
+            PCChair -> PCMember3 : AssignedList
+        );
+        (
+            PCMember1 -> PCChair : Reviews |
+            PCMember2 -> PCChair : Reviews | 
+            PCMember3 -> PCChair : Reviews 
+        )
+        ;
+        (
+            TrackChair1 -> PCChair : FinalList |
+            TrackChair2 -> PCChair : FinalList | 
+            TrackChair3 -> PCChair : FinalList 
+        );
+        PCChair -> CommChair : Notification
+    )
+    ;
+    (
+        CommChair -> Author1: Notification |
+        CommChair -> Author2: Notification
+    )
+)

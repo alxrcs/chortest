@@ -1,0 +1,68 @@
+.. The model describes the process of lodging ENS at COFE in case goods are
+.. brought by sea.
+..
+.. Participants: 
+.. * Declarant: Declarant or Representative
+.. * Carrier
+.. * OCOFE: Other Customs Office than COFE 
+.. * DCOFE: Declared Customs Office of First Entry
+.. * COAP: Customs Offices / Authorities Potentially Concerned
+..
+.. Assumptions and modifications:
+.. * To simplify the protocol, it is assumed the carrier has not
+.. requested to be notified at registration time.
+.. * The ENS is assumed to be Lodged at the office of first entry
+.. and messages from other offices are not taken into account
+.. * Whether the ENS is complete or not in the first send phase
+.. is a choice made by the Declarant
+.. * The processing of ENS document starts after all 
+.. the amendment messages are received
+.. * The Data Risk results sent to COPA are assumed to be non-optional
+.. (it is not clear where this decision is made)
+.. * The declarant should be notified in case of an advanced intervention
+.. (which probably occurs in case of risks)
+.. * Data Risk results should be forwarded to other potentially involved 
+.. offices
+
+Declarant -> DCOFE : FullOrPartialENS;
+repeat Declarant {
+    .. Is the ENS data complete after reconciliation?
+    .. No
+    Declarant -> DCOFE : Amendment
+    .. Yes
+    .. Exit the loop here
+};
+sel DCOFE { .. Is Full or Partial ENS Valid?
+    .. No:
+    .. Full or partial ENS is rejected and protocol ends
+    DCOFE -> Declarant : Rejection
+    + .. Yes:
+    DCOFE -> Declarant : NotifyENSRegistration;
+    DCOFE -> COAP : ENS;
+    COAP -> DCOFE : IdentifiedRiskInformation;
+    {
+    sel DCOFE { .. What is the type of submission?
+        .. Pre-loading
+        repeat DCOFE {
+            DCOFE -> Declarant : MoreInformationRequired;
+            Declarant -> DCOFE : FurtherInformation .. and go to Preloading
+        };
+        .. What is the outcome?
+        .. Additional information required
+        DCOFE -> Declarant : NotifyNoLoad
+        + .. Controls to be performed
+        DCOFE -> Declarant : NotifyAdvancedIntervention;
+        DCOFE -> COAP : DataRiskResultsAndControlMeasures
+        + .. Pre-arrival
+        .. Additional information required
+        DCOFE -> Declarant : MoreInformationRequired;
+        Declarant -> DCOFE : FurtherInformation .. and go to Preloading
+        + .. Controls to be performed
+        DCOFE -> Declarant : NotifyAdvancedIntervention;
+        DCOFE -> COAP : DataRiskResultsAndControlMeasures
+        .. No inmediate action required
+        +
+        DCOFE -> COAP : DataRiskResultsAndControlMeasures
+    }
+    }
+}

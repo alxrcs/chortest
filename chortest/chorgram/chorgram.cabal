@@ -1,0 +1,45 @@
+cabal-version:      2.4
+name:               chorgram
+version:            0.1.0.0
+
+synopsis: A tool chain for working with global choreographies.
+
+description: 
+    This package provides a tool chain for working with global choreographies.
+    You can use it to:
+    - converting communicating finite state machines (CFSMs) to global choreographies (GCs)
+    - projecting GCs on CFSMs
+    - check multiparty compatibility
+    It is written in haskell and uses hkc and petrify as auxiliary
+    tools. The integration between chorgram and hkc and petrify is is
+    attained with some python scripts. Chorgram uses dot to display CFSMs,
+    transition systems, global graphs, and semantics
+
+-- A URL where users can report bugs.
+-- bug-reports:
+
+-- The license under which the package is released.
+license:            LGPL-3.0-or-later
+author:             Emilio Tuosto
+maintainer:         emilio.tuosto@gssi.it
+
+-- A copyright notice.
+-- copyright:
+-- category:
+extra-source-files:
+    CHANGELOG.md
+    README
+
+executable chorgram
+    main-is:          Main.hs
+
+    -- Modules included in this executable, other than Main.
+    -- other-modules:
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:    base ^>=4.14.3.0
+                    , MissingH >= 1.4
+                    , hxt >= 9.3
+    hs-source-dirs:   app
+    default-language: Haskell2010

@@ -1,0 +1,22 @@
+(0 | Buffer(pib,bpo) | Buffer(pob,bpi) | (Cell(fb,x) | 'bf.Cell(x,bf))\x | Pong(bpi,pob,bf))\{bf,bpi,bpo,fb,pib,pob}
+
+--- tau ---> (0 | Buffer(pib,bpo) | Buffer(pob,bpi) | (Cell(fb,x) | Cell(x,bf))\x | 0)\{bf,bpi,bpo,fb,pib,pob}
+
+(0 | Buffer(pib,bpo) | Buffer(pob,bpi) | ('x.Cell(fb,x) | Cell(x,bf))\x | Pong(bpi,pob,bf))\{bf,bpi,bpo,fb,pib,pob}
+
+--- tau ---> (0 | Buffer(pib,bpo) | Buffer(pob,bpi) | (Cell(fb,x) | 'bf.Cell(x,bf))\x | Pong(bpi,pob,bf))\{bf,bpi,bpo,fb,pib,pob}
+
+(bpi.Ping(pib,bpi,fb) | ('x.Cell(pib,x) | Cell(x,bpo))\x | Buffer(pob,bpi) | Buffer(fb,bf) | Pong(bpi,pob,bf))\{bf,bpi,bpo,fb,pib,pob}
+
+--- tau ---> (bpi.Ping(pib,bpi,fb) | (Cell(pib,x) | 'bpo.Cell(x,bpo))\x | Buffer(pob,bpi) | Buffer(fb,bf) | Pong(bpi,pob,bf))\{bf,bpi,bpo,fb,pib,pob}
+
+Sh
+
+--- tau ---> (0 | Buffer(pib,bpo) | Buffer(pob,bpi) | ('x.Cell(fb,x) | Cell(x,bf))\x | Pong(bpi,pob,bf))\{bf,bpi,bpo,fb,pib,pob}
+--- tau ---> (bpi.Ping(pib,bpi,fb) | ('x.Cell(pib,x) | Cell(x,bpo))\x | Buffer(pob,bpi) | Buffer(fb,bf) | Pong(bpi,pob,bf))\{bf,bpi,bpo,fb,pib,pob}
+
+(bpi.Ping(pib,bpi,fb) | (Cell(pib,x) | 'bpo.Cell(x,bpo))\x | Buffer(pob,bpi) | Buffer(fb,bf) | Pong(bpi,pob,bf))\{bf,bpi,bpo,fb,pib,pob}
+
+None.
+
+(0 | Buffer(pib,bpo) | Buffer(pob,bpi) | (Cell(fb,x) | Cell(x,bf))\x | 0)\{bf,bpi,bpo,fb,pib,pob}

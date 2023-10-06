@@ -1,0 +1,11 @@
+sel Ping {
+       Ping -> Pong : finished
+       +
+       repeat Ping {
+       	      Ping -> Pong : ping;
+	      Pong -> Ping : pong
+       };
+       Ping -> Pong : finished
+}
+
+

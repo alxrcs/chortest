@@ -1,0 +1,4 @@
+.. loop with explicit selector
+repeat A {
+    A -> B : x
+}

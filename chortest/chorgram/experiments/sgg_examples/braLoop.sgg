@@ -1,0 +1,13 @@
+[ a loop in a choice ]
+A -> B : a; A -> C: c
++
+A -> B : a;* A -> C : a @ A ; C -> B : c                    [ anche C -> B : c ]
++
+A -> B : b ; B -> A : b
++
+A -> B : b ; B -> A : b
+
+
+
+
+

@@ -1,0 +1,37 @@
+.outputs Alice
+.state graph
+start 2 ! cwin f
+start 1 ! bwin f
+.marking start
+.end
+
+
+.outputs Bob
+.state graph
+start 0 ? bwin r
+start 2 ? blose f
+r 2 ! close f
+.marking start
+.end
+
+
+.outputs Carol
+.state graph
+start 0 ? cwin c1
+start 1 ? close c2
+start 3 ! busy c3
+c1 3 ! busy c4
+c1 1 ! blose c2
+c2 3 ! busy f
+c3 0 ? cwin c3a
+c3 1 ? close f
+c3a 1 ! blose f
+c4 1 ! blose f
+.marking start
+.end
+
+.outputs Dave
+.state graph
+start 2 ? busy f
+.marking start
+.end

@@ -1,0 +1,9 @@
+{
+    A -> B : msg;
+    B -> A : msg;
+    A -> C : msg
+    |
+    A -> C : msg2;
+    C -> A : msg2;
+    A -> B : msg2
+}

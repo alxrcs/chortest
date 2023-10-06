@@ -1,0 +1,6 @@
+Client -> Server : int;
+sel Server {
+    Server -> Client : Yes
+    +
+    Server -> Client : No
+}

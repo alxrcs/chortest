@@ -1,0 +1,6 @@
+	C -> P : getData;
+		P -> S : sendData;
+		S -> C : data
+	+
+	C -> P : setData;
+		P -> S : data

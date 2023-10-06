@@ -1,0 +1,41 @@
+?gg  : empty
+    | fork                              
+    | sequential
+    | choice
+    | iteration
+    | interaction
+    | nested_gg
+
+fork.1: gg "|" gg
+sequential.2: gg (";" gg)+
+choice.3: "sel" part "{" gg ("+" gg)+ "}"
+iteration.4: "repeat" part? "{" gg "}"
+interaction.5: part "->" part ":" msg
+nested_gg.6: "{" gg "}"
+empty: "(o)"
+
+part: CNAME
+msg: CNAME
+
+// fork.1: gg BAR gg
+// sequential.2: gg (SEMI gg)+
+// choice.3: SEL part LBRACE gg ("+" gg)+ RBRACE
+// iteration.4: REPEAT part? LBRACE gg RBRACE
+// interaction.5: part "->" part ":" msg
+// nested_gg.6: LBRACE gg RBRACE
+// empty: "(o)"
+// BAR: "|"
+// SEMI: ";"
+// SEL: "sel"
+// REPEAT: "repeat"
+// LBRACE: "{"
+// RBRACE: "}"
+// DCOLON: ":"
+
+COMMENT: ("//" | "..") /[^\n]*/ NEWLINE?
+%ignore COMMENT
+
+%import common.CNAME
+%import common.WS
+%import common.NEWLINE
+%ignore WS

@@ -1,0 +1,1 @@
+Seq [Bra (fromList [Seq [Act ("A","B") "m1",Rep (Act ("A","C") "m2") "A",Act ("A","C") "n"],Seq [Act ("A","B") "m1",Rep (Act ("A","C") "m2") "A",Act ("A","C") "n2"]]),Act ("A","B") "m2"]

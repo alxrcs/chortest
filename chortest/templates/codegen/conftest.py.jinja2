@@ -1,0 +1,126 @@
+import pytest
+import json
+import pathlib
+from coverage import Coverage
+import importlib
+import hypothesis
+import sys
+
+import chortest.session as common
+
+def pytest_addoption(parser):
+    try:
+        parser.addoption("--max-examples", action="store", default=100, type=int, help="Number of max examples for Hypothesis")
+        parser.addoption("--custom-coverage", action="store_true", default=False, help="Use custom coverage collection")
+        parser.addoption("--deadline", action="store", default=None, type=int, help="Deadline for Hypothesis")
+        parser.addoption("--run-number", action="store", default=0, type=int, help="Run number for Hypothesis")
+    except ValueError:
+        # Ignore if the option already exists
+        pass
+
+def pytest_sessionstart(session):
+    session.config.results = dict()
+
+    max_examples = session.config.getoption("--max-examples")
+    coverage = session.config.getoption("--custom-coverage")
+    deadline = session.config.getoption("--deadline")
+    run_number = session.config.getoption("--run-number")
+
+    if coverage:
+    # Start coverage collection before each session
+        session.config.code_coverage = Coverage(
+            branch=True, 
+            source=[str(pathlib.Path(__file__).parent)],
+            data_suffix=f'max_examples_{max_examples}' + f'_run_{run_number}' if run_number else '',
+        )
+        session.config.code_coverage.start()
+
+    profile = hypothesis.settings(
+        max_examples=max_examples,
+        database=None,
+        derandomize=False,
+        report_multiple_bugs=False,
+        deadline=deadline,
+        verbosity=hypothesis.Verbosity.verbose,
+    )
+
+    # use importlib to import the module
+    _tests = importlib.import_module(f"..{{model_name}}_tests", package=__name__)
+
+    # iterate over the module members
+    # Hack: if it's a "test_" function, check if it has the attribute,
+    # delete it and reapply the settings
+    for name, member in _tests.__dict__.items():
+        if name.startswith('test_'):
+            if hasattr(member, '_hypothesis_internal_settings_applied'):
+                delattr(member, '_hypothesis_internal_settings_applied')
+            profile(member)  
+
+    # Reload test modules to apply coverage
+    to_reload = list(m for m in sys.modules if 'implementations' in m)
+    for m in to_reload:
+        importlib.reload(sys.modules[m])          
+
+    session.config.model_coverage = common.ModelStats()
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    # item.session.config.model_coverage.reset_timestep()
+    outcome = yield
+    result = outcome.get_result()
+
+    if result.when == 'call':
+        item.session.config.results[item] = result
+
+
+def pytest_runtest_setup(item):
+    # item.session.code_coverage.start()
+    pass
+
+
+def pytest_runtest_teardown(item, nextitem):
+    # item.session.code_coverage.stop()
+    pass
+
+def pytest_sessionfinish(session, exitstatus):
+    # Stop coverage collection after each session
+    coverage = session.config.getoption("--custom-coverage")
+    max_examples = session.config.getoption("--max-examples")
+    run_number = session.config.getoption("--run-number")
+
+    model_name = session.config.args[0].split('/')[-1].split('_')[:-1][0]
+
+    out_folder = pathlib.Path("/".join(session.config.args[0].split('/')[0:-1])) / 'results'
+
+    # Create the results folder if needed
+    path = pathlib.Path(out_folder / f"max_examples_{max_examples}")
+    path.mkdir(parents=True, exist_ok=True)
+
+    if coverage:
+        target_module_pat = "*atm_fixed_implementations*"
+        c_cov: Coverage = session.config.code_coverage
+        c_cov.stop()
+        c_cov.save()
+        with open(path / f"{model_name}_coverage_max_examples_{max_examples}.txt", "w") as f:
+            c_cov.report(file=f, include=target_module_pat)
+        c_cov.json_report(outfile=str(path / f"{model_name}_cov_max_examples_{max_examples}_{run_number}.json"), include=target_module_pat)
+        c_cov.html_report(directory= str(path / f"{model_name}_htmlcov_max_examples_{max_examples}_{run_number}"), include=target_module_pat)
+        c_cov.erase()
+
+    results = session.config.results
+
+    # Save the results in a JSON file
+    simplified_results = {
+        fn.name: {
+            "outcome": results[fn].outcome,
+            "duration": results[fn].duration,
+        } for fn in results.keys() if fn.name.startswith("test_")
+    }
+
+    with open(path / f"results_max_examples_{max_examples}_{run_number}.json", "w") as f:
+        json.dump(simplified_results, f, indent=4)
+
+    # Save and reset the model coverage data
+    session.config.model_coverage.save(path / f"model_coverage_max_examples_{max_examples}_{run_number}.json")
+    session.config.model_coverage.reset()

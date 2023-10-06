@@ -1,0 +1,63 @@
+[
+	The problem is due to the fact that the bank is not notified about the
+	decision of the customer on terminating the protocol or continuing
+	with a new request.
+	%
+	Also, we want to add the possibility for the customer to quit the protocol
+	immediately after the authentication.
+	%
+	This change makes Cf, Af, and Bf unnecessary.
+	%
+	We therefore modify machines A and B as follows:
+]
+
+system atm of C, A, B:
+	C = A ! auth;(
+			A ? authPass do Ca
+			+
+			A ? authFail ; A ? card; B ? failedAttempt
+		 )
+	||
+	Ca = A ! checkBalance; A ? balance do Ca
+		  +
+		  A ! withdraw ; (A ? card + A ? money do Ca)
+		  +
+		  A ! quit
+..	||	Cf = A ! newService do Ca + A ! quit; A ? card
+	
+	||
+	A = C ? auth; (C ! authPass; B ! accessGranted do Aa
+   				   +
+					   C ! authFail; B ! accessFailed ; C ! card
+					  )
+	||
+	Aa = C ? checkBalance do Ac
+        +
+		  C ? withdraw do Aw
+		  +
+		  C ? quit; B ! quit
+   ||
+	Ac = B ! checkBalance; B ? balance ; C ! balance do Aa
+	||
+	Aw = B ! withdraw; (B ? deny; C ! card   +    B ? allow ; C ! money do Aa)  											.. forgetting B ! withdraw yield a first problem
+..	||	Af = (C ? quit ; B ! quit; C ! card) + (C ? newService; B ! newService do Aa)
+
+	||
+	B = A ? accessFailed; C ! failedAttempt																							.. The bank tells the customer the the attempt failed
+		 +
+		 A ? accessGranted do Ba
+	||
+	Ba = A ? checkBalance; A ! balance do Ba
+		  +
+		  A ? withdraw;(
+		  		A ! deny
+				+
+				A ! allow do Ba
+			)
+	     +
+		  A ? quit
+..	||	Bf = A ? quit + A ? newService do Ba
+
+[
+	Which solves the problem.
+]

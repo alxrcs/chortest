@@ -1,0 +1,9 @@
+(P -> S : start | P -> C : ready);
+*(
+	C -> P : getData;
+		P -> S : sendData;
+		S -> C : data
+	+
+	C -> P : setData;
+		P -> S : data
+)@C

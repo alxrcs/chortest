@@ -1,0 +1,15 @@
+sel A {
+    A -> B : req1;
+    sel B {
+        B -> A: accept
+        + 
+        B -> A: reject
+    }
+    +
+    A -> B : req2;
+    sel B {
+        B -> A: yes
+        +
+        B -> A: no
+    }
+}
